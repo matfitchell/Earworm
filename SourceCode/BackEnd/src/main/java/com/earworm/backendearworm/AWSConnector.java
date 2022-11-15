@@ -1,4 +1,4 @@
-package SourceCode.BackEnd;
+package com.earworm.backendearworm;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

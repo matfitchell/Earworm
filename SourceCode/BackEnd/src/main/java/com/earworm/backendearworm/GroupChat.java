@@ -1,4 +1,4 @@
-package SourceCode.BackEnd;
+package com.earworm.backendearworm;
 
 public class GroupChat {
     
