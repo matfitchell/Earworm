@@ -10,6 +10,8 @@ import java.sql.SQLException;
 @SpringBootApplication
 @RestController
 
+public class BackdendEarwormApplication {
+
 public static void main(String[] args){
 
 		//SpringBoot Launch
@@ -30,6 +32,7 @@ public void run(){
 		e.printStackTrace();
 		}
 		}
-		})
+		}
+		)
 		}
 		}
