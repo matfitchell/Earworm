@@ -25,7 +25,7 @@ public void run(){
 		Connection conn = AWS.getInstance();
 		if (conn != null){
 		conn.close();
-		System.out.println("Database Connection Terminated")
+		System.out.println("Database Connection Terminated");
 		}
 		}
 		catch (SQLException e) {
