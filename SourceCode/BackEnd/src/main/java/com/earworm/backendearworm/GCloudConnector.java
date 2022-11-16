@@ -22,7 +22,7 @@ public class GCloudConnector {
     public Connection connection;
 
 
-    public static AWSConnector getInstance() throws SQLException{
+    public static GCloudConnector getInstance() throws SQLException{
         if(instance != null){
             if(instance.connection.isClosed()){
 
@@ -32,7 +32,7 @@ public class GCloudConnector {
             return instance;
         }
         // no instance exists, create one
-        instance = new AWSConnector(getConnection());
+        instance = new GCloudConnector(getConnection());
         return instance;
     }
 
@@ -56,8 +56,7 @@ public class GCloudConnector {
         //  set url format
         config.setJdbcUrl(String.format("jdbc:mysql:///%s", DB_NAME));
         config.setUsername(DB_USER);
-        config.setPassword(DB_PASS);
-        config.addDataSourceProperty(propertyName:"socketFactory", value: //aws specific url goes here"");
+        config.setPassword(DB_PASS);config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
         config.addDataSourceProperty(propertyName:"cloudSqlInstance", INSTANCE_CONNECTION_NAME);
 
         //Using a Unix socket if possible
