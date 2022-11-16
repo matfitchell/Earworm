@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
-public class AWSConnector {
+public class GCloudConnector {
 
     private static final String INSTANCE_CONNECTION_NAME = System.getenv("DBINSTANCENAME");
     private static final String INSTANCE_UNIX_SOCKET = System.getenv("DBINSTANCEUNIXSOCKET");
@@ -15,7 +15,7 @@ public class AWSConnector {
     private static final String DB_PASS = System.getenv("DB_PASS");
     private static final String DB_NAME = System.getenv("DBNAME");
 
-    private AWSConnector(Connection conn){
+    private GCloudConnector(Connection conn){
         connection = conn;
     }
 
