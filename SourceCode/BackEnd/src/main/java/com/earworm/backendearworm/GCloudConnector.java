@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
+
+
 public class GCloudConnector {
 
     private static final String INSTANCE_CONNECTION_NAME = System.getenv("DBINSTANCENAME");
