@@ -18,13 +18,13 @@ public class User implements UserDetails{
     
     //Class Constructer
     public User(String displayName, String username, String email, String password, int age, int zipCode, int phone) {
-        this.setDisplayName(displayName);
-        this.setUsername(username);
-        this.setEmail(email);
-        this.setPassword(password);
-        this.setAge(age);
-        this.setZipCode(zipCode);
-        this.setPhone(phone);
+        this.displayName = displayName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.zipCode = zipCode;
+        this.phone = phone;
     }
 
     //Default Constructer
