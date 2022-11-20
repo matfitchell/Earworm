@@ -1,12 +1,13 @@
 package com.earworm.backendearworm;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import javax.sql.DataSource;
+
 
 
 public class GCloudConnector {
@@ -16,6 +17,7 @@ public class GCloudConnector {
     private static final String DB_USER = System.getenv("DBUSER");
     private static final String DB_PASS = System.getenv("DB_PASS");
     private static final String DB_NAME = System.getenv("DBNAME");
+    private static GCloudConnector instance;
 
     private GCloudConnector(Connection conn){
         connection = conn;
@@ -52,13 +54,14 @@ public class GCloudConnector {
         }
     }
     private static DataSource createConnectionPool(){
-        // COnfig Object to specify connection specs
+        // Config Object to specify connection specs
         HikariConfig config = new HikariConfig();
 
         //  set url format
         config.setJdbcUrl(String.format("jdbc:mysql:///%s", DB_NAME));
         config.setUsername(DB_USER);
-        config.setPassword(DB_PASS);config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
+        config.setPassword(DB_PASS);
+        config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
         config.addDataSourceProperty(propertyName:"cloudSqlInstance", INSTANCE_CONNECTION_NAME);
 
         //Using a Unix socket if possible
