@@ -14,7 +14,7 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
   
-    public CommandLineRunner initDatabase(ProductRepository repository) {
+    public CommandLineRunner initDatabase(userRepository repository) {
 
         return args -> {
             // Get the Google Cloud connection

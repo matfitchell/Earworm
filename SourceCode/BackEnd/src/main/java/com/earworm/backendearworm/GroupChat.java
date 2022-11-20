@@ -12,7 +12,7 @@ public class GroupChat {
             String contents;
 
             public String getAsHTML(){
-                return
+                return "blank";
                 //details of message
             }
 

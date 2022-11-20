@@ -28,7 +28,7 @@ public class User implements UserDetails{
     }
 
     //Default Constructer
-    public User{
+    public User(){
     }
 
     public User(String username, String email, String password){
