@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
 
 @Entity
+@Table
 public class User implements UserDetails{
 
     private String displayName = " ";
@@ -36,6 +37,39 @@ public class User implements UserDetails{
         this.email = email;
         this.password = password;
     }
+//    @Override
+//    public boolean equals(Object o){
+//        if(this == o) return true;
+//        if(!(o instanceof User)) return false
+//        User user = (user) o;
+//        return Objects.equals(this.username, user.username) && (this.email, user.email) && (this.phone, user.phone) && (this.password, user.password);
+//    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "User{" +
+                "displayName='" + displayName + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", bio='" + bio + '\'' +
+                ", age=" + age +
+                ", zipCode=" + zipCode +
+                ", phone=" + phone +
+                '}';
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        User user = (User) object;
+        return age == user.age && zipCode == user.zipCode && phone == user.phone && displayName.equals(user.displayName) && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
+    }
+
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), displayName, username, email, password, bio, age, zipCode, phone);
+    }
+
     public String getDisplayName() {
         return displayName;
     }
