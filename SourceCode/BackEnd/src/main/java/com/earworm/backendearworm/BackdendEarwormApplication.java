@@ -26,13 +26,13 @@ public void run(){
 		if (conn != null){
 		conn.close();
 		System.out.println("Database Connection Terminated");
-		}
+			}
 		}
 		catch (SQLException e) {
 		e.printStackTrace();
 		}
-		}
-		}
-		)
-		}
-		}
+				}
+			}
+		;)
+	}
+}
