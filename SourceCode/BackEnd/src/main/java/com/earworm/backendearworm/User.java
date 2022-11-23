@@ -18,14 +18,14 @@ import java.util.Collections;
 @Table
 public class User implements UserDetails{
 
-    private String displayName = " ";
-    private String username = " ";
-    private String email = " ";
-    private String password = " ";
+    private final String displayName = " ";
+    private final String username = " ";
+    private final String email = " ";
+    private final String password = " ";
     private String bio = " ";
-    private int age = 0;
-    private int zipCode = 0;
-    private int phone = 0;
+    private final int age = 0;
+    private final int zipCode = 0;
+    private final int phone = 0;
 
     //******************************************
     private final boolean enabled;
