@@ -20,16 +20,16 @@ public class Post {
         return originalPoster;
     }
 
-    public String setDisplayName() {
-        this.originalPoster = originalPoster;
+    public void setDisplayName(String input) {
+        this.originalPoster = input;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public String setCaption() {
-        this.caption = caption;
+    public void setCaption(String input) {
+        this.caption = input;
     }
 
     public void displayComments() {
@@ -42,23 +42,23 @@ public class Post {
         return yearPosted;
     }
 
-    public int setYearPosted() {
-        this.yearPosted = yearPosted;
+    public void setYearPosted(int input) {
+        this.yearPosted = input;
     }
 
     public int getMonthPosted() {
         return monthPosted;
     }
 
-    public int setMonthPosted() {
-        this.monthPosted = monthPosted;
+    public void setMonthPosted(int input) {
+        this.monthPosted = input;
     }
 
     public int getdayPosted() {
         return dayPosted;
     }
 
-    public int setDayPosted() {
-        this.dayPosted = dayPosted;
+    public void setDayPosted(int input) {
+        this.dayPosted = input;
     }
 }
