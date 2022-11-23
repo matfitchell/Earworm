@@ -1,4 +1,4 @@
 package com.earworm.backendearworm;
-public class UserController {
+public class UserConstructor {
     
 }

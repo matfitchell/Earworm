@@ -4,6 +4,7 @@ import java.sql.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.backoff.BackOffExecution;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
@@ -16,14 +17,13 @@ public class BackdendEarwormApplication {
 public static void main(String[] args){
 
 		//SpringBoot Launch
-		SpringApplication.run(Driver.class, args);
+		SpringApplication.run(BackdendEarwormApplication.class, args);
 
 		Runtime.getRuntime().addShutdownHook(new Thread(){
 @Override
 public void run(){
 		try {
-		// need to fix this for AWS connection
-		Connection conn = AWS.getInstance();
+		Connection conn = GCloudConnector.getInstance();
 		if (conn != null){
 		conn.close();
 		System.out.println("Database Connection Terminated");
@@ -34,6 +34,6 @@ public void run(){
 		}
 				}
 			}
-		;)
+		)
+		}
 	}
-}
