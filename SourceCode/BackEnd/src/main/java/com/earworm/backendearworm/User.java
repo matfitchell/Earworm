@@ -3,6 +3,16 @@ package com.earworm.backendearworm;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
+import java.util.Objects;
+//******************************************
+import org.springframework.security.core.SpringSecurityCoreVersion;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
+//******************************************
+
 
 @Entity
 @Table
@@ -16,6 +26,14 @@ public class User implements UserDetails{
     private int age = 0;
     private int zipCode = 0;
     private int phone = 0;
+
+    //******************************************
+    private final boolean enabled;
+    private final boolean credentialsNonExpired;
+    private final boolean accountNonExpired;
+	private final boolean accountNonLocked;
+    private final Set<GrantedAuthority> authorities;
+    //******************************************
     
     //Class Constructer
     public User(String displayName, String username, String email, String password, int age, int zipCode, int phone) {
@@ -133,4 +151,31 @@ public class User implements UserDetails{
     public void setPhone(int phone) {
         this.phone = phone;
     }
+
+    // ****************************************
+    @Override
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+    @Override
+	public boolean isCredentialsNonExpired() {
+		return this.credentialsNonExpired;
+	}
+
+    @Override
+	public boolean isAccountNonExpired() {
+		return this.accountNonExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.accountNonLocked;
+	}
+
+    @Override
+	public Collection<GrantedAuthority> getAuthorities() {
+		return this.authorities;
+	}
+    // ****************************************
 }
