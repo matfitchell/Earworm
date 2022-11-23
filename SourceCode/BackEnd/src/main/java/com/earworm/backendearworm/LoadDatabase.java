@@ -14,7 +14,7 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
   
-    public CommandLineRunner initDatabase(userRepository repository) {
+    public CommandLineRunner initDatabase(UserRepository repository) {
 
         return args -> {
             // Get the Google Cloud connection
@@ -28,7 +28,8 @@ public class LoadDatabase {
             // Loop through each product found and get its information.
             while (rs.next()) {
                 String currentUser = rs.getString("name");
-                int id = rs.getInt("product_id");
+                int id = rs.getInt("user_id");
+                /* 
                 int productId = rs.getInt("product_id");
                 int price = rs.getInt("price");
                 String description = rs.getString("description");
