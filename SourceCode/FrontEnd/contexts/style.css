@@ -1,0 +1,20 @@
+/*Color pallette
+Saphire Blue - 2E6690
+Celadon Blue - 3A7CA5
+Gainsboro (Dirty White) - D9DCD6
+Indigo Dye - 16425B
+Dark Sky Blue - 81C3D&
+*/
+
+body{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h1{
+    font-size: 50px;
+}
+
+header{
+    text-align: center;
+}
+
