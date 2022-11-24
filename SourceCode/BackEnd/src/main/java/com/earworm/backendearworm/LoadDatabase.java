@@ -19,8 +19,8 @@ public class LoadDatabase {
         return args -> {
             // Get the Google Cloud connection
             Connection conn = GCloudConnector.getInstance().connection;
-            // Query the Google Cloud database for the products
-            String query = "SELECT * FROM products";
+            // Query the Google Cloud database for the users
+            String query = "SELECT * FROM users";
             Statement statement = conn.createStatement();
 
             ResultSet rs = statement.executeQuery(query);
@@ -29,21 +29,18 @@ public class LoadDatabase {
             while (rs.next()) {
                 String currentUser = rs.getString("name");
                 int id = rs.getInt("user_id");
-                /* 
-                int productId = rs.getInt("product_id");
-                int price = rs.getInt("price");
-                String description = rs.getString("description");
+                
+                int userId = rs.getInt("user_id");
+                int zipcode = rs.getInt("zipCode");
+                String bio = rs.getString("bio");
                 int type = rs.getInt("type");
-                String img = rs.getString("img");
                 // Store the product's information in the product repository in the local H2 database
-                /*log.info("Preloading " + repository.save(
-                        new Product(id,
-                                price,
-                                productName,
-                                description,
-                                img,
-                                Product.ProductType.values()[type])));
-                */
+                log.info("Preloading " + repository.save(
+                        new User(id,
+                                zipcode,
+                                userName,
+                                bio,
+                                User.UserType.values()[type])));
             }
         };
     }
