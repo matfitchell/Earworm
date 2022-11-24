@@ -22,12 +22,12 @@
     <!--Display a list-->
     <div ng-app ="displayList" ng-controller="displayListCtlr">
         <ul>
-            <li ng-repeat = "testData"> {{testData.Name}} | {{testData.Location}} </li>
+            <li ng-repeat = "data in data"> {{data.Name}} | {{data.Location}} </li>
         </ul>
     </div>
 
     <!--js link-->
-    <srcipt src = "App.js"></srcipt>
+    <script src = "App.js"></script>
 </body>
 
 

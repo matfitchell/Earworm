@@ -22,7 +22,7 @@ var testData = [{
 //list
 // will modify next time to get data from backend
 var app = angular.module('displayList', []);
-    app.contorller("displayListCtlr", function($scope){
+    app.controller("displayListCtlr", function($scope){
 
         // testing purposes only
         $scope.data = testData;
