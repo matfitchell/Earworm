@@ -57,20 +57,23 @@ public class GCloudConnector {
         // Config Object to specify connection specs
         HikariConfig config = new HikariConfig();
 
+        config.setConnectionTestQuery(DB_NAME);
+        config.setPoolName(DB_NAME);
+        config.addDataSourceProperty("socketFactory","com.google.cloud.sql.mysql.SocketFactory");
+        config.addDataSourceProperty("cloudSqlInstance", INSTANCE_CONNECTION_NAME);
+
         //  set url format
+        
         config.setJdbcUrl(String.format("jdbc:mysql:///%s", DB_NAME));
         config.setUsername(DB_USER);
         config.setPassword(DB_PASS);
-        config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
-        config.addDataSourceProperty(propertyName:"cloudSqlInstance", INSTANCE_CONNECTION_NAME);
-
+        
         //Using a Unix socket if possible
 
         if(INSTANCE_UNIX_SOCKET != null){
-            config.addDataSourceProperty(propertyName: "unixSocketPath", INSTANCE_UNIX_SOCKET);
+            config.addDataSourceProperty("unixSocketPath", INSTANCE_UNIX_SOCKET);
+            config.setMaximumPoolSize(5);
         }
-
-        config.setMaximumPoolSize(maxPoolSize:1)
         return new HikariDataSource(config);
     }
 }
