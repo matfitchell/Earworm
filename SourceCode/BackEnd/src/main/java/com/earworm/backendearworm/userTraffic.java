@@ -1,4 +1,5 @@
 package com.earworm.backendearworm;
-public interface UserTraffic {
-    
+
+public interface userTraffic {
+
 }

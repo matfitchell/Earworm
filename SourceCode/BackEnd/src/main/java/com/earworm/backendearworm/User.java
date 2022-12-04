@@ -1,67 +1,76 @@
 package com.earworm.backendearworm;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.util.Objects;
 //******************************************
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 import java.util.Collections;
 //******************************************
 
-
-@Entity
 @Table
-public class User implements UserDetails{
+@Entity
+public class User implements UserDetails {
 
-    private final String displayName = " ";
-    private final String username = " ";
-    private final String email = " ";
-    private final String password = " ";
+    private String displayName = " ";
+    private String username = " ";
+    private String email = " ";
+    private String password = " ";
     private String bio = " ";
-    private final int age = 0;
-    private final int zipCode = 0;
-    private final int phone = 0;
+    private int zipCode = 0;
+    private int phone = 0;
+    private LocalDate dob;
+    @Transient
+    private int age;
 
-    //******************************************
-    private final boolean enabled;
-    private final boolean credentialsNonExpired;
-    private final boolean accountNonExpired;
-	private final boolean accountNonLocked;
-    private final Set<GrantedAuthority> authorities;
-    //******************************************
-    
-    //Class Constructer
-    public User(String displayName, String username, String email, String password, int age, int zipCode, int phone) {
+    // ******************************************
+    private boolean enabled;
+    private boolean credentialsNonExpired;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private Set<GrantedAuthority> authorities;
+    // ******************************************
+
+    // Class Constructer
+    public User(String displayName, String username, String email, String password, LocalDate dob, int zipCode,
+            int phone) {
         this.displayName = displayName;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.age = age;
+        this.dob = dob;
         this.zipCode = zipCode;
         this.phone = phone;
     }
 
-    //Default Constructer
-    public User(){
+    // Default Constructer
+    public User() {
     }
 
-    public User(String username, String email, String password){
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
-//    @Override
-//    public boolean equals(Object o){
-//        if(this == o) return true;
-//        if(!(o instanceof User)) return false
-//        User user = (user) o;
-//        return Objects.equals(this.username, user.username) && (this.email, user.email) && (this.phone, user.phone) && (this.password, user.password);
-//    }
+    // @Override
+    // public boolean equals(Object o){
+    // if(this == o) return true;
+    // if(!(o instanceof User)) return false
+    // User user = (user) o;
+    // return Objects.equals(this.username, user.username) && (this.email,
+    // user.email) && (this.phone, user.phone) && (this.password, user.password);
+    // }
 
     @java.lang.Override
     public java.lang.String toString() {
@@ -70,22 +79,26 @@ public class User implements UserDetails{
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", bio='" + bio + '\'' +
-                ", age=" + age +
+                ", age=" + getAge() +
                 ", zipCode=" + zipCode +
                 ", phone=" + phone +
                 '}';
     }
 
     public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        if (!super.equals(object))
+            return false;
         User user = (User) object;
-        return age == user.age && zipCode == user.zipCode && phone == user.phone && displayName.equals(user.displayName) && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
+        return dob == user.dob && zipCode == user.zipCode && phone == user.phone && displayName.equals(user.displayName)
+                && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
     }
 
     public int hashCode() {
-        return Objects.hash(super.hashCode(), displayName, username, email, password, bio, age, zipCode, phone);
+        return Objects.hash(super.hashCode(), displayName, username, email, password, bio, dob, zipCode, phone);
     }
 
     public String getDisplayName() {
@@ -129,11 +142,7 @@ public class User implements UserDetails{
     }
 
     public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 
     public int getZipCode() {
@@ -154,28 +163,28 @@ public class User implements UserDetails{
 
     // ****************************************
     @Override
-	public boolean isEnabled() {
-		return this.enabled;
-	}
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 
     @Override
-	public boolean isCredentialsNonExpired() {
-		return this.credentialsNonExpired;
-	}
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
+    }
 
     @Override
-	public boolean isAccountNonExpired() {
-		return this.accountNonExpired;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return this.accountNonLocked;
-	}
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
 
     @Override
-	public Collection<GrantedAuthority> getAuthorities() {
-		return this.authorities;
-	}
+    public boolean isAccountNonLocked() {
+        return this.accountNonLocked;
+    }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
     // ****************************************
 }
