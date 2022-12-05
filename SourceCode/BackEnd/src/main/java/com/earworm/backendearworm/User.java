@@ -4,6 +4,7 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,6 +25,7 @@ import java.util.Collections;
 public class User implements UserDetails {
 
     private String displayName = " ";
+    @Id
     private String username = " ";
     private String email = " ";
     private String password = " ";
