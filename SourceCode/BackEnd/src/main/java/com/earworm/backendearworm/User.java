@@ -4,7 +4,10 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,9 +26,11 @@ import java.util.Collections;
 @Table
 @Entity
 public class User implements UserDetails {
-
-    private String displayName = " ";
     @Id
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    private long id;
+    private String displayName = " ";
     private String username = " ";
     private String email = " ";
     private String password = " ";
@@ -101,6 +106,10 @@ public class User implements UserDetails {
 
     public int hashCode() {
         return Objects.hash(super.hashCode(), displayName, username, email, password, bio, dob, zipCode, phone);
+    }
+
+    public long getID() {
+        return id;
     }
 
     public String getDisplayName() {
