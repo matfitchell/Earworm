@@ -34,14 +34,15 @@ public class UserController {
         userService.addNewUser(user);
     }
 
-    @DeleteMapping(path = "{username}")
-    public void deleteUser(@PathVariable("username") String username) {
-        userService.deleteUser(username);
+    @DeleteMapping(path = "{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
     }
 
-    @PutMapping(path = "{username}")
-    public void UpdateUser(@PathVariable("username") String username, @RequestParam(required = false) String name,
-            @RequestParam(required = false) String email) {
-        userService.updateUser(username, name, email);
+    @PutMapping(path = "{id}")
+    public void UpdateUser(@PathVariable("id") Long id, @RequestParam(required = false) String username,
+            @RequestParam(required = false) int zipCode, @RequestParam(required = false) String bio) {
+        userService.updateUser(id, username, zipCode, bio);
     }
+
 }

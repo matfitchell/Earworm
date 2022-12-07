@@ -40,7 +40,7 @@ public class User implements UserDetails {
     private LocalDate dob;
     @Transient
     private int age;
-
+    private UserRole userRole;
     // ******************************************
     private boolean enabled;
     private boolean credentialsNonExpired;
@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     // Class Constructer
     public User(String displayName, String username, String email, String password, LocalDate dob, int zipCode,
-            int phone) {
+            int phone, UserRole userRole) {
         this.displayName = displayName;
         this.username = username;
         this.email = email;
@@ -59,6 +59,7 @@ public class User implements UserDetails {
         this.dob = dob;
         this.zipCode = zipCode;
         this.phone = phone;
+        this.userRole = userRole;
     }
 
     // Default Constructer
@@ -170,6 +171,10 @@ public class User implements UserDetails {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
     }
 
     // ****************************************

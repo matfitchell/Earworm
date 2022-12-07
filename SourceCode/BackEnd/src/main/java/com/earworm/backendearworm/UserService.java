@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.earworm.security.PasswordEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public List<User> getUsers() {
@@ -26,40 +31,51 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void addNewUser(User user) {
+    public String addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalStateException("Email taken");
         }
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepository.save(user);
+        // TODO send confirmation token
+        return "User added";
     }
 
-    public void deleteUser(String username) {
-        boolean userExists = userRepository.existsById(username);
+    /*
+     * Fix exists by ID by actually passing id and changing repository from string
+     * to long
+     */
+    public void deleteUser(Long id) {
+        boolean userExists = userRepository.existsById(id);
         if (!userExists) {
-            throw new IllegalStateException("User with username " + username + " does not exist");
+            throw new IllegalStateException("User with id " + id + " does not exist");
         }
-        userRepository.deleteById(username);
+        userRepository.deleteById(id);
 
     }
 
     // Name and email are optional
     @Transactional
-    public void updateUser(String username, String name, String email) {
-        User user = userRepository.findById(username)
-                .orElseThrow(() -> new IllegalStateException("User with username " + username + " does not exist"));
+    public void updateUser(Long id, String username, int zipCode, String bio) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist"));
 
-        if (name != null && name.length() > 0 && !Objects.equals(user.getDisplayName(), name)) {
-            user.setDisplayName(name);
+        if (username != null && username.length() > 0 && !Objects.equals(user.getUsername(), username)) {
+            user.setUsername(username);
         }
-
-        if (email != null && email.length() > 0 && !Objects.equals(user.getEmail(), email)) {
-            Optional<User> userOptional = userRepository.findUserByEmail(email);
-            if (userOptional.isPresent()) {
-                throw new IllegalStateException("Email taken");
-            }
-            user.setEmail(email);
-        }
+        // -------Change email if wanted-------
+        // if (email != null && email.length() > 0 && !Objects.equals(user.getEmail(),
+        // email)) {
+        // Optional<User> userOptional = userRepository.findUserByEmail(email);
+        // if (userOptional.isPresent()) {
+        // throw new IllegalStateException("Email taken");
+        // }
+        // user.setEmail(email);
+        // }
+        user.setZipCode(zipCode);
+        user.setBio(bio);
 
     }
 
@@ -68,4 +84,5 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("user with email " + email + " not found"));
     }
+
 }
