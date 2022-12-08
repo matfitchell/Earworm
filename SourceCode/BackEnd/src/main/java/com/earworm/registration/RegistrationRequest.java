@@ -12,12 +12,79 @@ public class RegistrationRequest {
     private int phone;
     private LocalDate dob;
 
-    // private String displayName = " ";
-    // private String username = " ";
-    // private String email = " ";
-    // private String password = " ";
-    // private String bio = " ";
-    // private int zipCode = 0;
+    public RegistrationRequest(String displayName, String email, String password, String username, String bio,
+            int zipCode, int phone, LocalDate dob) {
+        this.displayName = displayName;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.bio = bio;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.dob = dob;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + ((bio == null) ? 0 : bio.hashCode());
+        result = prime * result + zipCode;
+        result = prime * result + phone;
+        result = prime * result + ((dob == null) ? 0 : dob.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RegistrationRequest other = (RegistrationRequest) obj;
+        if (displayName == null) {
+            if (other.displayName != null)
+                return false;
+        } else if (!displayName.equals(other.displayName))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        if (bio == null) {
+            if (other.bio != null)
+                return false;
+        } else if (!bio.equals(other.bio))
+            return false;
+        if (zipCode != other.zipCode)
+            return false;
+        if (phone != other.phone)
+            return false;
+        if (dob == null) {
+            if (other.dob != null)
+                return false;
+        } else if (!dob.equals(other.dob))
+            return false;
+        return true;
+    }
+
     public String getDisplayName() {
         return displayName;
     }

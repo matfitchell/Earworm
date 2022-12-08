@@ -80,8 +80,8 @@ public class User implements UserDetails {
     // user.email) && (this.phone, user.phone) && (this.password, user.password);
     // }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "User{" +
                 "displayName='" + displayName + '\'' +
                 ", username='" + username + '\'' +

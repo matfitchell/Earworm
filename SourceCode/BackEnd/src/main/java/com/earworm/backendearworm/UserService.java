@@ -1,9 +1,14 @@
 package com.earworm.backendearworm;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
+import com.earworm.registration.token.ConfirmationToken;
+import com.earworm.registration.token.ConfirmationTokenService;
 import com.earworm.security.PasswordEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +24,14 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+            ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     public List<User> getUsers() {
@@ -39,8 +47,14 @@ public class UserService implements UserDetailsService {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
-        // TODO send confirmation token
-        return "User added";
+
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15), user);
+
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        // TODO Send Email
+        return token;
     }
 
     /*
@@ -83,6 +97,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("user with email " + email + " not found"));
+    }
+
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
     }
 
 }
