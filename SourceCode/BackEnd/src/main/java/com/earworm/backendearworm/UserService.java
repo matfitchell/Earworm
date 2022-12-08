@@ -33,7 +33,6 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getUsers() {
-        // return List.of(new User("Noone", "HEllO@gmail.com", "password"));
         return userRepository.findAll();
     }
 
@@ -51,7 +50,7 @@ public class UserService implements UserDetailsService {
                 LocalDateTime.now().plusMinutes(15), user);
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        // TODO Send Email
+
         return token;
     }
 
