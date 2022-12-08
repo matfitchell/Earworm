@@ -1,7 +1,6 @@
 package com.earworm.backendearworm;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,7 +8,6 @@ import java.util.UUID;
 
 import com.earworm.registration.token.ConfirmationToken;
 import com.earworm.registration.token.ConfirmationTokenService;
-import com.earworm.security.PasswordEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
