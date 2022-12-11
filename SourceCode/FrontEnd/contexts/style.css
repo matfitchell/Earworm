@@ -7,14 +7,95 @@ Dark Sky Blue - 81C3D&
 */
 
 body{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Acme', sans-serif;
+    margin:auto;
 }
 
 h1{
-    font-size: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 70px;
+    color: #16425B;
 }
 
-header{
-    text-align: center;
+/*Landing Page*/
+.homeContainer{
+    display: flex;
+    min-height: 100vh;
 }
 
+.flexSide{
+    width: 50%;
+    margin-right: 5px;
+}
+
+#landing-logo{     /*logo*/
+    width: 110px;
+}
+
+/*left side of landing page*/
+.left{      
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.content-wrapper{       /*header*/
+    min-width:max-content;
+    width: 50%;
+    padding: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.267);
+    border-radius: 10px;
+    background-color: #3a7ca594;
+}
+
+.header-content{    
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userLogIn{     /*Log In / Sign Up*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: large;
+    
+}
+
+input[type=text] {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
+.login{
+    font-family: 'Fredoka One', cursive;
+    font-size: large;
+    color: #16425B;
+    background-color: white;
+    width: 20%;
+    margin: 15px;
+    padding: 6px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
+.footer{    /*footer*/
+    display: flex;
+    font-size: large;
+    align-content: flex-end;
+    }
+/*end of left side*/
+
+.landing-photo{
+    height: 100%;
+    background: linear-gradient(to left, #3a7ca5a8, rgba(255, 255, 255, 0));
+}
+
+.right{
+    background-image: url(/images/music-continuous-line-drawing-with-headphone-gadget-vector.jpg);
+}
