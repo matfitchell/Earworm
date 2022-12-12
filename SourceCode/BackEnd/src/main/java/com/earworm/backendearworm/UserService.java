@@ -36,6 +36,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public List<User> getUsers(int zipCode) {
+        return userRepository.findAllByZipcode(zipCode);
+    }
+
     public String addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
