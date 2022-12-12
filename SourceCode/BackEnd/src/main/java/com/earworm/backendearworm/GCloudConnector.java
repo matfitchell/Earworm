@@ -12,7 +12,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class GCloudConnector {
 
-    private static final String INSTANCE_CONNECTION_NAME = System.getenv("DBINSTANCENAME");
+    private static final String INSTANCE_CONNECTION_NAME = System.getenv("INSTANCE_CONNECTION_NAME");
     private static final String INSTANCE_UNIX_SOCKET = System.getenv("DBINSTANCEUNIXSOCKET");
     private static final String DB_USER = System.getenv("DBUSER");
     private static final String DB_PASS = System.getenv("DB_PASS");

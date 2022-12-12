@@ -7,28 +7,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!--CSS link-->
+    <!--CSS link & Google Fonts-->
     <link rel = "stylesheet" href="style.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Fredoka+One&family=Press+Start+2P&family=Roboto+Condensed:wght@300&family=VT323&display=swap" rel="stylesheet">
                 
 </head>
 
 <body>
-    <!--Header-->
-    <header>
-        <h1>EarWorm</h1>
-    </header>
-    
-    <!--Display a list-->
+    <main class= "homeContainer">
+        <div class = "flexSide left"> <!--left side of landing page-->
+
+            <!--Header-->
+            <div class="header-content">
+                <div class="landing-logo">
+                    <img id="landing-logo" src ="/images/logo.-removebg-preview.png">
+                </div>
+                <header class="header"><h1>EarWorm</h1></header>
+            </div>
+            
+            <div class= "content-wrapper">                           
+                <!--Log in/ Sign up-->
+                <form class = "userLogIn">
+                    <label for = "username">Username: </label><input type = "text"  name="username">
+                    <label for = "password">Password: </label><input type = "password"  name="password">
+                    <button class = "login"> Login </button>
+                </form>
+            </div><!--end of content-wrapper-->
+
+            <footer class="footer">
+                <pre><a href=" ">About</a>  <a href=" ">Github</a>  <a href=" ">Contact</a>    || By Keyboard Buddies 2022</pre>
+            </footer>
+        </div><!--end of left-->
+
+        <div class = "flexSide right"><!--right side of landing page-->
+                <div class= "landing-bg"></div>
+        </div><!--end of right-->
+    </main><!--end of homeContainer-->
+
+
+    <!--Display a list
     <div ng-app ="displayList" ng-controller="displayListCtlr">
         <ul>
             <li ng-repeat = "data in data"> {{data.Name}} | {{data.Location}} </li>
         </ul>
-    </div>
+    </div>-->
 
     <!--js link-->
     <script src = "App.js"></script>
 </body>
-
-
 </html>
