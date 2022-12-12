@@ -1,0 +1,4 @@
+command to run server : ./mvnw spring-boot:run
+
+
+connection name: earworm-368802:us-central1:my-instance
