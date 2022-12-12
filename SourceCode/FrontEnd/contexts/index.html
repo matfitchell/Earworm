@@ -17,19 +17,20 @@
 <body>
     <main class= "homeContainer">
         <div class = "flexSide left"> <!--left side of landing page-->
-            <div class= "content-wrapper">
-                <!--Header-->
-                <div class="header-content">
-                    <div class="landing-logo">
-                        <img id="landing-logo" src ="/images/logo.-removebg-preview.png">
-                    </div>
-                    <header class="header"><h1>EarWorm</h1></header>
+
+            <!--Header-->
+            <div class="header-content">
+                <div class="landing-logo">
+                    <img id="landing-logo" src ="/images/logo.-removebg-preview.png">
                 </div>
-                
+                <header class="header"><h1>EarWorm</h1></header>
+            </div>
+            
+            <div class= "content-wrapper">                           
                 <!--Log in/ Sign up-->
                 <form class = "userLogIn">
                     <label for = "username">Username: </label><input type = "text"  name="username">
-                    <label for = "password">Password: </label><input type = "text"  name="password">
+                    <label for = "password">Password: </label><input type = "password"  name="password">
                     <button class = "login"> Login </button>
                 </form>
             </div><!--end of content-wrapper-->
@@ -40,7 +41,7 @@
         </div><!--end of left-->
 
         <div class = "flexSide right"><!--right side of landing page-->
-                <div class= "landing-photo"></div>
+                <div class= "landing-bg"></div>
         </div><!--end of right-->
     </main><!--end of homeContainer-->
 
@@ -55,6 +56,4 @@
     <!--js link-->
     <script src = "App.js"></script>
 </body>
-
-
 </html>
