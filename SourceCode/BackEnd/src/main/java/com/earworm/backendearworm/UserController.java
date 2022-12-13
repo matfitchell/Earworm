@@ -15,13 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "api/v1/user")
+
+
+
 public class UserController {
 
     private final UserService userService;
 
+    public static UserRepository globalRepository;
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+        globalRepository = UserService;
     }
 
     @GetMapping
