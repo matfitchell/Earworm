@@ -19,13 +19,14 @@ public class Driver {
 
         // let's print all the person read from CSV file
         for (User b : Users) {
-            System.out.println(b.getID());
-            System.out.println(b.getUsername());
-            System.out.println(b.getLastName());
-            System.out.println(b.getFirstName());
-            System.out.println(b.getMusicTaste());
-            System.out.println(b.getAge());
-            System.out.println(b.getDistance());
+            
+            // console display for testing only 
+            System.out.println("UserID: " + b.getID());
+            System.out.println("Usename: " + b.getUsername());
+            System.out.println("Name: " + b.getLastName() + ", " + b.getFirstName());
+            System.out.println("Music Tase" + b.getMusicTaste());
+            System.out.println("Age: " + b.getAge());
+            System.out.println("Preferred Distance: " + b.getDistance());
             System.out.println();
         }
     }
