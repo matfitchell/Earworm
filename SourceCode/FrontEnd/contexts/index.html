@@ -29,9 +29,9 @@
             <div class= "content-wrapper">                           
                 <!--Log in/ Sign up-->
                 <form class = "userLogIn">
-                    <label for = "username">Username: </label><input type = "text"  name="username">
-                    <label for = "password">Password: </label><input type = "password"  name="password">
-                    <button class = "login"> Login </button>
+                    <label for = "username">Username: </label><input type = "text" id="usern" name="username">
+                    <label for = "password">Password: </label><input type = "password" id="pass" name="password">
+                    <button type = "button" class = "login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
                 </form>
             </div><!--end of content-wrapper-->
 
@@ -55,5 +55,6 @@
 
     <!--js link-->
     <script src = "App.js"></script>
+    <script src = "LoginController.js"></script>
 </body>
 </html>

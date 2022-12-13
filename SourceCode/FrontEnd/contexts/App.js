@@ -27,5 +27,3 @@ var app = angular.module('displayList', []);
         // testing purposes only
         $scope.data = testData;
     });
-
-    
