@@ -1,7 +1,7 @@
 // essentially main for the angular 
 
 //test data for the list, for testing purposes only
-var testData = [{
+/*var testData = [{
     Name: "Mitchell",
     Location: "CSUN"
     },{
@@ -26,4 +26,19 @@ var app = angular.module('displayList', []);
 
         // testing purposes only
         $scope.data = testData;
+    });
+
+*/
+
+/*Log In to Sign Up page*/
+var app = angular.module('login', []);
+    app.controller("signUpClick", function($scope){
+        $scope.login = true;
+        $scope.signUp = true;
+      
+
+        $scope.showSignUp = function (){
+            $scope.login = false;
+            $scope.signUp = false;
+        }
     });

@@ -11,7 +11,9 @@
     <link rel = "stylesheet" href="style.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Acme&family=Fredoka+One&family=Press+Start+2P&family=Roboto+Condensed:wght@300&family=VT323&display=swap" rel="stylesheet">
-                
+
+    <!--Favicon-->
+    <link rel="icon" type="image/png" href="/images/logo.-removebg-preview.png">
 </head>
 
 <body>
@@ -26,17 +28,32 @@
                 <header class="header"><h1>EarWorm</h1></header>
             </div>
             
-            <div class= "content-wrapper">                           
+            <div class= "content-wrapper" ng-app="login" ng-controller="signUpClick">                           
                 <!--Log in/ Sign up-->
-                <form class = "userLogIn">
+                <form class = "userInput login" ng-show="login">
                     <label for = "username">Username: </label><input type = "text" id="usern" name="username">
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
-                    <button type = "button" class = "login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
+                    
+                    <button type = "button" class = "btn login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
+                    <button type = "button" class = "btn signup" ng-click="showSignUp()"> Sign Up </button>
                 </form>
+
+                <form class = "userInput signUp" ng-hide="signUp">
+                    <label for = "firstName">First Name: </label><input type = "text" id="firstName" name="firstname">
+                    <label for = "lastName">Last Name: </label><input type = "text" id="lastName" name="lastName">
+                    <label for = "userEmail">Email: </label><input type = "email" id="userEmail" name="userEmail">
+                    <label for = "birthday">Date of Birth: </label><input type = "date" id="birthday" name="birthday">
+
+                    <label for = "username">Username: </label><input type = "text" id="usern" name="username">
+                    <label for = "password">Password: </label><input type = "password" id="pass" name="password">
+                    
+                    <button type = "button" class = "btn signup" onclick= " "> Sign Up </button>
+                </form>
+
             </div><!--end of content-wrapper-->
 
             <footer class="footer">
-                <pre><a href=" ">About</a>  <a href=" ">Github</a>  <a href=" ">Contact</a>    || By Keyboard Buddies 2022</pre>
+                <pre><a href=" ">About</a>  <a href="https://github.com/matfitchell/Earworm" target=" ">Github</a>  <a href=" ">Contact</a>    || By Keyboard Buddies 2022</pre>
             </footer>
         </div><!--end of left-->
 
