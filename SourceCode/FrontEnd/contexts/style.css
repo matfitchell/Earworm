@@ -65,7 +65,7 @@ h2{
     align-items: center;
 }
 
-.userLogIn{     /*Log In / Sign Up*/
+.userInput{     /*Log In / Sign Up*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,13 +90,29 @@ input[type=password] {
     border-radius: 6px;
 }
 
-.login{
+input[type=email] {
+    text-align: center;
+    width: 80%;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
+input[type=date] {
+    text-align: center;
+    width: 80%;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
+.btn{
     font-family: 'Fredoka One', cursive;
     font-size: large;
     color: #16425B;
     background-color: white;
     width: 40%;
-    margin: 15px;
+    margin: 5px;
     padding: 6px;
     border: 2px solid;
     border-radius: 6px;
@@ -128,9 +144,11 @@ input[type=password] {
 .b-body{
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
 }
-.homeContainer{
+.homepageContainer{
     max-width: 85%;
     margin: auto;
+    display: flex;
+    min-height: 100vh;
 }
 
 /*Left*/
@@ -180,7 +198,7 @@ input[type=password] {
     font-size: medium;
     font-family: 'Acme', sans-serif;
     background-color: white;
-    margin: 10px;
+    padding: 10px;
 }
 
 /*Right*/
@@ -217,7 +235,7 @@ input[type=password] {
 
 .userTopSongs{
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
 }
 
 .testSong{
@@ -235,11 +253,17 @@ input[type=password] {
     justify-content: space-between;
 }
 
-.showUserProfile{
-    display: none;
+.swipe{
+    width: 35px;
 }
 
 .userSettings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userMatched{
     display: none;
 }
 
