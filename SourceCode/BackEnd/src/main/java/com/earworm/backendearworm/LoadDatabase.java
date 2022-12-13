@@ -3,9 +3,10 @@ package com.earworm.backendearworm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.beans.JavaBean;
+
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
