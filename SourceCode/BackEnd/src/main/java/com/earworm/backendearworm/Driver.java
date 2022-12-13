@@ -1,5 +1,4 @@
 
-
 package com.earworm.backendearworm;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,15 +8,135 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import com.earworm.backendearworm.User;
+
+class User{
+    private long ID;
+    private String username = " ";
+    private String password = " ";
+    private String email = " ";
+    private String musicTaste = "";
+    private String firstName = " ";
+    private String lastName = " ";
+    private String gender = " ";
+    private String bio = " ";
+    private int phone = 0;
+    private int DOB;
+    private int age;
+    
+    public User(int ID , String userName, String password, String email, String firstName, String lastName, String musicTaste, int  DOB ,String gender, int Distance, int phoneNumber, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = userName;
+        this.email = email;
+        this.password = password;
+        this.DOB = DOB;
+        this.gender = gender; 
+        this.phone = phoneNumber;
+    }
+     // default constructor
+    public User() {
+    }
+
+    public int getAge(){
+        return age;
+    }
+
+    public void setAge(int age){
+        this.age = age;
+    }
+
+    public int getDOB(){
+        return DOB;
+    }
+    public void setDOB(int DOB){
+        this.DOB = DOB;
+    }
+
+    public String getMusicTaste() {
+        return musicTaste;
+    }
+
+    public void setMusicTaste(String musicTaste) {
+        this.musicTaste = musicTaste;
+    }
 
 
+    public long getID() {
+        return ID;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+    
+    public String getGender(){
+        return gender;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+}
 
 public class Driver {
 
    
     public static void main(String... args) {
-        List<User> Users = readUsersFromCSV("books.txt");
+        List<User> Users = readUsersFromCSV("D:\\Coding\\EarWorm\\Earworm\\images\\dummydata.csv");
 
         // let's print all the person read from CSV file
         for (User b : Users) {
@@ -75,8 +194,10 @@ public class Driver {
         int Distance = Integer.parseInt(metadata[9]);
         int phoneNumber = Integer.parseInt(metadata[10]);
 
+        int age = 21;
+
         // create and return book of this metadata
-        return new User(ID , userName, password, email, firstName, lastName, musicTaste,  DOB , gender,  Distance, phoneNumber);
+        return new User(ID , userName, password, email, firstName, lastName, musicTaste,  DOB , gender,  Distance, phoneNumber, age);
     }
 
 }

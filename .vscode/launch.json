@@ -2,6 +2,13 @@
     "configurations": [
       {
         "type": "java",
+        "name": "Launch Driver",
+        "request": "launch",
+        "mainClass": "com.earworm.backendearworm.Driver",
+        "projectName": "backend-earworm"
+      },
+      {
+        "type": "java",
         "name": "Launch BackdendEarwormApplication",
         "request": "launch",
         "mainClass": "com.earworm.backendearworm.BackdendEarwormApplication",

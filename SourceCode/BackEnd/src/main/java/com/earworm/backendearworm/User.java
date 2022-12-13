@@ -44,7 +44,7 @@ public class User implements UserDetails {
     private int dob;
     @Transient
     private int age;
-    private UserRole userRole;
+    
     private String musicTaste;
     // ******************************************
     private boolean enabled;
