@@ -1,4 +1,4 @@
-package test.java.com.earworm.backendearworm;
+package com.earworm.backendearworm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

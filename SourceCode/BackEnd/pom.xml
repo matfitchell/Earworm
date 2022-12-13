@@ -58,13 +58,6 @@
     		
 		</dependency>
 
-	<dependency>
-    	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
-    	<version>1.2.8.RELEASE</version>
-	</dependency>
-
-
 		<dependency>
     		<groupId>javax.xml.bind</groupId>
     		<artifactId>jaxb-api</artifactId>
