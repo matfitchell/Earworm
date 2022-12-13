@@ -2,13 +2,6 @@
     "configurations": [
       {
         "type": "java",
-        "name": "Launch BackdendEarwormApplication",
-        "request": "launch",
-        "mainClass": "com.earworm.backendearworm.BackdendEarwormApplication",
-        "projectName": "backend-earworm"
-      },
-      {
-        "type": "java",
         "name": "Spring Boot-Earworm",
         "request": "launch",
         "cwd": "${workspaceFolder}",

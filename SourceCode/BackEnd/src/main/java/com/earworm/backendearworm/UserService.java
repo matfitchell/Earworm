@@ -24,6 +24,7 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+    @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
@@ -35,9 +36,9 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    // public List<User> getUsers(int zipCode) {
-    // return userRepository.findAllByZipcode(zipCode);
-    // }
+    public List<User> getUsers(int zipCode) {
+        return userRepository.findAllByZipcode(zipCode);
+    }
 
     public String addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
