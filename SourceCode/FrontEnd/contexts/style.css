@@ -20,9 +20,10 @@ h1{
 
 h2{
     font-family: 'Fredoka One', cursive;
-    font-size: 60px;
-    color: #2E6690;
+    font-size: xxx-large;
+    color: #16425B;
 }
+
 
 .homeContainer{
     display: flex;
@@ -59,7 +60,6 @@ h2{
 }
 
 .header-content{    
-    padding: 5px;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -122,6 +122,98 @@ input[type=password] {
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0)); 
 }
 /*end of right side*/
+/*end of Landing Page*/
+
+/*Home Page*/
+.b-body{
+    background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
+}
+.homeContainer{
+    max-width: 85%;
+    margin: auto;
+}
+
+/*Left*/
+.sidePart{
+    background-color: rgb(255, 255, 255);
+    padding: 15px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-right: 2px solid #16425b42;
+    min-width: 25%;
+    width: max-content;
+    padding: 10px;
+}
+
+#homepage-logo{
+    width: 75px;
+}
+
+.userInfo{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.displayPhoto{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
+
+.userFirstName{
+    font-size: xx-large;
+}
+
+.nav{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+}
+
+.button{
+    border: 0px;
+    font-size: medium;
+    font-family: 'Acme', sans-serif;
+    background-color: white;
+    margin: 10px;
+}
+
+/*Right*/
+.main-content{
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    /*background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0)); */
+}
+
+.homepage-content{
+    margin:auto;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.247);
+    width: 40%;
+    height: 80%; ;
+    background-color: #ffffff9f;
+}
+
+.profileLayout{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.showUserProfile{
+    display: none;
+}
+
+.userSettings{
+    display: none;
+}
 
 @media screen and (max-width: 900px){       /* landing page for small screens*/
     .right{
@@ -135,26 +227,5 @@ input[type=password] {
     .content-wrapper{
         display: block;   
     }
-}
-/*end of Landing Page*/
-
-/*Home Page*/
-
-/*Left*/
-.sidePart{
-    border-right: 2px solid #16425B;
-    min-width: 25%;
-    width: max-content;
-    padding: 10px;
-    background-color: #2e669075;
-}
-
-#homepage-logo{
-    width: 100px;
-}
-
-/*Right*/
-.main-content{
-    width: 75%;
 }
 

@@ -10,10 +10,16 @@
     <link rel = "stylesheet" href="/SourceCode/FrontEnd/contexts/style.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Acme&family=Fredoka+One&family=Press+Start+2P&family=Roboto+Condensed:wght@300&family=VT323&display=swap" rel="stylesheet">               
+
+    <!--Favicon-->
+    <link rel="icon" type="image/png" href="/images/logo.-removebg-preview.png">
+    
 </head>
 
 <body>
+    <div class="b-body">
     <div class="homeContainer">
+    
         <section class="flexHomepage sidePart">
             <div class="header-content">
                 <div class="homepage-logo">
@@ -23,31 +29,64 @@
             </div>
 
             <div class="userInfo">
-                
+
                 <!--place holder for user's photo-->
                 <div class="displayPhoto"></div>
+
                 <!--place holder for user's first name-->
-                <div class="userFirstName"></div>
+                <div class="userFirstName"> Name</div>
 
                 <!--place holder for user's username-->
-                <div class="username"></div>
+                <div class="username"> @username</div>
             </div>
 
             <nav class="nav">
-                
+                <button class = "button home">Home</button>
+                <button class = "button profile">Profile</button>
+                <button class = "button settings">Settings</button>
             </nav>
         </section>
     
 
         <main class="flexHomepage main-content">
-            <p>test</p>
-            <div class="matchList"></div>
 
-            <div class="showUserProfile"></div>
+            <!--Match List-->
+            <div class="homepage-content profileLayout matchList">
+                <div class="userInfo">
+                    <!--place holder for user's photo-->
+                    <div class="displayPhoto"></div>
+    
+                    <!--place holder for user's first name-->
+                    <div class="userFirstName"> Name</div>
+    
+                    <!--place holder for user's username-->
+                    <div class="username"> @username</div>
+                    <div class="userLocation"> # miles</div>
+                </div>
+
+                <div class="userPref">
+                    <div class="userBio"><p>This is only a test</p></div>
+                    <div class="userTopSongs">
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                    </div>
+                </div>
+
+                <div class="userChoice">
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="homepage-content profileLayout showUserProfile"></div>
+            <div class="homepage-content userSettings"></div>
             
-
         </main>
     </div>
-    
+</div>
 </body>
 </html>
