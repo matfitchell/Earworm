@@ -1,4 +1,3 @@
-ID,userID,userName,password,email,firstName,lastName,musicTaste,DOB,gender,distance,phone
 1,1,mitchman,pass1,example1@gmail.com,Mitch,Mercer,A,1998-04-17,M,15,NULL
 2,2,coolguy69,pass2,example2@gmail.com,Cool,Guy,B,1955-11-11,F,4,NULL
 3,3,charlesguy,pass3,example3@gmail.com,Nick,Cannon,A,1982-11-22,M,1,NULL
