@@ -94,13 +94,13 @@ public class UserService implements UserDetailsService {
         user.setBio(bio);
 
     }
-
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("user with email " + email + " not found"));
     }
-
+    
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }

@@ -26,7 +26,8 @@ import java.util.Collection;
 
 @Table
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails {   
+
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
@@ -46,13 +47,16 @@ public class User implements UserDetails {
     private int age;
     private UserRole userRole;
     private String musicTaste;
+    
     // ******************************************
     private boolean enabled;
     private boolean credentialsNonExpired;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
+    @Transient
     private Set<GrantedAuthority> authorities;
     // ******************************************
+    
 
     // Class Constructer
     public User(String firstName, String lastName, String username, String email, String password, LocalDate dob,
@@ -223,7 +227,7 @@ public class User implements UserDetails {
     public UserRole getUserRole() {
         return userRole;
     }
-
+    
     // ****************************************
     @Override
     public boolean isEnabled() {
@@ -244,10 +248,11 @@ public class User implements UserDetails {
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
-
+    
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
+    
     // ****************************************
 }
