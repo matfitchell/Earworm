@@ -30,7 +30,8 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     private long id;
-    private String displayName = " ";
+    private String firstName = " ";
+    private String lastName = " ";
     private String username = " ";
     private String email = " ";
     private String password = " ";
@@ -41,6 +42,7 @@ public class User implements UserDetails {
     @Transient
     private int age;
     private UserRole userRole;
+    private String musicTaste;
     // ******************************************
     private boolean enabled;
     private boolean credentialsNonExpired;
@@ -50,9 +52,11 @@ public class User implements UserDetails {
     // ******************************************
 
     // Class Constructer
-    public User(String displayName, String username, String email, String password, LocalDate dob, int zipCode,
+    public User(String firstName, String lastName, String username, String email, String password, LocalDate dob,
+            int zipCode,
             int phone, UserRole userRole) {
-        this.displayName = displayName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -83,7 +87,8 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "displayName='" + displayName + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", bio='" + bio + '\'' +
@@ -101,24 +106,44 @@ public class User implements UserDetails {
         if (!super.equals(object))
             return false;
         User user = (User) object;
-        return dob == user.dob && zipCode == user.zipCode && phone == user.phone && displayName.equals(user.displayName)
+        return dob == user.dob && zipCode == user.zipCode && phone == user.phone && lastName.equals(user.lastName)
                 && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
     }
 
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getMusicTaste() {
+        return musicTaste;
+    }
+
+    public void setMusicTaste(String musicTaste) {
+        this.musicTaste = musicTaste;
+    }
+
     public int hashCode() {
-        return Objects.hash(super.hashCode(), displayName, username, email, password, bio, dob, zipCode, phone);
+        return Objects.hash(super.hashCode(), firstName, lastName, username, email, password, bio, dob, zipCode, phone);
     }
 
     public long getID() {
         return id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {

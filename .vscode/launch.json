@@ -1,0 +1,22 @@
+{
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Spring Boot-Earworm",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "mainClass": "com.earworm.backendearworm.BackendEarWormApplication",
+        "projectName": "Earworm",
+        "args": "",
+        "env": {
+          "PROJECT_NAME": "FOO_PROJECT",
+          "INSTANCE_CONNECTION_NAME": "earworm-368802:us-central1:my-instance",
+          "DBINSTANCEUNIXSOCKET": "earworm-368802:us-central1:my-instance",
+          "DBUSER": "mitch",
+          "DB_PASS": "lrLl3~rav5]vp1Mu",
+          "DBNAME": "userdb"
+        }
+      }
+    ] 
+  }
