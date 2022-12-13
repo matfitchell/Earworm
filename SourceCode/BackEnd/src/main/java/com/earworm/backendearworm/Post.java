@@ -1,4 +1,5 @@
 package com.earworm.backendearworm;
+
 public class Post {
     private String originalPoster = " ";
     private String caption = " ";
