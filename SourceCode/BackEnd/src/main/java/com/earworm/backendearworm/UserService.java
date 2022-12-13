@@ -35,8 +35,9 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-
-
+    // public List<User> getUsers(int zipCode) {
+    // return userRepository.findAllByZipcode(zipCode);
+    // }
 
     public String addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
@@ -55,7 +56,7 @@ public class UserService implements UserDetailsService {
 
         return token;
     }
-    */
+
     /*
      * Fix exists by ID by actually passing id and changing repository from string
      * to long
@@ -93,7 +94,7 @@ public class UserService implements UserDetailsService {
         user.setBio(bio);
 
     }
-/* 
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email)
@@ -103,11 +104,5 @@ public class UserService implements UserDetailsService {
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
-*/
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
