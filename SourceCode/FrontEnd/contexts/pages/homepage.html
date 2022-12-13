@@ -13,12 +13,11 @@
 
     <!--Favicon-->
     <link rel="icon" type="image/png" href="/images/logo.-removebg-preview.png">
-    
 </head>
 
 <body>
     <div class="b-body">
-    <div class="homepageContainer">
+    <div class="homepageContainer" ng-app = "homepage" ng-controller="homepagectrl">
     
         <section class="flexHomepage sidePart">
             <div class="header-content">
@@ -40,18 +39,18 @@
                 <div class="username"> @username</div>
             </div>
 
-            <nav class="nav">
-                <button class = "button home">Home</button>
-                <button class = "button profile">Profile</button>
-                <button class = "button settings">Settings</button>
-            </nav>
+            <div class="nav">
+                <button class = "button home" ng-click="showMatchList()" >Home</button>
+                <button class = "button profile" ng-click = "showProfile()">Profile</button>
+                <button class = "button settings" ng-click="showProfilet()">Settings</button>
+            </div>
         </section>
     
 
         <main class="flexHomepage main-content">
 
             <!--Match List-->
-            <div class="homepage-content profileLayout matchList">
+            <div class="homepage-content profileLayout matchList" ng-show="matchList">
                 <div class="userInfo">
                     <!--place holder for user's photo-->
                     <div class="displayPhoto"></div>
@@ -76,42 +75,49 @@
                 </div>
 
                 <div class="userChoice">
-                    <input type="image" src="/images/swipe_left_FILL0_wght400_GRAD0_opsz40.png" id="swipeLeft">
-                    <input type="image" src="/images/swipe_right_FILL0_wght400_GRAD0_opsz40.png" id="swipeRight">
+                    <input type="image" src="/images/close_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconLeft">
+                    <input type="image" src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconRight">
                 </div>
-
-
             </div>
 
-            <div class="homepage-content profileLayout showUserProfile">
-                    <div class="userInfo">
-                        <!--place holder for user's photo-->
-                        <div class="displayPhoto"></div>
-        
-                        <!--place holder for user's first name-->
-                        <div class="userFirstName"> Name</div>
-        
-                        <!--place holder for user's username-->
-                        <div class="username"> @username</div>
-                        <div class="userLocation"> # miles</div>
-                    </div>
-    
-                    <div class="userPref">
-                        <div class="userBio"><p>This is only a test</p></div>
-                        <div class="userTopSongs">
-                            <p>Top Songs:</p>
-                            <!--place holder for the songs-->
-                            <div class="testSong"></div>
-                            <div class="testSong"></div>
-                            <div class="testSong"></div>
-                        </div>
-                    </div>
+            <!--Matched Users ---------WIP-->
+            <div class="homepage-content profileLayout userMatched">
+                <p>Congrats! You found a new bestie!</p>
+            </div>
 
-                    
-            <div class="homepage-content userSettings"></div>
+            <!--User Profile-->
+            <div class="homepage-content profileLayout showUserProfile" ng-hide="showUserProfile">
+                <div class="userInfo">
+                    <!--place holder for user's photo-->
+                    <div class="displayPhoto"></div>
+    
+                    <!--place holder for user's first name-->
+                    <div class="userFirstName"> Name</div>
+    
+                    <!--place holder for user's username-->
+                    <div class="username"> @username</div>
+                    <div class="userLocation"> # miles</div>
+                </div>
+
+                <div class="userPref">
+                    <div class="userBio"><p>This is only a test</p></div>
+                    <div class="userTopSongs">
+                        <p>Top Songs:</p>
+                        <!--place holder for the songs-->
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                    </div>
+                </div>
+            </div>
+              
+            <!--Settings ------WIP-->
+            <div class="homepage-content userSettings"> hey im a work in progress</div>
             
         </main>
     </div>
 </div>
+
+    <script src = "/SourceCode/FrontEnd/contexts/App.js"></script>
 </body>
 </html>

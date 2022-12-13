@@ -74,10 +74,6 @@ h2{
     
 }
 
-/*.signUp{
-    display: none;
-}*/
-
 input[type=text] {
     text-align: center;
     width: 80%;
@@ -202,7 +198,7 @@ input[type=date] {
     font-size: medium;
     font-family: 'Acme', sans-serif;
     background-color: white;
-    margin: 10px;
+    padding: 10px;
 }
 
 /*Right*/
@@ -257,12 +253,8 @@ input[type=date] {
     justify-content: space-between;
 }
 
-.showUserProfile{
-    display: none;
-}
-
-.userSettings{
-    display: none;
+.swipe{
+    width: 35px;
 }
 
 @media screen and (max-width: 900px){       /* landing page for small screens*/

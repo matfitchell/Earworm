@@ -34,8 +34,8 @@
                     <label for = "username">Username: </label><input type = "text" id="usern" name="username">
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
                     
-                    <button type = "button" class = "btn login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
-                    <button type = "button" class = "btn signup" ng-click="showSignUp()"> Sign Up </button>
+                    <button class = "btn login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
+                    <button class = "btn signup" ng-click="showSignUp()"> Sign Up </button>
                 </form>
 
                 <form class = "userInput signUp" ng-hide="signUp">
@@ -48,6 +48,7 @@
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
                     
                     <button type = "button" class = "btn signup" onclick= " "> Sign Up </button>
+                    <button type = "button" class = "btn back" ng-click="backLogin()">Back </button>
                 </form>
 
             </div><!--end of content-wrapper-->
