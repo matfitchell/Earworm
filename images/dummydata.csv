@@ -1,0 +1,11 @@
+ID,userID,userName,password,email,firstName,lastName,musicTaste,DOB,gender,distance,phone
+1,1,mitchman,pass1,example1@gmail.com,Mitch,Mercer,A,1998-04-17,M,15,NULL
+2,2,coolguy69,pass2,example2@gmail.com,Cool,Guy,B,1955-11-11,F,4,NULL
+3,3,charlesguy,pass3,example3@gmail.com,Nick,Cannon,A,1982-11-22,M,1,NULL
+4,4,slushieguy,pass4,example4@gmail.com,sarah,connor,A,1972-05-26,F,10,NULL
+5,5,lombocchew,pass5,example5@gmail.com,Lewis,Carrol,C,1990-08-30,M,22,NULL
+6,6,slapyamammy,pass6,example6@gmail.com,Chris,Brown,B,2001-02-14,M,29,NULL
+7,7,garusvyk,pass7,example7@gmail.com,Leah,Remini,C,1988-06-06,F,7,NULL
+8,8,loopertwo,pass8,example8@gmail.com,Dawn,Joy,B,1965-04-04,F,35,NULL
+9,9,partypooper2,pass9,example9@gmail.com,Poopy,Party,B,1975-07-20,M,90,NULL
+10,10,railgunner,pass10,example10@gmail.com,Mark,Twain,A,1997-01-28,M,1673,NULL
