@@ -235,7 +235,7 @@ input[type=date] {
 
 .userTopSongs{
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
 }
 
 .testSong{
@@ -255,6 +255,16 @@ input[type=date] {
 
 .swipe{
     width: 35px;
+}
+
+.userSettings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userMatched{
+    display: none;
 }
 
 @media screen and (max-width: 900px){       /* landing page for small screens*/
