@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -25,21 +26,37 @@ public class LoadDatabase {
 
             ResultSet rs = statement.executeQuery(query);
 
-            // Loop through each product found and get its information.
+            // Loop through each user found and get their information.
             while (rs.next()) {
-                String currentUser = rs.getString("name");
-                int id = rs.getInt("user_id");
+                String currentUser = rs.getString("firstName" + "," + "lastName");
+                int id = rs.getInt("userID");
                 
-                int userId = rs.getInt("user_id");
-                int zipcode = rs.getInt("zipCode");
-                String bio = rs.getString("bio");
-                int type = rs.getInt("type");
+                int userId = rs.getInt("userID");
+                String userName = rs.getString("userName");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String musicTaste = rs.getString("musicTaste");
+                java.sql.Date DOB = rs.getDate("DOB");
+                String gender = rs.getString("gender");
+                BigDecimal longitude = rs.getBigDecimal("longitude");
+                BigDecimal latitude = rs.getBigDecimal("latitude");
+                
+
                 // Store the product's information in the product repository in the local H2 database
                 log.info("Preloading " + repository.save(
-                        new User(id,
-                                zipcode,
+                        new User(userId,
                                 userName,
-                                bio,
+                                password,
+                                email,
+                                firstName,
+                                lastName,
+                                musicTaste,
+                                DOB,
+                                gender,
+                                longitude,
+                                latitude,
                                 User.UserType.values()[type])));
             }
         };

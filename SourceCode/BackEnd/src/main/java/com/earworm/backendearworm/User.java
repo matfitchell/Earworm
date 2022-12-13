@@ -183,6 +183,14 @@ public class User implements UserDetails {
     public void setBio(String bio) {
         this.bio = bio;
     }
+    
+    public String getGender(){
+        return gender;
+    }
+
+    public void setGender(){
+        this.gender = gender;
+    }
 
     public int getAge() {
         return Period.between(dob, LocalDate.now()).getYears();
