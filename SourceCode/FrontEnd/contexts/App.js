@@ -1,21 +1,56 @@
 // essentially main for the angular 
 
 //test data for the list, for testing purposes only
-/*var testData = [{
-    Name: "Mitchell",
-    Location: "CSUN"
+var testData = [{
+    userName: "mitchman",
+    password: "pass1",
+    firstName:"Mitch",
+    lastName: "Mercer"
     },{
-    Name: "Alvaro",
-    Location: "USA"
+    userName: "coolguy69",
+    password: "pass2",
+    firstName: "Cool",
+    lastName: "Guy"
     },{
-    Name: "Nath",
-    Location: "LA"
+    userName: "charlesguy",
+    password: "pass3",
+    firstName: "Nick",
+    lastName: "Cannon"
     },{
-    Name: "Rodulfo",
-    Location: "CSUN"
+    userName: "slushieguy",
+    password: "pass4",
+    firstName: "Sarah",
+    lastName: "Connor"
     },{
-    Name: "Charles",
-    Location: "Csun"
+    userName: "lombocchew",
+    password: "pass5",
+    firstName: "Lewis",
+    lastName: "Carrol"
+    },{
+    userName: "slapyamammy",
+    password: "pass6",
+    firstName: "Chris",
+    lastName: "Brown"
+    },{
+    userName: "garusvyk",
+    password: "pass7",
+    firstName: "Leah",
+    lastName: "Remini"
+    },{
+    userName: "loopertwo",
+    password: "pass8",
+    firstName: "Dawn",
+    lastName: "Joy"
+    },{
+    userName: "partypooper2",
+    password: "pass9",
+    firstName: "Poopy",
+    lastName: "Party"
+    },{
+    userName: "railgunner",
+    password: "pass10",
+    firstName: "Mark",
+    lastName: "Twain"
     }
 ];
 
@@ -28,7 +63,7 @@ var app = angular.module('displayList', []);
         $scope.data = testData;
     });
 
-*/
+
 
 /*Log In to Sign Up page*/
 var app = angular.module('login', []);
