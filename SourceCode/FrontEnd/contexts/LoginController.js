@@ -1,37 +1,22 @@
-
+import * as testData from './App.js'
+testData.testData; // You can now access the array
 
 function test(userName, password) {
-    console.log("attempting to authenticate: " + userName + " / " + password);
-
-    authenticate(userName, password);
-}
-
-function authenticate(user, pass) {
-    // if (user == "test1" && pass == "test2") {
-    //     console.log("yes");
-    // }
-    // else {
-    //     console.log("no");
-    // }
     
-    connection = new Connection();
-    connection.query("SELECT username, password FROM users WHERE user = " + userName);
-    username, _password = connection.fetch() // gets result from the above query
-
-    if (username) 
-    {
-        if (pass == _password)
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
+    for (let i = 0; i < testData.length; i++) {
+        if (userName == testData[i].userName) {
+            authenticate(i, password);
         }
     }
-    else 
-    {
-        return false;
+}
+
+function authenticate(userVal, testPass) {
+
+    if (testPass == testData[userVal].password) {
+        console.log("yes");
+    }
+    else {
+        console.log("no");
     }
 }
 
