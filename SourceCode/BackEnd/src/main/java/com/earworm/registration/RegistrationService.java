@@ -30,14 +30,14 @@ public class RegistrationService {
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
     }
-
+    /*
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
-
+    
         String token = userService.addNewUser(
                 new User(request.getFirstName(), request.getLastName(), request.getUsername(), request.getEmail(),
                         request.getPassword(),
@@ -46,9 +46,9 @@ public class RegistrationService {
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
         return token;
-
+        
     }
-
+    */
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
@@ -65,7 +65,7 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        userService.enableUser(confirmationToken.getUser().getEmail());
+       // userService.enableUser(confirmationToken.getUser().getEmail());
 
         return "confirmed";
     }
