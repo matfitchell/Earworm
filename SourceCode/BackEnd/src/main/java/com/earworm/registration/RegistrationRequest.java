@@ -1,5 +1,6 @@
 package com.earworm.registration;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class RegistrationRequest {
@@ -12,6 +13,9 @@ public class RegistrationRequest {
     private int zipCode;
     private int phone;
     private LocalDate dob;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
+    private String gender;
 
     public RegistrationRequest(String firstName, String lastName, String email, String password, String username,
             String bio, int zipCode, int phone, LocalDate dob) {
@@ -91,6 +95,30 @@ public class RegistrationRequest {
         } else if (!dob.equals(other.dob))
             return false;
         return true;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal lotitude) {
+        this.longitude = lotitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLangitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setFirstName(String firstName) {

@@ -89,7 +89,9 @@ public class UserService implements UserDetailsService {
         // }
         // user.setEmail(email);
         // }
-        user.setZipCode(zipCode);
+        // Fix to lang and
+        // long?>----------------------------------------------------------------------------------
+        // user.setZipCode(zipCode);
         user.setBio(bio);
 
     }

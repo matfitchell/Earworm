@@ -1,4 +1,5 @@
 package com.earworm.backendearworm;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,12 +10,12 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-  
     public CommandLineRunner initDatabase(UserRepository repository) {
 
         return args -> {
@@ -30,7 +31,7 @@ public class LoadDatabase {
             while (rs.next()) {
                 String currentUser = rs.getString("firstName" + "," + "lastName");
                 int id = rs.getInt("userID");
-                
+
                 int userId = rs.getInt("userID");
                 String userName = rs.getString("userName");
                 String password = rs.getString("password");
@@ -38,26 +39,28 @@ public class LoadDatabase {
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
                 String musicTaste = rs.getString("musicTaste");
-                java.sql.Date DOB = rs.getDate("DOB");
+                LocalDate DOB = rs.getDate("DOB").toLocalDate();
                 String gender = rs.getString("gender");
                 BigDecimal longitude = rs.getBigDecimal("longitude");
                 BigDecimal latitude = rs.getBigDecimal("latitude");
-                
+                int phone = rs.getInt("phone");
 
-                // Store the product's information in the product repository in the local H2 database
+                // Store the product's information in the product repository in the local H2
+                // database
                 log.info("Preloading " + repository.save(
-                        new User(userId,
-                                userName,
-                                password,
-                                email,
-                                firstName,
+                        new User(firstName,
                                 lastName,
-                                musicTaste,
+                                userName,
+                                email,
+                                password,
                                 DOB,
-                                gender,
                                 longitude,
                                 latitude,
-                                User.UserType.values()[type])));
+                                gender,
+                                phone,
+                                UserRole.USER
+                // User.UserType.values()[type]
+                )));
             }
         };
     }
