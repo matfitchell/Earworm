@@ -19,6 +19,7 @@ public class BackdendEarwormApplication {
 		// SpringBoot Launch
 		SpringApplication.run(BackdendEarwormApplication.class, args);
 
+<<<<<<< Updated upstream
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
@@ -33,5 +34,24 @@ public class BackdendEarwormApplication {
 				}
 			}
 		});
+=======
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+@Override
+public void run(){
+		try {
+		Connection conn = GCloudConnector.getInstance().connection;
+		if (conn != null){
+		conn.close();
+		System.out.println("Database Connection Terminated");
+			}
+		}
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+				}
+			}
+		);
+		}
+>>>>>>> Stashed changes
 	}
 }
