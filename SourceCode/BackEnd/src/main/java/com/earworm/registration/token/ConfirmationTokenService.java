@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class ConfirmationTokenService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
+    @Autowired
     public ConfirmationTokenService(ConfirmationTokenRepository confirmationTokenRepository) {
         this.confirmationTokenRepository = confirmationTokenRepository;
     }
