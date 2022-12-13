@@ -3,7 +3,8 @@ package com.earworm.registration;
 import java.time.LocalDate;
 
 public class RegistrationRequest {
-    private String displayName;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String username;
@@ -12,9 +13,10 @@ public class RegistrationRequest {
     private int phone;
     private LocalDate dob;
 
-    public RegistrationRequest(String displayName, String email, String password, String username, String bio,
-            int zipCode, int phone, LocalDate dob) {
-        this.displayName = displayName;
+    public RegistrationRequest(String firstName, String lastName, String email, String password, String username,
+            String bio, int zipCode, int phone, LocalDate dob) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.username = username;
@@ -28,7 +30,8 @@ public class RegistrationRequest {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
+        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -48,10 +51,15 @@ public class RegistrationRequest {
         if (getClass() != obj.getClass())
             return false;
         RegistrationRequest other = (RegistrationRequest) obj;
-        if (displayName == null) {
-            if (other.displayName != null)
+        if (firstName == null) {
+            if (other.firstName != null)
                 return false;
-        } else if (!displayName.equals(other.displayName))
+        } else if (!firstName.equals(other.firstName))
+            return false;
+        if (lastName == null) {
+            if (other.lastName != null)
+                return false;
+        } else if (!lastName.equals(other.lastName))
             return false;
         if (email == null) {
             if (other.email != null)
@@ -85,12 +93,16 @@ public class RegistrationRequest {
         return true;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -151,8 +163,13 @@ public class RegistrationRequest {
 
     @Override
     public String toString() {
-        return "RegistrationRequest [displayName=" + displayName + ", email=" + email + ", phone="
-                + phone + ", username=" + username + ", zipCode=" + zipCode + ", bio= " + bio + "]";
+        return "RegistrationRequest [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+                + ", password=" + password + ", username=" + username + ", bio=" + bio + ", zipCode=" + zipCode
+                + ", phone=" + phone + ", dob=" + dob + "]";
+    }
+
+    public String getFirstName() {
+        return null;
     }
 
 }

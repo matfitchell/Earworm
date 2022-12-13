@@ -39,10 +39,11 @@ public class RegistrationService {
         }
 
         String token = userService.addNewUser(
-                new User(request.getDisplayName(), request.getUsername(), request.getEmail(), request.getPassword(),
+                new User(request.getFirstName(), request.getLastName(), request.getUsername(), request.getEmail(),
+                        request.getPassword(),
                         request.getDob(), request.getZipCode(), request.getPhone(), UserRole.USER));
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(), buildEmail(request.getDisplayName(), link));
+        emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
         return token;
 
     }

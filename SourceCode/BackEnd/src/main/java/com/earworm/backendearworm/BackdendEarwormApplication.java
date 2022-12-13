@@ -14,26 +14,24 @@ import java.sql.SQLException;
 
 public class BackdendEarwormApplication {
 
-public static void main(String[] args){
+	public static void main(String[] args) {
 
-		//SpringBoot Launch
+		// SpringBoot Launch
 		SpringApplication.run(BackdendEarwormApplication.class, args);
 
-		Runtime.getRuntime().addShutdownHook(new Thread(){
-@Override
-public void run(){
-		try {
-		Connection conn = GCloudConnector.getInstance();
-		if (conn != null){
-		conn.close();
-		System.out.println("Database Connection Terminated");
-			}
-		}
-		catch (SQLException e) {
-		e.printStackTrace();
-		}
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				try {
+					Connection conn = GCloudConnector.getInstance().connection;
+					if (conn != null) {
+						conn.close();
+						System.out.println("Database Connection Terminated");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-		)
-		}
+		});
 	}
+}
