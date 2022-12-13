@@ -17,6 +17,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
@@ -30,13 +31,15 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     private long id;
+    private String username = " ";
+    private String password = " ";
+    private String email = " ";
     private String firstName = " ";
     private String lastName = " ";
-    private String username = " ";
-    private String email = " ";
-    private String password = " ";
+    private String gender = " ";
     private String bio = " ";
-    private int zipCode = 0;
+    private BigDecimal latitude = null;
+    private BigDecimal longitude = null;
     private int phone = 0;
     private LocalDate dob;
     @Transient
@@ -53,7 +56,7 @@ public class User implements UserDetails {
 
     // Class Constructer
     public User(String firstName, String lastName, String username, String email, String password, LocalDate dob,
-            int zipCode,
+            BigDecimal longitude, BigDecimal latitude, String gender,
             int phone, UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,7 +64,9 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.dob = dob;
-        this.zipCode = zipCode;
+        this.gender = gender; 
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.phone = phone;
         this.userRole = userRole;
     }
@@ -93,7 +98,8 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", bio='" + bio + '\'' +
                 ", age=" + getAge() +
-                ", zipCode=" + zipCode +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
                 ", phone=" + phone +
                 '}';
     }
@@ -106,7 +112,7 @@ public class User implements UserDetails {
         if (!super.equals(object))
             return false;
         User user = (User) object;
-        return dob == user.dob && zipCode == user.zipCode && phone == user.phone && lastName.equals(user.lastName)
+        return dob == user.dob && latitude == user.latitude && longitude == user.longitude && phone == user.phone && lastName.equals(user.lastName)
                 && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
     }
 
@@ -123,7 +129,7 @@ public class User implements UserDetails {
     }
 
     public int hashCode() {
-        return Objects.hash(super.hashCode(), firstName, lastName, username, email, password, bio, dob, zipCode, phone);
+        return Objects.hash(super.hashCode(), firstName, lastName, username, email, password, bio, dob, latitude, longitude, phone);
     }
 
     public long getID() {
@@ -182,12 +188,20 @@ public class User implements UserDetails {
         return Period.between(dob, LocalDate.now()).getYears();
     }
 
-    public int getZipCode() {
-        return zipCode;
+    public BigDecimal getlatitude() {
+        return latitude;
     }
 
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
+    public BigDecimal getLongitude(){
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude){
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
     }
 
     public int getPhone() {
