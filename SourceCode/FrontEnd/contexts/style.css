@@ -193,11 +193,13 @@ input[type=password] {
 
 .homepage-content{
     margin:auto;
+    padding: 15px;
     border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.247);
+    border: 1px solid rgba(0, 0, 0, 0.247); 
     width: 40%;
+    max-width: 30%;
     height: 80%; ;
-    background-color: #ffffff9f;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .profileLayout{
@@ -205,6 +207,32 @@ input[type=password] {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+}
+
+.userPref{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.userTopSongs{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.testSong{
+    margin:5px;
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+}
+
+.userChoice{
+    padding: 15px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .showUserProfile{
