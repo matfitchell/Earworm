@@ -112,8 +112,22 @@
             </div>
               
             <!--Settings ------WIP-->
-            <div class="homepage-content userSettings" ng-show="userSettings"> hey im a work in progress</div>
-            
+            <div class="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
+
+                <div ng-show="userSettings">
+                    <p>Preferred Matching Distance (in miles): </p>
+                    <input type="range" min="1" max="100" value="50" oninput="rangeValue.innerText = this.value" ng-show="userSettings">
+                    <p id="rangeValue" ng-show="userSettings">50</p>
+                </div>
+
+                <label for="music-tastes">Choose a Music Preference:</label>
+                <select name="mustic-tastes" id="music-tastes">
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                </select>
+
+            </div>
         </main>
     </div>
 </div>
