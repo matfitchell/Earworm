@@ -54,7 +54,7 @@ var testData = [{
     }
 ];
 
-export{testData}
+
 
 //list
 // will modify next time to get data from backend
