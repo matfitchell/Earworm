@@ -49,10 +49,13 @@
                     
                     <button type = "button" class = "btn signup" onclick= "createUser(document.getElementByID('userName').value,document.getElementById('password').value,document.getElementById('firstName').value,document.getElementById('lastName').value,
                      document.getElementById('email').value, document.getElementById('birthday').value)" ng-click="showHome" > Sign Up </button>
-                    <button type = "button" class = "btn back" ng-click="backLogin()">Back </button>
+                    <button type = "button" class = "btn back" ng-click="center()">Back </button>
                 </form>
 
-                <div></div>
+                <div class = "center"ng-hide="center">
+                        <p>"Nice!"</p>
+                       
+                </div>
 
             </div><!--end of content-wrapper-->
 
