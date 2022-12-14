@@ -1,5 +1,5 @@
 package com.earworm.backendearworm;
-
+/* 
 import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,10 +41,10 @@ public class User implements UserDetails {
     private BigDecimal latitude = null;
     private BigDecimal longitude = null;
     private int phone = 0;
-    private LocalDate dob;
+    private int dob;
     @Transient
     private int age;
-    private UserRole userRole;
+    
     private String musicTaste;
     // ******************************************
     private boolean enabled;
@@ -55,20 +55,15 @@ public class User implements UserDetails {
     // ******************************************
 
     // Class Constructer
-    public User(String firstName, String lastName, String username, String email, String password, LocalDate dob,
-            BigDecimal longitude, BigDecimal latitude, String gender,
-            int phone, UserRole userRole) {
+    public User(int ID , String userName, String password, String email, String firstName, String lastName, String musicTaste, int  DOB ,String gender, int Distance, int phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.username = userName;
         this.email = email;
         this.password = password;
-        this.dob = dob;
+        this.dob = DOB;
         this.gender = gender; 
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.phone = phone;
-        this.userRole = userRole;
+        this.phone = phoneNumber;
     }
 
     // Default Constructer
@@ -251,3 +246,4 @@ public class User implements UserDetails {
     }
     // ****************************************
 }
+*/

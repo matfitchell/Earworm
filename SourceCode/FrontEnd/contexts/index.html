@@ -34,7 +34,7 @@
                     <label for = "username">Username: </label><input type = "text" id="usern" name="username">
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
                     
-                    <button class = "btn login" onclick= "test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
+                    <button class = "btn login" type="button" onclick= "showDiv(), test(document.getElementById('usern').value, document.getElementById('pass').value)"> Login </button>
                     <button class = "btn signup" ng-click="showSignUp()"> Sign Up </button>
                 </form>
 
@@ -47,9 +47,15 @@
                     <label for = "username">Username: </label><input type = "text" id="usern" name="username">
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
                     
-                    <button type = "button" class = "btn signup" onclick= " "> Sign Up </button>
+                    <button type = "button" class = "btn signup" onclick= "showDiv(), createUser(document.getElementByID('userName').value,document.getElementById('password').value,document.getElementById('firstName').value,document.getElementById('lastName').value,
+                     document.getElementById('email').value, document.getElementById('birthday').value)"> Sign Up </button>
                     <button type = "button" class = "btn back" ng-click="backLogin()">Back </button>
                 </form>
+
+                <div id = "center" style = "display: none;">
+                        <p>"All Signed Up! Welcome!"</p>
+                       
+                </div>
 
             </div><!--end of content-wrapper-->
 
@@ -72,7 +78,8 @@
     </div>-->
 
     <!--js link-->
-    <script src = "App.js"></script>
     <script src = "LoginController.js"></script>
+    <script src = "App.js"></script>
+
 </body>
 </html>
