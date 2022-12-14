@@ -20,15 +20,22 @@ function authenticate(userVal, testPass) {
     }
 }
 
+
+//create a user
 function createUser(userName, password, firstName, lastName, email, birthday){
     let user = {userName: this.user, password: this.password,
     firstName : this.firstName, lastName: this.lastName, email : this.email, birthday : this.birthday}
+
+    //append user to testData array
+    testData.push(user)
+    var csv = testData.toString();
+        console.log(csv);
 }
 
+//function switchPage(){
 
-//create a user
+//}
 
-//append user to list
 
 //push the list to the java
 
