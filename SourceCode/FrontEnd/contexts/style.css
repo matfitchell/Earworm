@@ -24,12 +24,6 @@ h2{
     color: #16425B;
 }
 
-.center{
-    display : flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .homeContainer{
     display: flex;
     min-height: 100vh;
@@ -181,7 +175,7 @@ input[type=date] {
     align-items: center;
 }
 
-.displayPhoto{
+.displayImg{
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
     width: 200px;

@@ -5,52 +5,62 @@ var testData = [{
     userName: "mitchman",
     password: "pass1",
     firstName:"Mitch",
-    lastName: "Mercer"
+    lastName: "Mercer",
+    image: "/images/1.png" 
     },{
     userName: "coolguy69",
     password: "pass2",
     firstName: "Cool",
-    lastName: "Guy"
+    lastName: "Guy",
+    image: "/images/3.jpg" 
     },{
     userName: "charlesguy",
     password: "pass3",
     firstName: "Nick",
-    lastName: "Cannon"
+    lastName: "Cannon",
+    image: "/images/1.png" 
     },{
     userName: "slushieguy",
     password: "pass4",
     firstName: "Sarah",
-    lastName: "Connor"
+    lastName: "Connor",
+    image: "/images/2.webp" 
     },{
     userName: "lombocchew",
     password: "pass5",
     firstName: "Lewis",
-    lastName: "Carrol"
+    lastName: "Carrol",
+    image: "/images/3.jpg" 
     },{
     userName: "slapyamammy",
     password: "pass6",
     firstName: "Chris",
-    lastName: "Brown"
+    lastName: "Brown",
+    image: "/images/1.png" 
     },{
     userName: "garusvyk",
     password: "pass7",
     firstName: "Leah",
-    lastName: "Remini"
+    lastName: "Remini",
+    image: "/images/2.webp" 
     },{
     userName: "loopertwo",
     password: "pass8",
     firstName: "Dawn",
-    lastName: "Joy"
+    lastName: "Joy",
+    image: "/images/3.jpg" 
     },{
     userName: "partypooper2",
     password: "pass9",
     firstName: "Poopy",
-    lastName: "Party"
+    lastName: "Party",
+    image: "/images/1.png"
     },{
     userName: "railgunner",
     password: "pass10",
     firstName: "Mark",
-    lastName: "Twain"
+    lastName: "Twain",
+    image: "/images/1.png" 
     }
 ];
 
@@ -118,5 +128,8 @@ var app = angular.module('homepage', []);
     
 function showDiv() {
         document.getElementById('center').style.display = "block";
+        location.href="pages/homepage.html";
+        alert("All Signed Up! Welcome!");
+        
      }
 

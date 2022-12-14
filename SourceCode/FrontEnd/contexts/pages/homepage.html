@@ -57,7 +57,9 @@
             <div class="homepage-content profileLayout matchList" ng-show="matchList" ng-repeat = "data in data">
                 <div class="userInfo">
                     <!--place holder for user's photo-->
-                    <div class="displayPhoto"></div>
+                    <div class="displayPhoto">
+                        <img src = "{{data.image}}" class="displayImg">
+                    </div>
     
                     <!--place holder for user's first name-->
                     <span class="userFirstName"> {{data.firstName}} {{data.lastName}}</span>
