@@ -24,6 +24,11 @@ h2{
     color: #16425B;
 }
 
+.center{
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .homeContainer{
     display: flex;

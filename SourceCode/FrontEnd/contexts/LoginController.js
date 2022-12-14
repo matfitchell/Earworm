@@ -30,11 +30,13 @@ function createUser(userName, password, firstName, lastName, email, birthday){
     testData.push(user)
     var csv = testData.toString();
         console.log(csv);
+
+    switchPage()
 }
 
-//function switchPage(){
-
-//}
+function switchPage(){
+    
+}
 
 
 //push the list to the java
