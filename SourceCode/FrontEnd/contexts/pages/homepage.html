@@ -28,7 +28,6 @@
             </div>
 
             <div class="userInfo">
-
                 <!--place holder for user's photo-->
                 <div class="displayPhoto"></div>
 
@@ -47,19 +46,24 @@
         </section>
     
 
-        <main class="flexHomepage main-content">
-
+        <main class="flexHomepage main-content">   
+        <!--Display a list
+        <div ng-app ="displayList" ng-controller="displayListCtlr">
+            <ul>
+                <li ng-repeat = "data in data"> {{data.Name}} | {{data.Location}} </li>
+            </ul>
+        </div>-->
             <!--Match List-->
-            <div class="homepage-content profileLayout matchList" ng-show="matchList">
+            <div class="homepage-content profileLayout matchList" ng-show="matchList" ng-repeat = "data in data">
                 <div class="userInfo">
                     <!--place holder for user's photo-->
                     <div class="displayPhoto"></div>
     
                     <!--place holder for user's first name-->
-                    <div class="userFirstName"> Name</div>
+                    <span class="userFirstName"> {{data.firstName}} {{data.lastName}}</span>
     
                     <!--place holder for user's username-->
-                    <div class="username"> @username</div>
+                    <span class="username"> @ {{data.userName}} </span>
                     <div class="userLocation"> # miles</div>
                 </div>
 

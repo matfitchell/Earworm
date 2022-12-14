@@ -54,17 +54,16 @@ var testData = [{
     }
 ];
 
-export{testData}
-
+//export{testData}
 //list
 // will modify next time to get data from backend
-var app = angular.module('displayList', []);
+/*var app = angular.module('displayList', []);
     app.controller("displayListCtlr", function($scope){
 
         // testing purposes only
         $scope.data = testData;
     });
-
+*/
 
 
 /*Log In to Sign Up page*/
@@ -111,5 +110,9 @@ var app = angular.module('homepage', []);
             $scope.userSettings = true;
         }
 
+        $scope.data = testData;
+
     });
+
+   
 
