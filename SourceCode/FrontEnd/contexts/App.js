@@ -70,26 +70,19 @@ var app = angular.module('login', []);
     app.controller("signUpClick", function($scope){
         $scope.login = true;
         $scope.signUp = true;
-        $scope.center = true;
 
         $scope.showSignUp = function (){
             $scope.login = false;
-            $scope.signUp = false;
-            $scope.center = false;
+            $scope.signUp = false;  
         }
 
         $scope.backLogin = function (){
             $scope.login = true;
             $scope.signUp = true;
-            $scope.center = true;
+    
 
         }
-        $scope.center = function (){
-            $scope.login = true;
-            $scope.signUp = true;
-            $scope.center = false;
-            
-        }
+
         
     });
 
@@ -122,5 +115,8 @@ var app = angular.module('homepage', []);
 
     });
 
-   
+    
+function showDiv() {
+        document.getElementById('center').style.display = "block";
+     }
 
