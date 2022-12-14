@@ -20,3 +20,18 @@ function authenticate(userVal, testPass) {
     }
 }
 
+function createUser(userName, password, firstName, lastName, email, birthday){
+    let user = {userName: this.user, password: this.password,
+    firstName : this.firstName, lastName: this.lastName, email : this.email, birthday : this.birthday}
+}
+
+
+//create a user
+
+//append user to list
+
+//push the list to the java
+
+//write a csv
+
+

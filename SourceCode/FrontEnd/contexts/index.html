@@ -47,7 +47,8 @@
                     <label for = "username">Username: </label><input type = "text" id="usern" name="username">
                     <label for = "password">Password: </label><input type = "password" id="pass" name="password">
                     
-                    <button type = "button" class = "btn signup" onclick= " "> Sign Up </button>
+                    <button type = "button" class = "btn signup" onclick= "createUser(document.getElementByID('userName').value,document.getElementById('password').value,document.getElementById('firstName').value,document.getElementById('lastName').value)
+                     document.getElementById('email').value, document.getElementById('birthday').value"> Sign Up </button>
                     <button type = "button" class = "btn back" ng-click="backLogin()">Back </button>
                 </form>
 
