@@ -188,6 +188,12 @@ input[type=date] {
     width: 200px;
     height: 200px;
 }
+.displayPhoto{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
 
 .userFirstName{
     font-size: xx-large;
@@ -269,9 +275,6 @@ input[type=date] {
     align-items: center;
 }
 
-.userMatched{
-    display: none;
-}
 
 @media screen and (max-width: 900px){       /* landing page for small screens*/
     .right{
@@ -292,6 +295,11 @@ input[type=date] {
 
     .homepageHeader{
         display: none;
+    }
+
+    .displayImg{
+        width: 100px;
+        height: 100px;
     }
 
     .displayPhoto{

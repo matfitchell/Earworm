@@ -27,15 +27,15 @@
                 <header class="homepageHeader"><h2>EarWorm</h2></header>
             </div>
 
-            <div class="userInfo">
+            <div class="userInfo" ng-repeat="data in data | limitTo: 1" >
                 <!--place holder for user's photo-->
-                <div class="displayPhoto"></div>
+                <div class="displayPhoto"><img src = "{{data.image}}" class="displayImg"></div>
 
                 <!--place holder for user's first name-->
-                <div class="userFirstName"> Name</div>
+                <span class="userFirstName"> {{data.firstName}} </span>
 
                 <!--place holder for user's username-->
-                <div class="username"> @username</div>
+                <span class="username"> @{{data.userName}}</span>
             </div>
 
             <div class="nav">
@@ -53,8 +53,13 @@
                 <li ng-repeat = "data in data"> {{data.Name}} | {{data.Location}} </li>
             </ul>
         </div>-->
+<<<<<<< Updated upstream
             <!--Match List              might need ng-for https://jasonwatmore.com/post/2020/09/07/angular-display-a-list-of-items-with-ngfor :)-->
             <div class="homepage-content profileLayout matchList" ng-show="matchList" ng-repeat = "data in data">
+=======
+            <!--Match List-->
+            <div class="homepage-content profileLayout matchList" ng-show="matchList" ng-repeat = "data in data | limitTo : 1">
+>>>>>>> Stashed changes
                 <div class="userInfo">
                     <!--place holder for user's photo-->
                     <div class="displayPhoto">
@@ -81,27 +86,28 @@
                 </div>
 
                 <div class="userChoice">
-                    <input type="image" src="/images/close_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconLeft">
-                    <input type="image" src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconRight">
+                    <input type="image" src="/images/close_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconLeft" ng-click="clickedLeft()">
+                    <input type="image" src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconRight" ng-click="clickedRight()">
                 </div>
             </div>
 
             <!--Matched Users ---------WIP-->
-            <div class="homepage-content profileLayout userMatched">
+            <div class="homepage-content profileLayout userMatched" ng-hide="userMatched" >
+                <div class="displayPhoto"><img src = "/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif" class="displayImg"></div>
                 <p>Congrats! You found a new bestie!</p>
             </div>
 
             <!--User Profile-->
-            <div class="homepage-content profileLayout showUserProfile" ng-show="showUserProfile">
+            <div class="homepage-content profileLayout showUserProfile" ng-show="showUserProfile" ng-repeat="data in data | limitTo:1">
                 <div class="userInfo">
                     <!--place holder for user's photo-->
-                    <div class="displayPhoto"></div>
+                    <div class="displayPhoto"><img src = "{{data.image}}" class="displayImg"></div>
     
                     <!--place holder for user's first name-->
-                    <div class="userFirstName"> Name</div>
+                    <span class="userFirstName"> {{data.firstName}} {{data.lastName}}</span>
     
                     <!--place holder for user's username-->
-                    <div class="username"> @username</div>
+                    <span class="username"> @ {{data.userName}} </span>
                     <div class="userLocation"> # miles</div>
                 </div>
 

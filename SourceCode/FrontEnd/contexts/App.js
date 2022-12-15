@@ -64,17 +64,6 @@ var testData = [{
     }
 ];
 
-//list
-// will modify next time to get data from backend
-/*var app = angular.module('displayList', []);
-    app.controller("displayListCtlr", function($scope){
-
-        // testing purposes only
-        $scope.data = testData;
-    });
-*/
-
-
 /*Log In to Sign Up page*/
 var app = angular.module('login', []);
     app.controller("signUpClick", function($scope){
@@ -89,7 +78,6 @@ var app = angular.module('login', []);
         $scope.backLogin = function (){
             $scope.login = true;
             $scope.signUp = true;
-    
 
         }
 
@@ -102,34 +90,63 @@ var app = angular.module('homepage', []);
         $scope.matchList = true;
         $scope.showUserProfile = false;
         $scope.userSettings = false;
+        $scope.userMatched=true;
 
         $scope.showMatchList= function (){
             $scope.matchList = true;
             $scope.showUserProfile = false;
             $scope.userSettings = false;
+            $scope.userMatched=true;
         }
 
         $scope.showProfile = function (){
             $scope.matchList = false;
             $scope.showUserProfile = true;
             $scope.userSettings = false;
+            $scope.userMatched=true;
         }
         
         $scope.showProfilet = function (){
             $scope.matchList = false;
             $scope.showUserProfile = false;
             $scope.userSettings = true;
+            $scope.userMatched=true;
         }
 
-        //$scope.data = testData;
+        $scope.clickedRight = function(){
+            $scope.matchList = false;
+            $scope.showUserProfile = false;
+            $scope.userSettings = false;
+            $scope.userMatched=false;
+        }
+
+        $scope.data = testData;
+
 
     });
 
     
 function showDiv() {
-        document.getElementById('center').style.display = "block";
-        location.href="pages/homepage.html";
-        alert("All Signed Up! Welcome!");
+
+  /*      if (document.getElementById('usern').value = " "){
+            alert("Error");
+        } if (document.getElementById('pass').value = " "){
+            alert("Error");
+        }else{   */     
+            document.getElementById('center').style.display = "block";
+            location.href="pages/homepage.html";
+            alert("Welcome!");
         
+
+    
      }
 
+   //list
+// will modify next time to get data from backend
+/*var app = angular.module('displayList', []);
+    app.controller("displayListCtlr", function($scope){
+
+        // testing purposes only
+        $scope.data = testData;
+    });
+*/
