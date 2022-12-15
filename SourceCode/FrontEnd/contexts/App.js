@@ -121,7 +121,7 @@ var app = angular.module('homepage', []);
             $scope.userSettings = true;
         }
 
-        $scope.data = testData;
+        //$scope.data = testData;
 
     });
 

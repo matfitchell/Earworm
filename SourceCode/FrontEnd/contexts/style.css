@@ -175,6 +175,13 @@ input[type=date] {
     align-items: center;
 }
 
+.displayPhoto{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
+
 .displayImg{
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
@@ -278,5 +285,24 @@ input[type=date] {
     .content-wrapper{
         display: block;   
     }
+
+    .homepageContainer{
+        width: 100%;
+    }
+
+    .homepageHeader{
+        display: none;
+    }
+
+    .displayPhoto{
+        width: 100px;
+        height: 100px;
+    }
+
+    .userFirstName{
+        display: none;
+    }
+
+
 }
 

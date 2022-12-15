@@ -24,7 +24,7 @@
                 <div class="homepage-logo">
                     <img id="homepage-logo" src ="/images/logo.-removebg-preview.png">
                 </div>
-                <header class="header"><h2>EarWorm</h2></header>
+                <header class="homepageHeader"><h2>EarWorm</h2></header>
             </div>
 
             <div class="userInfo">
@@ -53,7 +53,7 @@
                 <li ng-repeat = "data in data"> {{data.Name}} | {{data.Location}} </li>
             </ul>
         </div>-->
-            <!--Match List-->
+            <!--Match List              might need ng-for https://jasonwatmore.com/post/2020/09/07/angular-display-a-list-of-items-with-ngfor :)-->
             <div class="homepage-content profileLayout matchList" ng-show="matchList" ng-repeat = "data in data">
                 <div class="userInfo">
                     <!--place holder for user's photo-->
