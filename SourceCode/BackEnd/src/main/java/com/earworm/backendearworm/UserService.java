@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.earworm.registration.token.ConfirmationToken;
-import com.earworm.registration.token.ConfirmationTokenService;
+//import com.earworm.registration.token.ConfirmationToken;
+//import com.earworm.registration.token.ConfirmationTokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class UserService {
 
     private UserRepository userRepository;
     // private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private ConfirmationTokenService confirmationTokenService;
+    // private ConfirmationTokenService confirmationTokenService;
 
     public Iterable<User> getUsers() {
         return userRepository.findAll();
@@ -38,10 +38,11 @@ public class UserService {
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15), user);
+        // ConfirmationToken confirmationToken = new ConfirmationToken(token,
+        // LocalDateTime.now(),
+        // LocalDateTime.now().plusMinutes(15), user);
 
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        // confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         return token;
     }

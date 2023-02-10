@@ -4,8 +4,8 @@ import com.earworm.backendearworm.User;
 import com.earworm.backendearworm.UserRole;
 import com.earworm.backendearworm.UserService;
 import com.earworm.email.EmailSender;
-import com.earworm.registration.token.ConfirmationToken;
-import com.earworm.registration.token.ConfirmationTokenService;
+//import com.earworm.registration.token.ConfirmationToken;
+//import com.earworm.registration.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public class RegistrationService {
 
     private EmailValidator emailValidator;
     private UserService userService;
-    private ConfirmationTokenService confirmationTokenService;
+    // private ConfirmationTokenService confirmationTokenService;
     private EmailSender emailSender;
 
     public String register(RegistrationRequest request) {
@@ -40,26 +40,27 @@ public class RegistrationService {
 
     }
 
-    @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
-                .orElseThrow(() -> new IllegalStateException("token not found"));
+    // @Transactional
+    // public String confirmToken(String token) {
+    // //ConfirmationToken confirmationToken =
+    // confirmationTokenService.getToken(token)
+    // // .orElseThrow(() -> new IllegalStateException("token not found"));
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
-        }
+    // if (confirmationToken.getConfirmedAt() != null) {
+    // throw new IllegalStateException("email already confirmed");
+    // }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+    // LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
+    // if (expiredAt.isBefore(LocalDateTime.now())) {
+    // throw new IllegalStateException("token expired");
+    // }
 
-        confirmationTokenService.setConfirmedAt(token);
-        // userService.enableUser(confirmationToken.getUser().getEmail());
+    // confirmationTokenService.setConfirmedAt(token);
+    // // userService.enableUser(confirmationToken.getUser().getEmail());
 
-        return "confirmed";
-    }
+    // return "confirmed";
+    // }
 
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
