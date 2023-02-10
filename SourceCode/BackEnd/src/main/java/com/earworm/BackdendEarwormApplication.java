@@ -1,4 +1,4 @@
-package com.earworm.backendearworm;
+package com.earworm;
 
 import java.sql.*;
 
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+import com.earworm.backendearworm.GCloudConnector;
+
+@SpringBootApplication
 @RestController
-@EnableAutoConfiguration
-@ComponentScan
+
 public class BackdendEarwormApplication {
 
 	public static void main(String[] args) {

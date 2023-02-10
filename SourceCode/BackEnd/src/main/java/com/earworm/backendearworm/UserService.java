@@ -10,41 +10,31 @@ import com.earworm.registration.token.ConfirmationToken;
 import com.earworm.registration.token.ConfirmationTokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//mport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+    private UserRepository userRepository;
+    // private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ConfirmationTokenService confirmationTokenService;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
-            ConfirmationTokenService confirmationTokenService) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.confirmationTokenService = confirmationTokenService;
-    }
-
-    public List<User> getUsers() {
+    public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
-
-
-
 
     public String addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalStateException("Email taken");
         }
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        // String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(user.getPassword());
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
@@ -55,7 +45,7 @@ public class UserService implements UserDetailsService {
 
         return token;
     }
-    */
+
     /*
      * Fix exists by ID by actually passing id and changing repository from string
      * to long
@@ -93,21 +83,24 @@ public class UserService implements UserDetailsService {
         user.setBio(bio);
 
     }
-/* 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("user with email " + email + " not found"));
-    }
+    /*
+     * @Override
+     * public UserDetails loadUserByUsername(String email) throws
+     * UsernameNotFoundException {
+     * return userRepository.findUserByEmail(email)
+     * .orElseThrow(() -> new UsernameNotFoundException("user with email " + email +
+     * " not found"));
+     * }
+     * 
+     * public int enableUser(String email) {
+     * return userRepository.enableUser(email);
+     * }
+     */
 
-    public int enableUser(String email) {
-        return userRepository.enableUser(email);
-    }
-*/
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // @Override
+    // public UserDetails loadUserByUsername(String username) throws
+    // UsernameNotFoundException {
+    // // TODO Auto-generated method stub
+    // return null;
+    // }
 }

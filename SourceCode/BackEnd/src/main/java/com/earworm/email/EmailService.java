@@ -16,11 +16,7 @@ import org.springframework.stereotype.Service;
 public class EmailService implements EmailSender {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
-    private final JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    private JavaMailSender mailSender;
 
     @Override
     @Async
@@ -31,7 +27,7 @@ public class EmailService implements EmailSender {
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Confirm Earworm Email");
-            helper.setFrom("rivera_rodolfo@student.smc.edu");
+            helper.setFrom("developetesting@gmail.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);

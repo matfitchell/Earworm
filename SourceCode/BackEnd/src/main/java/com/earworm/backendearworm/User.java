@@ -1,8 +1,9 @@
 package com.earworm.backendearworm;
 
 import org.apache.tomcat.jni.Local;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,9 +14,9 @@ import javax.persistence.Transient;
 
 import java.util.Objects;
 //******************************************
-import org.springframework.security.core.SpringSecurityCoreVersion;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+// import org.springframework.security.core.SpringSecurityCoreVersion;
+// import org.springframework.security.core.authority.AuthorityUtils;
+// import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ import java.util.Collection;
 
 @Table
 @Entity
-public class User implements UserDetails {
+public class User {
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
@@ -51,7 +52,7 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
-    private Set<GrantedAuthority> authorities;
+    // private Set<GrantedAuthority> authorities;
     // ******************************************
 
     // Class Constructer
@@ -64,7 +65,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.dob = dob;
-        this.gender = gender; 
+        this.gender = gender;
         this.longitude = longitude;
         this.latitude = latitude;
         this.phone = phone;
@@ -112,7 +113,8 @@ public class User implements UserDetails {
         if (!super.equals(object))
             return false;
         User user = (User) object;
-        return dob == user.dob && latitude == user.latitude && longitude == user.longitude && phone == user.phone && lastName.equals(user.lastName)
+        return dob == user.dob && latitude == user.latitude && longitude == user.longitude && phone == user.phone
+                && lastName.equals(user.lastName)
                 && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
     }
 
@@ -129,7 +131,8 @@ public class User implements UserDetails {
     }
 
     public int hashCode() {
-        return Objects.hash(super.hashCode(), firstName, lastName, username, email, password, bio, dob, latitude, longitude, phone);
+        return Objects.hash(super.hashCode(), firstName, lastName, username, email, password, bio, dob, latitude,
+                longitude, phone);
     }
 
     public long getID() {
@@ -183,12 +186,12 @@ public class User implements UserDetails {
     public void setBio(String bio) {
         this.bio = bio;
     }
-    
-    public String getGender(){
+
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(){
+    public void setGender() {
         this.gender = gender;
     }
 
@@ -200,11 +203,11 @@ public class User implements UserDetails {
         return latitude;
     }
 
-    public BigDecimal getLongitude(){
+    public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude){
+    public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
 
@@ -225,29 +228,29 @@ public class User implements UserDetails {
     }
 
     // ****************************************
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
+    // @Override
+    // public boolean isEnabled() {
+    // return this.enabled;
+    // }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
-    }
+    // @Override
+    // public boolean isCredentialsNonExpired() {
+    // return this.credentialsNonExpired;
+    // }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
-    }
+    // @Override
+    // public boolean isAccountNonExpired() {
+    // return this.accountNonExpired;
+    // }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
-    }
+    // @Override
+    // public boolean isAccountNonLocked() {
+    // return this.accountNonLocked;
+    // }
 
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return this.authorities;
-    }
-    // ****************************************
+    // @Override
+    // public Collection<GrantedAuthority> getAuthorities() {
+    // return this.authorities;
+    // }
+    // // ****************************************
 }

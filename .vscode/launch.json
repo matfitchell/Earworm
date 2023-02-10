@@ -1,29 +1,36 @@
 {
-    "configurations": [
-      {
-        "type": "java",
-        "name": "Launch BackdendEarwormApplication",
-        "request": "launch",
-        "mainClass": "com.earworm.backendearworm.BackdendEarwormApplication",
-        "projectName": "backend-earworm"
-      },
-      {
-        "type": "java",
-        "name": "Spring Boot-Earworm",
-        "request": "launch",
-        "cwd": "${workspaceFolder}",
-        "console": "internalConsole",
-        "mainClass": "com.earworm.backendearworm.BackendEarWormApplication",
-        "projectName": "Earworm",
-        "args": "",
-        "env": {
-          "PROJECT_NAME": "FOO_PROJECT",
-          "INSTANCE_CONNECTION_NAME": "earworm-368802:us-central1:my-instance",
-          "DBINSTANCEUNIXSOCKET": "earworm-368802:us-central1:my-instance",
-          "DBUSER": "mitch",
-          "DB_PASS": "U^)'O+9@U9R-G#j~",
-          "DBNAME": "userdb"
-        }
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch BackdendEarwormApplication",
+      "request": "launch",
+      "mainClass": "com.earworm.BackdendEarwormApplication",
+      "projectName": "backend-earworm"
+    },
+    {
+      "type": "java",
+      "name": "Launch BackdendEarwormApplication",
+      "request": "launch",
+      "mainClass": "com.earworm.backendearworm.BackdendEarwormApplication",
+      "projectName": "backend-earworm"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-Earworm",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.earworm.backendearworm.BackendEarWormApplication",
+      "projectName": "Earworm",
+      "args": "",
+      "env": {
+        "PROJECT_NAME": "FOO_PROJECT",
+        "INSTANCE_CONNECTION_NAME": "earworm-368802:us-central1:my-instance",
+        "DBINSTANCEUNIXSOCKET": "earworm-368802:us-central1:my-instance",
+        "DBUSER": "mitch",
+        "DB_PASS": "U^)'O+9@U9R-G#j~",
+        "DBNAME": "userdb"
       }
-    ]
-  }
+    }
+  ]
+}
