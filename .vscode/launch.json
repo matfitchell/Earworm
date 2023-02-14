@@ -5,6 +5,13 @@
       "name": "Launch BackdendEarwormApplication",
       "request": "launch",
       "mainClass": "com.earworm.BackdendEarwormApplication",
+      "projectName": "EarWorm"
+    },
+    {
+      "type": "java",
+      "name": "Launch BackdendEarwormApplication",
+      "request": "launch",
+      "mainClass": "com.earworm.BackdendEarwormApplication",
       "projectName": "backend-earworm"
     },
     {
