@@ -1,6 +1,7 @@
 from itertools import permutations
 import json
 import os
+import csv
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
@@ -67,97 +68,76 @@ for result in list_of_results:
     list_of_popularity.append(song_popularity)
     song_id = result["id"]
     list_of_id.append(song_id)
-    features = sp.audio_features(list_of_id)
-    list_of_features.append(features)
-
-
-
-
-
-
-all_songs = pd.DataFrame(
-   
-    {'artist': list_of_artist_names,
-     'artist_uri': list_of_artist_uri,
-     'song': list_of_song_names,
-     'id' : list_of_id,
-     'song_uri': list_of_song_uri,
-     'duration_ms': list_of_durations_ms,
-     'explicit': list_of_explicit,
-     'album': list_of_albums,
-     'popularity': list_of_popularity,
-     'features' : list_of_features
-    }
-)
-
-all_songs_saved = all_songs.to_csv('top50_songs.csv')
-
-
-descending_order = all_songs['artist'].value_counts().sort_values(ascending=False).index
-ax = sb.countplot(y = all_songs['artist'], order=descending_order)
-
-sb.despine(fig=None, ax=None, top=True, right=True, left=False, trim=False)
-sb.set(rc={'figure.figsize':(6,7.2)})
-
-ax.set_ylabel('')    
-ax.set_xlabel('')
-ax.set_title('Songs per Artist in Top 50', fontsize=12, fontweight='heavy')
-sb.set(font_scale = 1.4)
-ax.axes.get_xaxis().set_visible(False)
-ax.set_frame_on(False)
-
-y = all_songs['artist'].value_counts()
-for i, v in enumerate(y):
-    ax.text(v + 0.2, i + .16, str(v), color='black', fontweight='light', fontsize=12)
     
-plt.savefig('all_songs_songs_per_artist.jpg', bbox_inches="tight")
 
 
-popularity = all_songs['popularity']
-artists = all_songs['artist']
+features = sp.audio_features(list_of_id)
 
-plt.figure(figsize=(10,6))
-
-ax = sb.boxplot(x=popularity, y=artists, data=all_songs)
-plt.xlim(20,90)
-plt.xlabel('Popularity (0-100)')
-plt.ylabel('')
-plt.title('Song Popularity by Artist', fontweight='bold', fontsize=12)
-plt.savefig('top50_artist_popularity.jpg', bbox_inches="tight")
+features_df = pd.DataFrame(data=features, columns=features[0].keys())
 
 
-x = all_songs.values
-min_max_scaler = preprocessing.MinMaxScaler()
-x_scaled = min_max_scaler.fit_transform(x)
-all_songs = pd.DataFrame(x_scaled)
+features_df['title'] = list_of_song_names
+features_df['artist'] = list_of_artist_names
+features_df['id'] = list_of_id
+features_df = features_df[['id', 'title', 'artist',
+                           'danceability', 'energy', 'key', 'loudness',
+                           'acousticness', 'instrumentalness',
+                           'liveness', 'valence', 'tempo',
+                           'duration_ms', 'time_signature']]
 
-columns = ["energy",  "speechiness", "acousticness", "instrumentalness", "loudness","tempo","danceability",'valence' , "liveness", "time_signature", "key"]
 
-perm = permutations(columns, 3)
-output = set(map(lambda x: tuple(sorted(x)),perm))
+features_df.tail()
 
-model = KMeans(random_state=0)
-visualizer = KElbowVisualizer(model, k=(2,12), metric='silhouette', timings=False)
-visualizer.fit(x_scaled)
-score = visualizer.elbow_score_
-value = visualizer.elbow_value_
 
-if score>0.4:
-    idx = all_songs.columns
-    mylist = idx.tolist()
-    dict = {
-        "features": mylist,
-        "score": score,
-        "elbow": value
-    }
-    df2 = df2.append(dict, ignore_index=True)
+features_df.to_csv("featuresFile_" + username + ".csv")
 
-from sklearn.cluster import KMeans
+plt.figure(figsize=(20,30))
+sb.countplot(features_df['first_artist'])
+plt.xticks(rotation=90)
 
-kmeans = KMeans(init="k-means++",
-                n_clusters=4,
-                random_state=15,
-                max_iter = 500).fit(x_scaled)
+num_bars = []
+num_sections = []
+num_segments = []
 
-df1['kmeans'] = kmeans.labels_
-df1.columns = ['energy', 'instrumentalness', 'loudness','kmeans' ]
+for i in range(0,len(features_df['id'])):
+    analysis = sp.audio_analysis(features_df.iloc[i]['id'])
+    num_bars.append(len(analysis['bars'])) # beats/time_signature
+    num_sections.append(len(analysis['sections']))
+    num_segments.append(len(analysis['segments']))
+
+
+
+# descending_order = all_songs['artist'].value_counts().sort_values(ascending=False).index
+# ax = sb.countplot(y = all_songs['artist'], order=descending_order)
+
+# sb.despine(fig=None, ax=None, top=True, right=True, left=False, trim=False)
+# sb.set(rc={'figure.figsize':(6,7.2)})
+
+# ax.set_ylabel('')    
+# ax.set_xlabel('')
+# ax.set_title('Songs per Artist in Top 50', fontsize=16, fontweight='heavy')
+# sb.set(font_scale = .5)
+# ax.axes.get_xaxis().set_visible(False)
+# ax.set_frame_on(False)
+
+# y = all_songs['artist'].value_counts()
+# for i, v in enumerate(y):
+#     ax.text(v + 0.2, i + .16, str(v), color='black', fontweight='light', fontsize=12)
+    
+# plt.savefig('all_songs_songs_per_artist.jpg', bbox_inches="tight")
+
+
+# popularity = all_songs['popularity']
+# artists = all_songs['artist']
+
+# plt.figure(figsize=(10,6))
+
+# ax = sb.boxplot(x=popularity, y=artists, data=all_songs)
+# plt.xlim(20,90)
+# plt.xlabel('Popularity (0-100)')
+# plt.ylabel('')
+# plt.title('Song Popularity by Artist', fontweight='bold', fontsize=16)
+# plt.savefig('top50_artist_popularity.jpg', bbox_inches="tight")
+
+
+
