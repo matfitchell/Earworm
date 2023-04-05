@@ -5,6 +5,7 @@ import csv
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
+from sklearn.linear_model import LinearRegression
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
@@ -92,7 +93,7 @@ features_df.tail()
 features_df.to_csv("featuresFile_" + username + ".csv")
 
 plt.figure(figsize=(20,30))
-sb.countplot(features_df['first_artist'])
+sb.countplot(features_df['artist'])
 plt.xticks(rotation=90)
 
 num_bars = []
