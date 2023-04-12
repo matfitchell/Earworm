@@ -55,23 +55,34 @@ var app = angular.module('homepage', []);
         $scope.matchList = true;
         $scope.showUserProfile = false;
         $scope.userSettings = false;
+        $scope.userBlocked = false;
 
         $scope.showMatchList= function (){
             $scope.matchList = true;
             $scope.showUserProfile = false;
             $scope.userSettings = false;
+            $scope.userBlocked = false;
         }
 
         $scope.showProfile = function (){
             $scope.matchList = false;
             $scope.showUserProfile = true;
             $scope.userSettings = false;
+            $scope.userBlocked = false;
         }
         
         $scope.showProfilet = function (){
             $scope.matchList = false;
             $scope.showUserProfile = false;
             $scope.userSettings = true;
+            $scope.userBlocked = false;
+        }
+
+        $scope.showBlocked = function (){
+            $scope.matchList = false;
+            $scope.showUserProfile = false;
+            $scope.userSettings = false;
+            $scope.userBlocked = true;
         }
 
     });
