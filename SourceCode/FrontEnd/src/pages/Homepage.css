@@ -1,0 +1,185 @@
+/*Color pallette
+Saphire Blue - 2E6690
+Celadon Blue - 3A7CA5
+Gainsboro (Dirty White) - D9DCD6
+Indigo Dye - 16425B
+Dark Sky Blue - 81C3D&
+*/
+
+
+/*Home Page*/
+.b-body{
+    background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
+}
+
+.homepageContainer{
+    max-width: 85%;
+    margin: auto;
+    display: flex;
+    min-height: 100vh;
+}
+
+/*Left*/
+.sidePart{
+    background-color: rgb(255, 255, 255);
+    padding: 15px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-right: 2px solid #16425b42;
+    min-width: 25%;
+    width: max-content;
+    padding: 10px;
+}
+
+#homepage-logo{
+    width: 75px;
+}
+
+.userInfo{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.displayPhoto{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
+
+.displayImg{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
+.displayPhoto{
+    border-radius: 50%;
+    background-color: rgb(173, 173, 173);
+    width: 200px;
+    height: 200px;
+}
+
+.userFirstName{
+    font-size: xx-large;
+}
+
+.nav{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+}
+
+.button{
+    border: 0px;
+    font-size: medium;
+    font-family: 'Acme', sans-serif;
+    background-color: white;
+    padding: 10px;
+}
+
+/*Right*/
+.main-content{
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    /*background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0)); */
+}
+
+.homepage-content{
+    margin:auto;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.247); 
+    width: 40%;
+    max-width: 30%;
+    height: 80%; ;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.profileLayout{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.userPref{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.userTopSongs{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.testSong{
+    margin:5px;
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+}
+
+.userChoice{
+    padding: 15px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.swipe{
+    width: 35px;
+}
+
+.userSettings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width: 900px){       /* landing page for small screens*/
+    .right{
+        display: none;
+    }
+
+    .flexSide{
+        width: 100%;
+    }
+
+    .content-wrapper{
+        display: block;   
+    }
+
+    .homepageContainer{
+        width: 100%;
+    }
+
+    .homepageHeader{
+        display: none;
+    }
+
+    .displayImg{
+        width: 100px;
+        height: 100px;
+    }
+
+    .displayPhoto{
+        width: 100px;
+        height: 100px;
+    }
+
+    .userFirstName{
+        display: none;
+    }
+
+
+}
+
