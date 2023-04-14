@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './pages/App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
+import Homepage from './pages/Homepage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -8,7 +10,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 {/*const [currentForm, setCurrentForm] = useState ('login');*/}
 
 root.render(
-    <App />
+    <React.StrictMode>
+    <Router>
+      <App />
+      <Homepage />
+    </Router>
+  </React.StrictMode>
 );
 
 
