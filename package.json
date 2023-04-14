@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "firebase": "^9.17.1"
+    "firebase": "^9.17.1",
+    "react-scripts": "^5.0.1"
   }
 }
