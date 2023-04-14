@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import App from './App';
-import Homepage from './pages/Homepage';
+import App from './contexts/App';
+import Homepage from './contexts/Homepage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
