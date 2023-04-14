@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect} from 'react';
 import {redirect} from 'react-router-dom';
-import './pages/Homepage';
+import './Homepage';
 import './App.css';
 
 function App() {

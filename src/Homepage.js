@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect} from 'react';
 import React from 'react'
-import './pages/Homepage.css'
+import './Homepage.css'
 
 function Homepage() {
     //dummy data    
