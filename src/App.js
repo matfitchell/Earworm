@@ -3,6 +3,7 @@ import {redirect} from 'react-router-dom';
 import './Homepage';
 import './App.css';
 import './ApiController';
+import { APIController } from './ApiController';
 
 
 
@@ -10,7 +11,6 @@ import './ApiController';
 
 function App() {
 
-  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -59,7 +59,7 @@ function App() {
   return ( 
     <div className='homeContainer'>   {/*-----Home Container-----*/}
       <div className='flexSide left'> {/*-----left side-----*/}
-
+      
         {/*-----header-----*/}
         <div class="header-content">
           <div class="landing-logo">
@@ -132,6 +132,7 @@ function App() {
     //<Routes>
     //<Route path = "/pages/Homepage" element ={<Homepage/>}  />
     //</Routes>
+    
     )
 }
 export default App;
