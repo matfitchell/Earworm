@@ -107,7 +107,6 @@ export const APIController = (function() {
         }
     })();
     
-    
     // UI Module
     const UIController = (function() {
     
