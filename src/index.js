@@ -10,12 +10,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 {/*const [currentForm, setCurrentForm] = useState ('login');*/}
 
 root.render(
-    <React.StrictMode>
     <Router>
       <App />
       <Homepage />
     </Router>
-  </React.StrictMode>
+  
 );
 
 
