@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useRef, useEffect} from 'react';
-import {redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import './Homepage';
 import './App.css';
 import Login from './Login';
@@ -47,7 +47,7 @@ function App() {
   }
 
   if (isLoggedIn){
-    return <redirect to = "./Homepage"/>;
+    return <Navigate to = "/Homepage"/>;
   }
 
 
@@ -91,7 +91,7 @@ function App() {
             {/*----buttons-----*/}      
             {hideButtons && 
             <div>
-            <button type="submit" class="btn login"> Log In </button>
+            <button type="submit" class="btn login" > Log In </button>
             <button class = "btn signup" onClick={showSignUp}> Sign Up </button>
             </div>
             }

@@ -80,6 +80,7 @@ Dark Sky Blue - 81C3D&
     font-family: 'Acme', sans-serif;
     background-color: white;
     padding: 10px;
+    cursor: pointer;
 }
 
 /*Right*/
