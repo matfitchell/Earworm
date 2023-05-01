@@ -120,6 +120,7 @@ input[type=date] {
     padding: 6px;
     border: 2px solid;
     border-radius: 6px;
+    cursor:pointer;
 }
 
 .footer{    /*footer*/
