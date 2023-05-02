@@ -1,3 +1,4 @@
+import React from "react"
 import { useState, useEffect } from "react"
 import useAuth from "./useAuth"
 import Player from "./Player"
