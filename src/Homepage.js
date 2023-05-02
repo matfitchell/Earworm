@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect} from 'react';
 import React from 'react'
 import './Homepage.css'
+import MatchPopup from './MatchPopup';
 
 function Homepage() {
     //dummy data    
@@ -97,6 +98,7 @@ function Homepage() {
     const [userProfile, setUserProfile] = useState (false);
     const [userSettings, setUserSettings] = useState (false);
     const [userMatched, setUserMatched] = useState (false);
+    const [buttonPopup, setButtonPopup] = useState(false);
 
     const showProfile = () => {
         setUserDefault (false);
@@ -182,7 +184,7 @@ function Homepage() {
                         {/*----"swipe" buttons-----*/}
                         <div class="userChoice">
                             <button onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
-                            <button onClick={showUsersMatched}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
+                            <button onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={dummyData[index].firstName}>
                             <img src={dummyData[index].image} className='popup-img' />
                             </MatchPopup>
