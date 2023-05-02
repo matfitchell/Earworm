@@ -9,7 +9,7 @@ function MatchPopup(props) {
         {props.children}
 
         <button className="message-btn">Message</button>
-        <button className="close-btn" onClick={() => props.setTrigger(false)}>
+        <button className="close-btn" onClick={() => {props.setTrigger(false); props.nextClick2()}}>
           Continue Matching
         </button>
       </div>
