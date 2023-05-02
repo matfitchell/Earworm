@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--CSS link & Google Fonts-->
+    <link rel = "stylesheet" href="./contexts/style.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Fredoka+One&family=Press+Start+2P&family=Roboto+Condensed:wght@300&family=VT323&display=swap" rel="stylesheet">               
+
+    <!--Favicon-->
+    <link rel="icon" type="image/png" href="../images/logo.-removebg-preview.png">
+
+    <!--firebase-->
+    <script type="module" src="./contexts/firebase.js"></script>
+</head>
+
+<body>
+    <div class="b-body">
+    <div class="homepageContainer" ng-app = "homepage" ng-controller="homepagectrl">
+    
+        <section class="flexHomepage sidePart">
+            <div class="header-content">
+                <div class="homepage-logo">
+                    <img id="homepage-logo" src ="../images/logo.-removebg-preview.png">
+                </div>
+                <header class="header"><h2>EarWorm</h2></header>
+            </div>
+
+            <div class="userInfo">
+
+                <!--place holder for user's photo-->
+                <div class="displayPhoto"></div>
+
+                <!--place holder for user's first name-->
+                <div class="userFirstName"> Name</div>
+
+                <!--place holder for user's username-->
+                <div class="username"> @username</div>
+            </div>
+
+            <div class="nav">
+                <button class = "button home" ng-click="showMatchList()" >Home</button>
+                <button class = "button profile" ng-click = "showProfile()">Profile</button>
+                <button class = "button settings" ng-click="showProfilet()">Settings</button>
+            </div>
+        </section>
+    
+
+        <main class="flexHomepage main-content">
+
+            <!--Match List-->
+            <div class="homepage-content profileLayout matchList" ng-show="matchList">
+                <div class="userInfo">
+                    <!--place holder for user's photo-->
+                    <div class="displayPhoto"></div>
+    
+                    <!--place holder for user's first name-->
+                    <div class="userFirstName"> Name</div>
+    
+                    <!--place holder for user's username-->
+                    <div class="username"> @username</div>
+                    <div class="userLocation"> # miles</div>
+                </div>
+
+                <div class="userPref">
+                    <div class="userBio"><p>This is only a test</p></div>
+                    <div class="userTopSongs">
+                        <p>Top Songs:</p>
+                        <!--place holder for the songs-->
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                    </div>
+                </div>
+
+                <div class="userChoice">
+                    <input type="image" src="../images/close_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconLeft">
+                    <input type="image" src="../images/favorite_FILL0_wght400_GRAD0_opsz48.png" class="swipe iconRight">
+                </div>
+            </div>
+
+            <!--Matched Users ---------WIP-->
+            <div class="homepage-content profileLayout userMatched">
+                <p>Congrats! You found a new bestie!</p>
+            </div>
+
+            <!--User Profile-->
+            <div class="homepage-content profileLayout showUserProfile" ng-show="showUserProfile">
+                <div class="userInfo">
+                    <!--place holder for user's photo-->
+                    <div class="displayPhoto"></div>
+    
+                    <!--place holder for user's first name-->
+                    <div class="userFirstName"> Name</div>
+    
+                    <!--place holder for user's username-->
+                    <div class="username"> @username</div>
+                    <div class="userLocation"> # miles</div>
+                </div>
+
+                <div class="userPref">
+                    <div class="userBio"><p>This is only a test</p></div>
+                    <div class="userTopSongs">
+                        <p>Top Songs:</p>
+                        <!--place holder for the songs-->
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                        <div class="testSong"></div>
+                    </div>
+                </div>
+            </div>
+              
+            <!--Settings ------WIP-->
+            <div class="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
+
+                <div ng-show="userSettings">
+                    <p>Preferred Matching Distance (in miles): </p>
+                    <input type="range" min="1" max="100" value="50" oninput="rangeValue.innerText = this.value" ng-show="userSettings">
+                    <p id="rangeValue" ng-show="userSettings">50</p>
+
+                    <strong>Customize your top 3 songs (Be sure to specify the artist!):</strong>
+
+                    <label for="Song1">Top Song 1:</label>
+                    <input type="text" id="Name" name="Name">
+    
+                    <label for="Song2">Top Song 2:</label>
+                    <input type="text" id="Name" name="Name">
+    
+                    <label for="Song3">Top Song 3:</label>
+                    <input type="text" id="Name" name="Name">
+
+                    <!-- Rounded switch -->
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <strong>Show Activity Status</strong>
+
+
+                    <button class = "button blocked" ng-click="showBlocked()" >Blocked Users</button>
+                </div>
+
+            </div>
+
+            <!--Blocked Users ------WIP-->
+            <div class="homepage-content profileLayout userBlocked" ng-show="userBlocked">User Blocked
+
+                <div ng-show="userBlocked">
+                    
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+</div>
+
+    <script src = "./contexts/App.js"></script>
+</body>
+</html>
