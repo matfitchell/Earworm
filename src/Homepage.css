@@ -139,8 +139,11 @@ Dark Sky Blue - 81C3D&
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
 }
-
+.btn{
+    cursor: pointer;
+}
 .swipe{
     width: 35px;
 }

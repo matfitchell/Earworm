@@ -29,6 +29,11 @@
     height: 60%;
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.7));
     z-index: 1000;
+     user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
 }
 
 .buttons{
@@ -36,13 +41,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    cursor: pointer;
 }
 
 .close-btn{
     margin: 30px;
+    cursor: pointer;
 }
 
 .message-btn{
     margin: 30px;
+    cursor: pointer;
 }
