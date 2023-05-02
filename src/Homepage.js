@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect} from 'react';
 import React from 'react'
+import MatchPopup from './MatchPopup';
 import './Homepage.css'
 
 function Homepage() {
@@ -126,6 +127,8 @@ function Homepage() {
         setUserMatched (false);
     }
 
+
+    const [buttonPopup, setButtonPopup] = useState(false);
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -182,7 +185,10 @@ function Homepage() {
                         {/*----"swipe" buttons-----*/}
                         <div class="userChoice">
                             <button onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
-                            <button onClick={showUsersMatched}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
+                            <button onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
+                            <MatchPopup trigger = {buttonPopup} setTrigger={setButtonPopup}>
+                                <h3>Hello</h3>
+                            </MatchPopup>
                         </div>
                     </div>
                     }{/*-----end of Match List/Default-----*/}
@@ -195,7 +201,8 @@ function Homepage() {
 
                         <div>
                         <button onClick={nextClick2}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>
-                        <button onClick={nextClick2}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button>                    
+                        <button onClick={nextClick2}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button>
+                                           
                         </div>
 
                     </div>
