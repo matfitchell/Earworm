@@ -213,10 +213,8 @@ function Homepage() {
                     <img src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" />
                   </button>{" "}
                   {/*----class="swipe iconRight"-----*/}
-                  <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
-                    <div class="displayPhoto">
-                      <img src={dummyData[index].image} class="displayImg" />
-                    </div>
+                  <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={dummyData[index].firstName}>
+                    <img src={dummyData[index].image} className='popup-img' />
                   </MatchPopup>
                 </div>
               </div>

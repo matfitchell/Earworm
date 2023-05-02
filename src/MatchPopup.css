@@ -12,13 +12,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    
     align-content: center;
     z-index: 1000;
 }
 
 .popup-inner{
-    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
     padding: 32px;
     width: 100%;
     max-width: 800px;
@@ -27,19 +31,18 @@
     z-index: 1000;
 }
 
-.popup-inner .close-btn{
-    position: absolute;
-    bottom: 20px;
-}
-
-.popup-inner .popup-img{
-    position: absolute;
-    align-self: center;
-    
-}
-
-.container{
-    align-items: center;
+.buttons{
+    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     
+}
+
+.close-btn{
+    margin: 30px;
+}
+
+.message-btn{
+    margin: 30px;
 }

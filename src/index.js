@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
 import App from './App';
 import Homepage from './Homepage';
-import Run from './runner';
+//import Run from './runner';
 
 
 
@@ -13,8 +13,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes> 
-      <Route index element={<Run />}/>
-      <Route path = "/runner" element={<Run />}/>
+      <Route index element={<App />}/>
+      <Route path = "/Homepage" element={<Homepage />}/>
     </Routes>
   </BrowserRouter>
 );
