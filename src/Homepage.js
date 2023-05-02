@@ -2,6 +2,7 @@ import { useState, useRef, useEffect} from 'react';
 import React from 'react'
 import MatchPopup from './MatchPopup';
 import './Homepage.css'
+import { Button } from 'react-bootstrap';
 
 function Homepage() {
     //dummy data    
@@ -130,127 +131,179 @@ function Homepage() {
 
     const [buttonPopup, setButtonPopup] = useState(false);
     return (
-        <div className='b-body'>    {/*-----delete??-----*/}
-            <div className='homepageContainer'> {/*-----Home Container-----*/}
-                <section class="flexHomepage sidePart"> {/*-----left side-----*/}
-                
-                    {/*-----header-----*/}
-                    <div class="header-content">
-                        <div class="homepage-logo">
-                            <img id="homepage-logo" src ="/images/logo.-removebg-preview.png"/>
-                        </div>
-                        <header class="homepageHeader"><h2>EarWorm</h2></header>
-                    </div>
-
-                    {/*-----left side: user info-----*/}
-                    <div class="userInfo">
-                        <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                        <span class="userFirstName"> {dummyData[0].firstName} </span>
-                        <span class="username">{dummyData[0].userName}</span>
-                    </div>
-
-                    {/*-----buttons/navigation-----*/}
-                    <div class="nav">
-                        <button class = "button home" onClick={showDefault}>Home</button>
-                        <button class = "button profile" onClick={showProfile}>Profile</button>
-                        <button class = "button settings" onClick={showSettings}>Settings</button>
-                    </div>
-                </section> {/*-----end of left side-----*/}
-
-                {/*-----right side-----*/}
-                <main class="flexHomepage main-content">{/*-----right side container-----*/}
-
-                    {/*-----Match List/Default-----*/}
-                    {userDefault &&
-                    <div class="homepage-content profileLayout matchList">
-                        <div class="userInfo">
-                            <div class="displayPhoto">
-                                <img src = {dummyData[index].image} class="displayImg"/>
-                            </div>
-                            <span class="userFirstName"/> {dummyData[index].firstName} {dummyData[index].lastName}
-                            <span class="username"/>  {dummyData[index].userName}
-                            <div class="userLocation"> {dummyData[index].miles} miles</div>
-                        </div>
-
-                        <div class="userPref">
-                            <div class="userBio">{dummyData[index].bio}</div>
-                            <div class="userTopSongs">
-                                <p>Top Songs:</p>
-                                <div class="testSong"/>
-                                <div class="testSong"/>
-                                <div class="testSong"/>
-                            </div>
-                        </div>
-
-                        {/*----"swipe" buttons-----*/}
-                        <div class="userChoice">
-                            <button onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
-                            <button onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
-                            <MatchPopup trigger = {buttonPopup} setTrigger={setButtonPopup}>
-                                <h3>Hello</h3>
-                            </MatchPopup>
-                        </div>
-                    </div>
-                    }{/*-----end of Match List/Default-----*/}
-
-                    {/*-----User Matched-----*/}
-                    {userMatched &&
-                    <div class="homepage-content profileLayout userMatched">
-                        <div class="displayPhoto"><img src = "/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif" class="displayImg"/></div>
-                        <p>Congrats! You found a new bestie!</p>
-
-                        <div>
-                        <button onClick={nextClick2}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>
-                        <button onClick={nextClick2}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button>
-                                           
-                        </div>
-
-                    </div>
-                    }{/*-----end of User Matched-----*/}
-
-                    {/*-----User Profile-----*/}
-                    {userProfile &&
-                    <div class="homepage-content profileLayout showUserProfile">
-                        <div class="userInfo">
-                            <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                            <span class="userFirstName"> {dummyData[0].firstName} {dummyData[0].lastName}</span>
-                            <span class="username">{dummyData[0].userName}</span>
-                            <div class="userLocation"> {dummyData[0].location}</div>
-                        </div>
-
-                        <div class="userPref">
-                            <div class="userBio">{dummyData[0].bio}</div>
-                            <div class="userTopSongs">
-                                <p>Top Songs:</p>
-                                <div class="testSong"></div>
-                                <div class="testSong"></div>
-                                <div class="testSong"></div>
-                            </div>
-                        </div>
-                    </div>
-                    } {/*-----End of User Profile-----*/}
-                    
-                    {/*-----User Settings-----*/}
-                    {userSettings &&
-                    <div class="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
-                        <div ng-show="userSettings">
-                            <p>Preferred Matching Distance (in miles): </p>
-                            <input type="range" min="1" max="100" value="50" oninput="rangeValue.innerText = this.value" ng-show="userSettings"/>
-                            <p id="rangeValue" ng-show="userSettings">50</p>
-                        </div>
-
-                        <label for="music-tastes">Choose a Music Preference:</label>
-                        <select name="mustic-tastes" id="music-tastes">
-                            <option value="a">A</option>
-                            <option value="b">B</option>
-                            <option value="c">C</option>
-                        </select>
-                    </div>
-                    } {/*-----End of User Settings-----*/}
-
-                </main>
+      <div className="b-body">
+        {" "}
+        {/*-----delete??-----*/}
+        <div className="homepageContainer">
+          {" "}
+          {/*-----Home Container-----*/}
+          <section class="flexHomepage sidePart">
+            {" "}
+            {/*-----left side-----*/}
+            {/*-----header-----*/}
+            <div class="header-content">
+              <div class="homepage-logo">
+                <img
+                  id="homepage-logo"
+                  src="/images/logo.-removebg-preview.png"
+                />
+              </div>
+              <header class="homepageHeader">
+                <h2>EarWorm</h2>
+              </header>
             </div>
+            {/*-----left side: user info-----*/}
+            <div class="userInfo">
+              <div class="displayPhoto">
+                <img src={dummyData[0].image} class="displayImg" />
+              </div>
+              <span class="userFirstName"> {dummyData[0].firstName} </span>
+              <span class="username">{dummyData[0].userName}</span>
+            </div>
+            {/*-----buttons/navigation-----*/}
+            <div class="nav">
+              <button class="button home" onClick={showDefault}>
+                Home
+              </button>
+              <button class="button profile" onClick={showProfile}>
+                Profile
+              </button>
+              <button class="button settings" onClick={showSettings}>
+                Settings
+              </button>
+            </div>
+          </section>{" "}
+          {/*-----end of left side-----*/}
+          {/*-----right side-----*/}
+          <main class="flexHomepage main-content">
+            {/*-----right side container-----*/}
+            {/*-----Match List/Default-----*/}
+            {userDefault && (
+              <div class="homepage-content profileLayout matchList">
+                <div class="userInfo">
+                  <div class="displayPhoto">
+                    <img src={dummyData[index].image} class="displayImg" />
+                  </div>
+                  <span class="userFirstName" /> {dummyData[index].firstName}{" "}
+                  {dummyData[index].lastName}
+                  <span class="username" /> {dummyData[index].userName}
+                  <div class="userLocation">
+                    {" "}
+                    {dummyData[index].miles} miles
+                  </div>
+                </div>
+
+                <div class="userPref">
+                  <div class="userBio">{dummyData[index].bio}</div>
+                  <div class="userTopSongs">
+                    <p>Top Songs:</p>
+                    <div class="testSong" />
+                    <div class="testSong" />
+                    <div class="testSong" />
+                  </div>
+                </div>
+
+                {/*----"swipe" buttons-----*/}
+                <div class="userChoice">
+                  <button onClick={nextClick}>
+                    <img src="/images/close_FILL0_wght400_GRAD0_opsz48.png" />
+                  </button>{" "}
+                  {/*----class="swipe iconLeft-----*/}
+                  <button onClick={() => setButtonPopup(true)}>
+                    <img src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" />
+                  </button>{" "}
+                  {/*----class="swipe iconRight"-----*/}
+                  <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
+                    <div class="displayPhoto">
+                      <img src={dummyData[index].image} class="displayImg" />
+                    </div>
+                  </MatchPopup>
+                </div>
+              </div>
+            )}
+            {/*-----end of Match List/Default-----*/}
+            {/*-----User Matched-----*/}
+            {userMatched && (
+              <div class="homepage-content profileLayout userMatched">
+                <div class="displayPhoto">
+                  <img
+                    src="/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif"
+                    class="displayImg"
+                  />
+                </div>
+                <p>Congrats! You found a new bestie!</p>
+
+                <div>
+                  <button onClick={nextClick2}>
+                    <img src="/images/close_FILL0_wght400_GRAD0_opsz48.png" />
+                  </button>
+                  <button onClick={nextClick2}>
+                    <img src="/images/favorite_FILL0_wght400_GRAD0_opsz48.png" />
+                  </button>
+                </div>
+              </div>
+            )}
+            {/*-----end of User Matched-----*/}
+            {/*-----User Profile-----*/}
+            {userProfile && (
+              <div class="homepage-content profileLayout showUserProfile">
+                <div class="userInfo">
+                  <div class="displayPhoto">
+                    <img src={dummyData[0].image} class="displayImg" />
+                  </div>
+                  <span class="userFirstName">
+                    {" "}
+                    {dummyData[0].firstName} {dummyData[0].lastName}
+                  </span>
+                  <span class="username">{dummyData[0].userName}</span>
+                  <div class="userLocation"> {dummyData[0].location}</div>
+                </div>
+
+                <div class="userPref">
+                  <div class="userBio">{dummyData[0].bio}</div>
+                  <div class="userTopSongs">
+                    <p>Top Songs:</p>
+                    <div class="testSong"></div>
+                    <div class="testSong"></div>
+                    <div class="testSong"></div>
+                  </div>
+                </div>
+              </div>
+            )}{" "}
+            {/*-----End of User Profile-----*/}
+            {/*-----User Settings-----*/}
+            {userSettings && (
+              <div
+                class="homepage-content profileLayout userSettings"
+                ng-show="userSettings"
+              >
+                User Settings
+                <div ng-show="userSettings">
+                  <p>Preferred Matching Distance (in miles): </p>
+                  <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    value="50"
+                    oninput="rangeValue.innerText = this.value"
+                    ng-show="userSettings"
+                  />
+                  <p id="rangeValue" ng-show="userSettings">
+                    50
+                  </p>
+                </div>
+                <label for="music-tastes">Choose a Music Preference:</label>
+                <select name="mustic-tastes" id="music-tastes">
+                  <option value="a">A</option>
+                  <option value="b">B</option>
+                  <option value="c">C</option>
+                </select>
+              </div>
+            )}{" "}
+            {/*-----End of User Settings-----*/}
+          </main>
         </div>
-    )
+      </div>
+    );
 }
 export default Homepage;
