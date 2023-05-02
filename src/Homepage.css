@@ -63,13 +63,13 @@ Dark Sky Blue - 81C3D&
     width: 200px;
     height: 200px;
 }
+
 .popup-img{
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
     width: 200px;
     height: 200px;
 }
-
 .userFirstName{
     font-size: xx-large;
 }
@@ -89,6 +89,9 @@ Dark Sky Blue - 81C3D&
     cursor: pointer;
 }
 
+.btn{
+    min-width: 70px;
+}
 /*Right*/
 .main-content{
     display: flex;
@@ -113,6 +116,7 @@ Dark Sky Blue - 81C3D&
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    min-width: 270px;
 }
 
 .userPref{
@@ -139,11 +143,8 @@ Dark Sky Blue - 81C3D&
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
 }
-.btn{
-    cursor: pointer;
-}
+
 .swipe{
     width: 35px;
 }

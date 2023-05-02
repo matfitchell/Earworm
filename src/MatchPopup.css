@@ -28,7 +28,7 @@
     max-width: 800px;
     height: 60%;
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.7));
-    z-index: 1000;
+    /* z-index: 1000; */
      user-select: none;
         -moz-user-select: none;
         -khtml-user-select: none;
@@ -36,20 +36,50 @@
         -o-user-select: none;
 }
 
-.buttons{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
+
 
 .close-btn{
-    margin: 30px;
+    margin: 20px;
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    font-weight: bold;
+    border: 2px solid rgb(10, 75, 146);
     cursor: pointer;
+    background: transparent;
+    color: white;
+    overflow: hidden;
+    transition-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
 }
 
 .message-btn{
-    margin: 30px;
+    margin: 20px;
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    font-weight: bold;
+    border: 2px solid rgb(10, 75, 146);
     cursor: pointer;
+    background: transparent;
+    color: white;
+    overflow: hidden;
+    transition-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    
+}
+
+.message-btn:hover, .message-btn:focus, .message-btn:active{
+    box-shadow: 0 0 20px rgb(0,0,0,0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.close-btn:hover, .close-btn:focus, .close-btn:active{
+    box-shadow: 0 0 20px rgb(0,0,0,0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 }
