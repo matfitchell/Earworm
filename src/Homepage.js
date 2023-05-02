@@ -183,8 +183,8 @@ function Homepage() {
 
                         {/*----"swipe" buttons-----*/}
                         <div class="userChoice">
-                            <button onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
-                            <button onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
+                            <button className='btn' onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
+                            <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={dummyData[index].firstName} nextClick2={nextClick2}>
                             <img src={dummyData[index].image} className='popup-img' />
                             </MatchPopup>
