@@ -4,7 +4,8 @@ import {Navigate} from 'react-router-dom';
 import './Homepage';
 import './App.css';
 import Login from './Components/SpotifyLogin';
-
+import { app } from './firebase';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function App() {
 
@@ -50,7 +51,22 @@ function App() {
     return <Navigate to = "/Homepage"/>;
   }
 
+  let auth = getAuth();
+  const [data, setData] = useState({});
+  const handleInput = (event) => {
+    let newInput = { [event.target.name]: event.target.value };
 
+    setData({ ...data, ...newInput });
+  };
+  const handleSubmit = () => {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then((response) => {
+        console.log(response.user);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
   
 
   return ( 
@@ -86,7 +102,7 @@ function App() {
                 type = "password" 
                 id="pass" 
                 ame="password" 
-                required/>
+                />
             
             {/*----buttons-----*/}      
             {hideButtons && 
@@ -99,17 +115,19 @@ function App() {
 
           {/*-----Sign up form-----*/}
           {signupForm &&          
-          <form class = "userInfo signUp">
+            <form class = "userInfo signUp">
             <label for = "firstName">First Name: </label>
             <input type = "text" id="firstName" name="firstname" required ></input>
             <label for = "lastName">Last Name: </label>
             <input type = "text" id="lastName" name="lastName" required></input>
             <label for = "userEmail">Email: </label>
-            <input type = "email" id="userEmail" name="userEmail" required></input>
+            <input type = "email" id="userEmail" name="email" required onChange={(event) => handleInput(event)}></input>
+            <label for = "password">Password: </label>
+            <input type = "password" id="pass" name="password" placeholder='Password' required onChange={(event) => handleInput(event)}/>
             <label for = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday"></input>
             
-            <button type = "button" class = "btn signup"> Sign Up </button>
+            <button type = "button" class = "btn signup" onClick={handleSubmit}> Sign Up </button>
             <button type = "button" class = "btn back" onClick={hideSignUp} >Back </button>
           </form>
           }
