@@ -3,7 +3,7 @@ import { useState, useRef, useEffect} from 'react';
 import {Navigate} from 'react-router-dom';
 import './Homepage';
 import './App.css';
-import Login from './Login';
+import Login from './Components/SpotifyLogin';
 
 
 function App() {
