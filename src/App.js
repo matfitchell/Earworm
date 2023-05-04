@@ -6,6 +6,7 @@ import './App.css';
 import Login from './Components/SpotifyLogin';
 import { app } from './firebase';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { CollectionReference } from 'firebase/firestore';
 
 function App() {
 
@@ -21,6 +22,8 @@ function App() {
 
   const [signupForm, setSignupFrom] = useState (false);
   const [hideButtons, setHideButtons] = useState (true);
+  
+  const [zipCode, setZipcode] = useState('');
 
   // hide& show div
   const showSignUp = () => {
@@ -126,6 +129,8 @@ function App() {
             <input type = "password" id="pass" name="password" placeholder='Password' required onChange={(event) => handleInput(event)}/>
             <label for = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday"></input>
+            <label for = "zipcode">Zip Code: </label>
+            <input type = "zipcode" id="zipcode" name="zipcode"></input>
             
             <button type = "button" class = "btn signup" onClick={handleSubmit}> Sign Up </button>
             <button type = "button" class = "btn back" onClick={hideSignUp} >Back </button>

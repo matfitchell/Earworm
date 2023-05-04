@@ -110,6 +110,14 @@ input[type=date] {
     border-radius: 6px;
 }
 
+input[type=zipcode] {
+    text-align: center;
+    width: 80%;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
 .btn{
     font-family: 'Fredoka One', cursive;
     font-size: large;
