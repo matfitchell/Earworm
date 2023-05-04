@@ -2,7 +2,7 @@ import { useState, useRef, useEffect} from 'react';
 import React from 'react'
 import './Homepage.css'
 import MatchPopup from './MatchPopup';
-import {getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 function Homepage() {
     //dummy data    
@@ -145,6 +145,10 @@ function Homepage() {
             alert(err.message)
         });
     };
+
+    const handlelogout = () => {
+        signOut(auth);
+    }
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -170,6 +174,7 @@ function Homepage() {
                         <button class = "button home" onClick={showDefault}>Home</button>
                         <button class = "button profile" onClick={showProfile}>Profile</button>
                         <button class = "button settings" onClick={showSettings}>Settings</button>
+                        <button class = "button settings" onClick={handlelogout}>Log Out</button>
                     </div>
                 </section> {/*-----end of left side-----*/}
 

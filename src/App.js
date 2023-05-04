@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useRef, useEffect} from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import './Homepage';
 import './App.css';
 import Login from './Components/SpotifyLogin';
 import { app } from './firebase';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { CollectionReference } from 'firebase/firestore';
 
 function App() {
@@ -49,10 +49,23 @@ function App() {
       alert ('Invalid user and password');
     }
   }
-
+  const navigate = useNavigate();
   if (isLoggedIn){
-    return <Navigate to = "/Homepage"/>;
+     navigate("/Homepage");
   }
+  
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (data) =>{
+      if(data){
+        navigate('/Homepage');
+        alert("logged in");
+      }else{
+        alert('not logged in');
+        navigate('/');
+      }
+    })
+  }, [])
 
   let auth = getAuth();
   const [data, setData] = useState({});
