@@ -5,7 +5,7 @@ import './Homepage';
 import './App.css';
 import Login from './Components/SpotifyLogin';
 import { app } from './firebase';
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { CollectionReference } from 'firebase/firestore';
 
 function App() {
@@ -59,9 +59,9 @@ function App() {
     onAuthStateChanged(auth, (data) =>{
       if(data){
         navigate('/Homepage');
-        alert("logged in");
+        //alert("logged in");
       }else{
-        alert('not logged in');
+        //alert('not logged in');
         navigate('/');
       }
     })
@@ -83,6 +83,16 @@ function App() {
         alert(err.message);
       });
   };
+
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then((response) => {
+        console.log(response.user)
+      })
+      .catch((err) => {
+        alert(err.message);
+      })
+  }
   
 
   return ( 
@@ -101,33 +111,32 @@ function App() {
         <div className='content-wrapper'>
 
           {/*-----Log in form-----*/}
-          <form onSubmit = {userLogIn} class = "userInfo login">
-            <label for = "username">Username: </label>
+          <div class = "userInfo login">
+            <label for = "email">Email: </label>
               <input 
-                value = {username
-                } 
-                onChange = {(e)=> setUsername (e.target.value)} 
+                
+                onChange={(event) => handleInput(event)} 
                 type = "text" 
                 id="usern" 
-                name="username" 
+                name="email" 
                 required/>
             <label for = "password">Password: </label>
               <input 
-                value = {password} 
-                onChange = {(e)=> setPassword (e.target.value)} 
+                 
+                onChange={(event) => handleInput(event)} 
                 type = "password" 
                 id="pass" 
-                ame="password" 
+                name="password" 
                 />
             
             {/*----buttons-----*/}      
             {hideButtons && 
             <div>
-            <button type="submit" class="btn login" > Log In </button>
+            <button class="btn login" onClick={handleSignIn}> Log In </button>
             <button class = "btn signup" onClick={showSignUp}> Sign Up </button>
             </div>
             }
-          </form>
+          </div>
 
           {/*-----Sign up form-----*/}
           {signupForm &&          
