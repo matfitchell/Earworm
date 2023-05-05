@@ -119,17 +119,36 @@ input[type=zipcode] {
     border-radius: 6px;
 }
 
+input[type=username] {
+    text-align: center;
+    width: 80%;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+}
+
 .btn{
     font-family: 'Fredoka One', cursive;
     font-size: large;
     color: #16425B;
     background-color: white;
-    width: 40%;
-    margin: 5px;
+    width: 90px;
+    height: 55px;
+    margin: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 6px;
     border: 2px solid;
     border-radius: 6px;
     cursor:pointer;
+    white-space: nowrap;
+    transition-duration: .3s;
+}
+
+.btn::after, .btn:hover, .btn:active{
+    box-shadow: 0 0 20px rgb(0,0,0,0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .footer{    /*footer*/

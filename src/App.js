@@ -119,6 +119,7 @@ function App() {
                 type = "text" 
                 id="usern" 
                 name="email" 
+                placeholder='Email'
                 required/>
             <label for = "password">Password: </label>
               <input 
@@ -127,6 +128,8 @@ function App() {
                 type = "password" 
                 id="pass" 
                 name="password" 
+                placeholder='Password'
+                required
                 />
             
             {/*----buttons-----*/}      
@@ -142,17 +145,15 @@ function App() {
           {signupForm &&          
             <form class = "userInfo signUp">
             <label for = "firstName">First Name: </label>
-            <input type = "text" id="firstName" name="firstname" required ></input>
+            <input type = "text" id="firstName" name="firstname" placeholder='First Name' required ></input>
             <label for = "lastName">Last Name: </label>
-            <input type = "text" id="lastName" name="lastName" required></input>
-            <label for = "userEmail">Email: </label>
-            <input type = "email" id="userEmail" name="email" required onChange={(event) => handleInput(event)}></input>
-            <label for = "password">Password: </label>
-            <input type = "password" id="pass" name="password" placeholder='Password' required onChange={(event) => handleInput(event)}/>
+            <input type = "text" id="lastName" name="lastName" placeholder="Last Name" required></input>
+            <label for = "username">Username: </label>
+            <input type = "username" id="lastname" name="username" placeholder='Username' required></input>
             <label for = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday"></input>
             <label for = "zipcode">Zip Code: </label>
-            <input type = "zipcode" id="zipcode" name="zipcode"></input>
+            <input type = "zipcode" id="zipcode" name="zipcode" placeholder='Zipcode' required></input>
             
             <button type = "button" class = "btn signup" onClick={handleSubmit}> Sign Up </button>
             <button type = "button" class = "btn back" onClick={hideSignUp} >Back </button>
