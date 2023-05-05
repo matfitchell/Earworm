@@ -4,9 +4,9 @@ import {Navigate, useNavigate} from 'react-router-dom';
 import './Homepage';
 import './App.css';
 import Login from './Components/SpotifyLogin';
-import { app } from './firebase';
+import { app, database } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { CollectionReference } from 'firebase/firestore';
+import { collection, addDoc, CollectionReference } from 'firebase/firestore';
 
 function App() {
 
@@ -69,6 +69,7 @@ function App() {
 
   let auth = getAuth();
   const [data, setData] = useState({});
+  const collectionRef = collection(database, 'userInfo');
   const handleInput = (event) => {
     let newInput = { [event.target.name]: event.target.value };
 
@@ -82,6 +83,13 @@ function App() {
       .catch((err) => {
         alert(err.message);
       });
+
+    addDoc(collectionRef, {
+
+      username: data.username,
+      zip: data.zipcode
+
+    });
   };
 
   const handleSignIn = () => {
@@ -145,15 +153,15 @@ function App() {
           {signupForm &&          
             <form class = "userInfo signUp">
             <label for = "firstName">First Name: </label>
-            <input type = "text" id="firstName" name="firstname" placeholder='First Name' required ></input>
+            <input type = "text" id="firstName" name="firstname" placeholder='First Name' required></input>
             <label for = "lastName">Last Name: </label>
             <input type = "text" id="lastName" name="lastName" placeholder="Last Name" required></input>
-            <label for = "username">Username: </label>
+            <label onChange={(event) => handleInput(event)} type="username" for = "username">Username: </label>
             <input type = "username" id="lastname" name="username" placeholder='Username' required></input>
             <label for = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday"></input>
             <label for = "zipcode">Zip Code: </label>
-            <input type = "zipcode" id="zipcode" name="zipcode" placeholder='Zipcode' required></input>
+            <input onChange={(event) => handleInput(event)} type = "zipcode" id="zipcode" name="zipcode" placeholder='Zipcode' required></input>
             
             <button type = "button" class = "btn signup" onClick={handleSubmit}> Sign Up </button>
             <button type = "button" class = "btn back" onClick={hideSignUp} >Back </button>
