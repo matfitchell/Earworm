@@ -38,21 +38,9 @@ function App() {
   const showBttn = () => setHideButtons (true);
 
 
-  // for authentication purposes ?lol
-  const userLogIn = (e) =>{
-    e.preventDefault();
-    const foundUser = users.find((user) => user.username === username && user.password ===password);
-
-    if (foundUser){
-      setIsLoggedIn(true);
-    } else {
-      alert ('Invalid user and password');
-    }
-  }
+ 
   const navigate = useNavigate();
-  if (isLoggedIn){
-     navigate("/Homepage");
-  }
+ 
   
 
   useEffect(() => {
@@ -84,12 +72,13 @@ function App() {
         alert(err.message);
       });
 
-    addDoc(collectionRef, {
-
-      username: data.username,
-      zip: data.zipcode
-
-    });
+    addDoc(collectionRef, data)
+    .then(() => {
+      alert("data sent")
+    })
+    .catch((err) => {
+      alert(err.message)
+    })
   };
 
   const handleSignIn = () => {
@@ -153,11 +142,11 @@ function App() {
           {signupForm &&          
             <form class = "userInfo signUp">
             <label for = "firstName">First Name: </label>
-            <input type = "text" id="firstName" name="firstname" placeholder='First Name' required></input>
+            <input type = "text" id="firstName" name="firstname" placeholder='First Name' required onChange={(event) => handleInput(event)}></input>
             <label for = "lastName">Last Name: </label>
-            <input type = "text" id="lastName" name="lastName" placeholder="Last Name" required></input>
-            <label onChange={(event) => handleInput(event)} type="username" for = "username">Username: </label>
-            <input type = "username" id="lastname" name="username" placeholder='Username' required></input>
+            <input type = "text" id="lastName" name="lastName" placeholder="Last Name" required onChange={(event) => handleInput(event)}></input>
+            <label  type="username" for = "username">Username: </label>
+            <input type = "username" id="lastname" name="username" placeholder='Username' required onChange={(event) => handleInput(event)}></input>
             <label for = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday"></input>
             <label for = "zipcode">Zip Code: </label>
