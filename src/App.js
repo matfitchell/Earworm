@@ -139,7 +139,7 @@ function App() {
             <label for = "firstName">First Name: </label>
             <input type = "text" id="firstName" name="firstname" placeholder='First Name' required onChange={(event) => handleInput(event)}></input>
             <label for = "lastName">Last Name: </label>
-            <input type = "text" id="lastName" name="lastName" placeholder="Last Name" required onChange={(event) => handleInput(event)}></input>
+            <input type = "text" id="lastname" name="lastname" placeholder="Last Name" required onChange={(event) => handleInput(event)}></input>
             <label  type="username" for = "username">Username: </label>
             <input type = "username" id="lastname" name="username" placeholder='Username' required onChange={(event) => handleInput(event)}></input>
             <label for = "birthday">Date of Birth: </label>
