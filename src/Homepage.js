@@ -185,6 +185,11 @@ function Homepage() {
         signOut(auth);
     }
 
+    function calcDistance(lat1, lon1, lat2, lon2) {
+        let dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * 6371;
+        return dist;
+    }
+
     // const getData = async () => {
     //   const data = await getDocs(collectionRef);
     //   console.log(data.docs.map((item) => {
