@@ -6,7 +6,7 @@ import './App.css';
 import Login from './Components/SpotifyLogin';
 import { app, database } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc, CollectionReference } from 'firebase/firestore';
+import { collection, addDoc, CollectionReference, setDoc, doc } from 'firebase/firestore';
 
 function App() {
 
@@ -58,34 +58,29 @@ function App() {
   let auth = getAuth();
   const [data, setData] = useState({});
   const collectionRef = collection(database, 'userInfo');
+  
   const handleInput = (event) => {
     let newInput = { [event.target.name]: event.target.value };
 
     setData({ ...data, ...newInput });
   };
+
   const handleSubmit = () => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((response) => {
         console.log(response.user);
+        setDoc(doc(database, 'userInfo', auth.currentUser.uid), data);
       })
       .catch((err) => {
         alert(err.message);
       });
 
-    addDoc(collectionRef, data)
-    .then(() => {
-      alert("data sent")
-    })
-    .catch((err) => {
-      alert(err.message)
-    })
+      
+    
   };
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((response) => {
-        console.log(response.user)
-      })
       .catch((err) => {
         alert(err.message);
       })
@@ -148,7 +143,7 @@ function App() {
             <label  type="username" for = "username">Username: </label>
             <input type = "username" id="lastname" name="username" placeholder='Username' required onChange={(event) => handleInput(event)}></input>
             <label for = "birthday">Date of Birth: </label>
-            <input type = "date" id="birthday" name="birthday"></input>
+            <input type = "date" id="birthday" name="birthday" onChange={(event) => handleInput(event)}></input>
             <label for = "zipcode">Zip Code: </label>
             <input onChange={(event) => handleInput(event)} type = "zipcode" id="zipcode" name="zipcode" placeholder='Zipcode' required></input>
             

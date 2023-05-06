@@ -2,7 +2,9 @@ import { useState, useRef, useEffect} from 'react';
 import React from 'react'
 import './Homepage.css'
 import MatchPopup from './MatchPopup';
+import { app, database } from "./firebase";
 import {getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, addDoc, CollectionReference, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 
 function Homepage() {
     //dummy data    
@@ -84,7 +86,47 @@ function Homepage() {
         miles: '5' 
     }];
 
+    const [Array, setArray] = useState([]);
     const [index, setIndex] = useState(0);
+    const [users, setUsers] = useState([]);
+    let auth = getAuth();
+    let user = auth.currentUser;
+    const collectionRef = collection(database, "userInfo");
+    let currentUserfirstname = '';
+    
+
+    //Gets all users from firstore and stores them in users
+    //Get current user's document to be able to extract their data
+    useEffect(() =>{
+        
+        const getUsers = async () =>{
+            const data = await getDocs(collectionRef);
+            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+
+        const getCurrentUser = async () =>{
+            //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
+            // const docRef = doc(database, "userInfo", auth.currentUser.uid);
+            if(user !== null){
+                const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+                /**********************
+                 * Use a Usestate to setUserInfo (i.e firstname, email, lastname ....) like in function above..
+                 */
+                currentUserfirstname = docSnap.data().firstname;
+                console.log(currentUserfirstname);
+            }
+            
+        };
+        
+        getUsers();
+        getCurrentUser();
+    }, []);
+
+    
+    
+    //console.log("This is the users firstname from user!==null:: " + firstname);
+    //let usersFirstNames = users.map((user) => user.firstname);
+    //console.log(usersFirstNames[0]);
     const nextClick = () => {
         setIndex((prevIndex) => (prevIndex + 1) % dummyData.length);
     };
@@ -129,26 +171,41 @@ function Homepage() {
         setUserMatched (false);
     }
 
-    let auth = getAuth();
+    
     const [data, setData] = useState({});
+    
     const handleInput = (event) => {
         let newInput = {[event.target.name]: event.target.value};
 
         setData({...data, ...newInput});
     };
-    const handleSubmit = () => {
-        createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then((response) => {
-            console.log(response.user)
-        })
-        .catch((err) => {
-            alert(err.message)
-        });
-    };
+    
 
     const handlelogout = () => {
         signOut(auth);
     }
+
+    // const getData = async () => {
+    //   const data = await getDocs(collectionRef);
+    //   console.log(data.docs.map((item) => {
+    //     return {...item.data(), id: item.id}
+    //   }));
+    // }
+    // const updateData = (id, biog) => {
+    //     let dataToUpdate = doc(database, 'userInfo', id)
+    //     updateDoc(dataToUpdate, {
+    //         bio: biog
+    //     })
+    //     .then(() => {
+    //         alert('Bio added');
+    //         getData()
+    //     })
+    //     .catch((err) => {
+    //         alert(err.message);
+    //     })
+    // }
+
+    
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -165,8 +222,8 @@ function Homepage() {
                     {/*-----left side: user info-----*/}
                     <div class="userInfo">
                         <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                        <span class="userFirstName"> {dummyData[0].firstName} </span>
-                        <span class="username">{dummyData[0].userName}</span>
+                        <span class="userFirstName"> {currentUserfirstname} </span>
+                        <span class="username">{currentUserfirstname}</span>
                     </div>
 
                     {/*-----buttons/navigation-----*/}
@@ -175,6 +232,7 @@ function Homepage() {
                         <button class = "button profile" onClick={showProfile}>Profile</button>
                         <button class = "button settings" onClick={showSettings}>Settings</button>
                         <button class = "button settings" onClick={handlelogout}>Log Out</button>
+                        {/* <button class = "button settings" onClick={getData}>Get Data</button> */}
                     </div>
                 </section> {/*-----end of left side-----*/}
 
@@ -188,7 +246,7 @@ function Homepage() {
                             <div class="displayPhoto">
                                 <img src = {dummyData[index].image} class="displayImg"/>
                             </div>
-                            <span class="userFirstName"/> {dummyData[index].firstName} {dummyData[index].lastName}
+                            <span class="userFirstName"/> 
                             <span class="username"/>  {dummyData[index].userName}
                             <div class="userLocation"> {dummyData[index].miles} miles</div>
                         </div>
