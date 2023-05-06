@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect} from 'react';
 import React from 'react'
 import './Homepage.css'
+import { Navigate, useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import { app, database } from "./firebase";
 import {getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
@@ -16,7 +17,7 @@ function Homepage() {
         image: "/images/1.png",
         miles: '4',
         location: "CSUN",
-        bio: "hi"
+        bio: ""
         },{
         userName: "coolguy69",
         password: "pass2",
@@ -85,20 +86,14 @@ function Homepage() {
         image: "/images/1.png",
         miles: '5' 
     }];
-
-    const [Array, setArray] = useState([]);
-    const [index, setIndex] = useState(0);
-    const [users, setUsers] = useState([]);
-    let auth = getAuth();
-    let user = auth.currentUser;
-    const collectionRef = collection(database, "userInfo");
-    let currentUserfirstname = '';
-    
+    const navigate = useNavigate();
 
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
     useEffect(() =>{
-        
+        if(user == null){
+            navigate("/");
+        }
         const getUsers = async () =>{
             const data = await getDocs(collectionRef);
             setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -112,8 +107,23 @@ function Homepage() {
                 /**********************
                  * Use a Usestate to setUserInfo (i.e firstname, email, lastname ....) like in function above..
                  */
-                currentUserfirstname = docSnap.data().firstname;
-                console.log(currentUserfirstname);
+                
+                //const lastname = docSnap.data().lastName;
+                //const email = docSnap.data().email;
+                
+                setFirstname(docSnap.data().firstname);
+                setLastname(docSnap.data().lastname);
+                setEmail(docSnap.data().email);
+                setUsername(docSnap.data().username);
+                setZipcode(docSnap.data().zipcode)
+                try{
+                    setBio(docSnap.data().bio);
+                }catch {
+                    console.log("no Bio");
+                }
+                
+                //addToUserData(docSnap.data().lastName, 'lastname');
+                //addToUserData(docSnap.data().email, 'email');
             }
             
         };
@@ -121,12 +131,40 @@ function Homepage() {
         getUsers();
         getCurrentUser();
     }, []);
+    const [Array, setArray] = useState([]);
+    const [index, setIndex] = useState(0);
+    const [users, setUsers] = useState([]);
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [zipcode, setZipcode] = useState("");
+    const [bio, setBio] = useState("");
+    const [data, setData] = useState({});
+    let auth = getAuth();
+    let user = auth.currentUser;
+    
+    const collectionRef = collection(database, "userInfo");
+    
+    
+    
 
     
-    
-    //console.log("This is the users firstname from user!==null:: " + firstname);
-    //let usersFirstNames = users.map((user) => user.firstname);
-    //console.log(usersFirstNames[0]);
+
+    const addBio = (event) =>{
+        let newBio = {[event.target.name]: event.target.value};
+        if (user !== null) {
+            updateDoc(doc(database, "userInfo", auth.currentUser.uid), newBio)
+            .then(docRef => {
+                console.log("Bio has been updated");
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+        
+        }
+        
+    }
     const nextClick = () => {
         setIndex((prevIndex) => (prevIndex + 1) % dummyData.length);
     };
@@ -172,7 +210,7 @@ function Homepage() {
     }
 
     
-    const [data, setData] = useState({});
+    
     
     const handleInput = (event) => {
         let newInput = {[event.target.name]: event.target.value};
@@ -227,8 +265,8 @@ function Homepage() {
                     {/*-----left side: user info-----*/}
                     <div class="userInfo">
                         <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                        <span class="userFirstName"> {currentUserfirstname} </span>
-                        <span class="username">{currentUserfirstname}</span>
+                        <span class="userFirstName"> {firstname} </span>
+                        <span class="username">{username}</span>
                     </div>
 
                     {/*-----buttons/navigation-----*/}
@@ -251,9 +289,9 @@ function Homepage() {
                             <div class="displayPhoto">
                                 <img src = {dummyData[index].image} class="displayImg"/>
                             </div>
-                            <span class="userFirstName"/> 
+                            <span class="userFirstName"/> {dummyData[index].firstName}
                             <span class="username"/>  {dummyData[index].userName}
-                            <div class="userLocation"> {dummyData[index].miles} miles</div>
+                            <div class="userLocation"> {dummyData[index].location}</div>
                         </div>
 
                         <div class="userPref">
@@ -296,9 +334,9 @@ function Homepage() {
                     <div class="homepage-content profileLayout showUserProfile">
                         <div class="userInfo">
                             <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                            <span class="userFirstName"> {dummyData[0].firstName} {dummyData[0].lastName}</span>
-                            <span class="username">{dummyData[0].userName}</span>
-                            <div class="userLocation"> {dummyData[0].location}</div>
+                            <span class="userFirstName"> {firstname} {lastname}</span>
+                            <span class="username">{username}</span>
+                            <div class="userLocation"> {zipcode}</div>
                         </div>
 
                         <div class="userPref">
@@ -328,6 +366,11 @@ function Homepage() {
                             <option value="b">B</option>
                             <option value="c">C</option>
                         </select>
+                        <div>
+                            <input className='bioInput' placeholder='Add Bio Here' type='text' name="bio" onClick={(event) => addBio(event)}/>
+                            <button>Update Bio</button>
+                        </div>
+                        
                     </div>
                     } {/*-----End of User Settings-----*/}
 

@@ -125,6 +125,12 @@ Dark Sky Blue - 81C3D&
     align-items: center;
 }
 
+.userBio:empty::before{
+    content: "Add Bio";
+}
+.userBio{
+    margin: 10px
+}
 .userTopSongs{
     display: flex;
     flex-flow: row nowrap;
