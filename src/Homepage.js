@@ -1,11 +1,14 @@
-import { useState, useRef, useEffect} from 'react';
-import React from 'react'
+import React, {useState, useRef, useEffect} from 'react';
+
 import './Homepage.css'
 import { Navigate, useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import { app, database } from "./firebase";
 import {getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { collection, addDoc, CollectionReference, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import getTopSongs from './Components/topSongs';
+import axios from 'axios';
+
 
 function Homepage() {
     //dummy data    
@@ -88,8 +91,86 @@ function Homepage() {
     }];
     const navigate = useNavigate();
 
+     
+    const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
+    const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
+    const [scopes, setScopes] = useState([
+        "user-read-private",
+        "user-read-email",
+        "user-modify-playback-state",
+        "user-read-playback-state",
+        "user-read-currently-playing",
+        "user-read-recently-played",
+        "user-top-read",
+        "playlist-read-private",
+        "playlist-read-collaborative",
+        "playlist-modify-private",
+        "playlist-modify-public",
+        "user-read-playback-position",
+        "user-top-read",
+        "user-read-recently-played",
+        ])
+
+    const [accessToken, setAccessToken] = useState('');
+
+        const handleLogin = async (event) => {
+            event.preventDefault();
+        
+            const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
+        
+            const newWindow = window.open(url, '_blank', 'width=600,height=800');
+        
+            const handleWindowClose = () => {
+              const token = newWindow.location.hash.substr(1).split('&')[0].split('=')[1];
+              setAccessToken(token);
+              newWindow.close();
+              window.removeEventListener('message', handleWindowClose);
+        
+            };
+            
+            window.addEventListener('message', handleWindowClose);
+
+            getTopSongs();
+            
+          };
+    
+       
+        
+
+      const getTopSongs = async() => {
+          const response = await axios.get(
+            'https://api.spotify.com/v1/me/top/tracks?limit=4',
+                    {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + accessToken,
+              },
+            }
+          );
+            console.log("Shit")
+            console.log(response)
+        
+          if (response.data !== "") {
+
+            const topSongs = {
+              id: response.data.item.id,
+              name: response.data.item.name,
+              artists: response.data.item.artists.map((artist) => artist.name),
+            };
+            
+          }
+        }
+    
+   
+
+
+
+
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
+
+
+
     useEffect(() =>{
         if(user == null){
             navigate("/");
@@ -296,14 +377,18 @@ function Homepage() {
 
                         <div class="userPref">
                             <div class="userBio">{dummyData[index].bio}</div>
-                            <div class="userTopSongs">
-                                <p>Top Songs:</p>
-                                <div class="testSong"/>
-                                <div class="testSong"/>
-                                <div class="testSong"/>
+                            {/* <div className="userTopSongs">
+                            <p>Top Songs:</p>
+                            {topSongs.map((song) => (
+                            <div className="testSong" key={song.id}>
+                                {song.name}
                             </div>
+                            ))}
+                            </div> */}
                         </div>
-
+                        <div class="SpotifyLogin">
+                            <button className='btn' onClick={handleLogin}><img className='displayImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----class="swipe iconLeft-----*/}
+                        </div>
                         {/*----"swipe" buttons-----*/}
                         <div class="userChoice">
                             <button className='btn' onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}

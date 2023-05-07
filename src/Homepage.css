@@ -92,6 +92,11 @@ Dark Sky Blue - 81C3D&
 .btn{
     min-width: 70px;
 }
+
+.Spotify{
+    width: 70px;
+    height: 70px;
+}
 /*Right*/
 .main-content{
     display: flex;

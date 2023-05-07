@@ -8,6 +8,8 @@ import { app, database } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc, CollectionReference, setDoc, doc } from 'firebase/firestore';
 
+
+
 function App() {
 
   const [username, setUsername] = useState('');
