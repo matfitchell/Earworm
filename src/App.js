@@ -10,6 +10,7 @@ import { collection, addDoc, CollectionReference, setDoc, doc } from 'firebase/f
 
 
 
+
 function App() {
 
   const [username, setUsername] = useState('');
@@ -42,7 +43,7 @@ function App() {
 
  
   const navigate = useNavigate();
- 
+  let auth = getAuth();
   
 
   useEffect(() => {
@@ -50,14 +51,10 @@ function App() {
       if(data){
         navigate('/Homepage');
         //alert("logged in");
-      }else{
-        //alert('not logged in');
-        navigate('/');
       }
     })
   }, [])
 
-  let auth = getAuth();
   const [data, setData] = useState({});
   const collectionRef = collection(database, 'userInfo');
   
@@ -94,19 +91,19 @@ function App() {
       <div className='flexSide left'> {/*-----left side-----*/}
       
         {/*-----header-----*/}
-        <div class="header-content">
-          <div class="landing-logo">
+        <div className="header-content">
+          <div className="landing-logo">
             <img id="landing-logo" src ="/images/logo.-removebg-preview.png" alt="test"></img>
           </div>
-          <h1 class = "header">EarWorm</h1>
+          <h1 className = "header">EarWorm</h1>
         </div>
 
         {/*-----user-info-----*/}
         <div className='content-wrapper'>
 
           {/*-----Log in form-----*/}
-          <div class = "userInfo login">
-            <label for = "email">Email: </label>
+          <div className = "userInfo login">
+            <label htmlFor = "email">Email: </label>
               <input 
                 
                 onChange={(event) => handleInput(event)} 
@@ -115,7 +112,7 @@ function App() {
                 name="email" 
                 placeholder='Email'
                 required/>
-            <label for = "password">Password: </label>
+            <label htmlFor = "password">Password: </label>
               <input 
                  
                 onChange={(event) => handleInput(event)} 
@@ -129,34 +126,34 @@ function App() {
             {/*----buttons-----*/}      
             {hideButtons && 
             <div>
-            <button class="btn login" onClick={handleSignIn}> Log In </button>
-            <button class = "btn signup" onClick={showSignUp}> Sign Up </button>
+            <button className="btn login" onClick={handleSignIn}> Log In </button>
+            <button className = "btn signup" onClick={showSignUp}> Sign Up </button>
             </div>
             }
           </div>
 
           {/*-----Sign up form-----*/}
           {signupForm &&          
-            <form class = "userInfo signUp">
-            <label for = "firstName">First Name: </label>
+            <form className = "userInfo signUp">
+            <label htmlFor = "firstName">First Name: </label>
             <input type = "text" id="firstName" name="firstname" placeholder='First Name' required onChange={(event) => handleInput(event)}></input>
-            <label for = "lastName">Last Name: </label>
+            <label htmlFor = "lastName">Last Name: </label>
             <input type = "text" id="lastname" name="lastname" placeholder="Last Name" required onChange={(event) => handleInput(event)}></input>
-            <label  type="username" for = "username">Username: </label>
+            <label  type="username" htmlFor = "username">Username: </label>
             <input type = "username" id="lastname" name="username" placeholder='Username' required onChange={(event) => handleInput(event)}></input>
-            <label for = "birthday">Date of Birth: </label>
+            <label htmlFor = "birthday">Date of Birth: </label>
             <input type = "date" id="birthday" name="birthday" onChange={(event) => handleInput(event)}></input>
-            <label for = "zipcode">Zip Code: </label>
+            <label htmlFor = "zipcode">Zip Code: </label>
             <input onChange={(event) => handleInput(event)} type = "zipcode" id="zipcode" name="zipcode" placeholder='Zipcode' required></input>
             
-            <button type = "button" class = "btn signup" onClick={handleSubmit}> Sign Up </button>
-            <button type = "button" class = "btn back" onClick={hideSignUp} >Back </button>
+            <button type = "button" className = "btn signup" onClick={handleSubmit}> Sign Up </button>
+            <button type = "button" className = "btn back" onClick={hideSignUp} >Back </button>
           </form>
           }
         </div> {/*-----end content-wrapper-----*/}
 
         {/*-----footer-----*/}
-        <footer class="footer">
+        <footer className="footer">
           <pre><a href=" ">About</a>  <a href="https://github.com/matfitchell/Earworm" target=" ">Github</a>  <a href=" ">Contact</a>    || By Keyboard Buddies 2022</pre>
         </footer>
 

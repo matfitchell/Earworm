@@ -4,15 +4,15 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import App from './App';
 import Homepage from './Homepage';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+
 
 {/*-----use state for login to sign up idk-----*/}
 {/*const [currentForm, setCurrentForm] = useState ('login');*/}
 
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes> 
-        <Route index element={<App/>}/>
+        <Route path='/' element={<App/>}/>
         <Route path = "/Homepage" element={<Homepage />}/>
       </Routes>
     </BrowserRouter>

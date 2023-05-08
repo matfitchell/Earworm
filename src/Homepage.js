@@ -4,13 +4,16 @@ import './Homepage.css'
 import { Navigate, useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import { app, database } from "./firebase";
-import {getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import getTopSongs from './Components/topSongs';
 import axios from 'axios';
 
 
 function Homepage() {
+    let auth = getAuth();
+    let user = auth.currentUser;
+    const navigate = useNavigate();
     //dummy data    
     const dummyData = [{
         userName: "mitchman",
@@ -89,9 +92,9 @@ function Homepage() {
         image: "/images/1.png",
         miles: '5' 
     }];
-    const navigate = useNavigate();
+    
 
-     
+    let usersArrayLength;
     const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
     const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
     const [scopes, setScopes] = useState([
@@ -169,52 +172,14 @@ function Homepage() {
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
 
-
-
-    useEffect(() =>{
-        if(user == null){
-            navigate("/");
-        }
-        const getUsers = async () =>{
-            const data = await getDocs(collectionRef);
-            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-
-        const getCurrentUser = async () =>{
-            //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
-            // const docRef = doc(database, "userInfo", auth.currentUser.uid);
-            if(user !== null){
-                const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-                /**********************
-                 * Use a Usestate to setUserInfo (i.e firstname, email, lastname ....) like in function above..
-                 */
-                
-                //const lastname = docSnap.data().lastName;
-                //const email = docSnap.data().email;
-                
-                setFirstname(docSnap.data().firstname);
-                setLastname(docSnap.data().lastname);
-                setEmail(docSnap.data().email);
-                setUsername(docSnap.data().username);
-                setZipcode(docSnap.data().zipcode)
-                try{
-                    setBio(docSnap.data().bio);
-                }catch {
-                    console.log("no Bio");
-                }
-                
-                //addToUserData(docSnap.data().lastName, 'lastname');
-                //addToUserData(docSnap.data().email, 'email');
-            }
-            
-        };
-        
-        getUsers();
-        getCurrentUser();
-    }, []);
+    const collectionRef = collection(database, "userInfo"); 
+    const [users, setUsers] = useState([]);
+   
+    
+    
     const [Array, setArray] = useState([]);
     const [index, setIndex] = useState(0);
-    const [users, setUsers] = useState([]);
+    
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
@@ -222,14 +187,8 @@ function Homepage() {
     const [zipcode, setZipcode] = useState("");
     const [bio, setBio] = useState("");
     const [data, setData] = useState({});
-    let auth = getAuth();
-    let user = auth.currentUser;
-    
-    const collectionRef = collection(database, "userInfo");
     
     
-    
-
     
 
     const addBio = () =>{
@@ -329,55 +288,102 @@ function Homepage() {
     //         alert(err.message);
     //     })
     // }
+    
+    useEffect(() =>{
+         onAuthStateChanged(auth, (data) => {
+           if (!data) {
+             //navigate("/Homepage");
+             //alert("logged in");
+             navigate("/");
+           }
+         });
+
+        
+
+        const getCurrentUser = async () =>{
+            //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
+            // const docRef = doc(database, "userInfo", auth.currentUser.uid);
+            if(user !== null){
+                const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+                
+                setFirstname(docSnap.data().firstname);
+                setLastname(docSnap.data().lastname);
+                setEmail(docSnap.data().email);
+                setUsername(docSnap.data().username);
+                setZipcode(docSnap.data().zipcode);
+                
+                try{
+                    setBio(docSnap.data().bio);
+                }catch {
+                    console.log("no Bio");
+                }
+                
+            }
+           
+            const data = await getDocs(collectionRef);
+            setUsers(data.docs.map((doc) => ({ ...doc.data()})));
+           
+        };
+        
+        // const getUsers = async () => {
+            
+              
+        // }
+
+        getCurrentUser();
+        //getUsers();
+        
+        
+    }, []);
 
     
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
-                <section class="flexHomepage sidePart"> {/*-----left side-----*/}
+                <section className="flexHomepage sidePart"> {/*-----left side-----*/}
                 
                     {/*-----header-----*/}
-                    <div class="header-content">
-                        <div class="homepage-logo">
+                    <div className="header-content">
+                        <div className="homepage-logo">
                             <img id="homepage-logo" src ="/images/logo.-removebg-preview.png"/>
                         </div>
-                        <header class="homepageHeader"><h2>EarWorm</h2></header>
+                        <header className="homepageHeader"><h2>EarWorm</h2></header>
                     </div>
 
                     {/*-----left side: user info-----*/}
-                    <div class="userInfo">
-                        <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                        <span class="userFirstName"> {firstname} </span>
-                        <span class="username">{username}</span>
+                    <div className="userInfo">
+                        <div className="displayPhoto"><img src = {dummyData[0].image} className="displayImg"/></div>
+                        <span className="userFirstName"> {firstname} </span>
+                        <span className="username">{username}</span>
                     </div>
 
                     {/*-----buttons/navigation-----*/}
-                    <div class="nav">
-                        <button class = "button home" onClick={showDefault}>Home</button>
-                        <button class = "button profile" onClick={showProfile}>Profile</button>
-                        <button class = "button settings" onClick={showSettings}>Settings</button>
-                        <button class = "button settings" onClick={handlelogout}>Log Out</button>
-                        {/* <button class = "button settings" onClick={getData}>Get Data</button> */}
+                    <div className="nav">
+                        <button className = "button-home" id='home' onClick={showDefault}>Home</button>
+                        <button className = "button-profile" id='profile' onClick={showProfile}>Profile</button>
+                        <button className = "button-settings" id='settings' onClick={showSettings}>Settings</button>
+                        <button className = "button-logout" id='logout' onClick={handlelogout}>Log Out</button>
+                        {/* <button className = "button settings" onClick={getData}>Get Data</button> */}
                     </div>
                 </section> {/*-----end of left side-----*/}
 
                 {/*-----right side-----*/}
-                <main class="flexHomepage main-content">{/*-----right side container-----*/}
+                <main className="flexHomepage main-content">{/*-----right side container-----*/}
 
                     {/*-----Match List/Default-----*/}
                     {userDefault &&
-                    <div class="homepage-content profileLayout matchList">
-                        <div class="userInfo">
-                            <div class="displayPhoto">
-                                <img src = {dummyData[index].image} class="displayImg"/>
+                    <div className="homepage-content profileLayout matchList">
+                        <div className="userInfo">
+                            <div className="displayPhoto">
+                                <img src = {dummyData[index].image} className="displayImg"/>
                             </div>
-                            <span class="userFirstName"/> {dummyData[index].firstName}
-                            <span class="username"/>  {dummyData[index].userName}
-                            <div class="userLocation"> {dummyData[index].location}</div>
+                            <span className="userFirstName"/> {dummyData[index].firstName}
+                            <span className="username"/>  {dummyData[index].userName}
+                            <div className="userLocation"> {dummyData[index].location}</div>
                         </div>
 
-                        <div class="userPref">
-                            <div class="userBio">{dummyData[index].bio}</div>
+                        <div className="userPref">
+                            <div className="userBio">{dummyData[index].bio}</div>
                             {/* <div className="userTopSongs">
                             <p>Top Songs:</p>
                             {topSongs.map((song) => (
@@ -387,13 +393,13 @@ function Homepage() {
                             ))}
                             </div> */}
                         </div>
-                        <div class="SpotifyLogin">
-                            <button className='btn' onClick={handleLogin}><img className='displayImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----class="swipe iconLeft-----*/}
+                        <div className="SpotifyLogin">
+                            <button className='btn' onClick={handleLogin}><img className='displayImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
                         </div>
                         {/*----"swipe" buttons-----*/}
-                        <div class="userChoice">
-                            <button className='btn' onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----class="swipe iconLeft-----*/}
-                            <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----class="swipe iconRight"-----*/}
+                        <div className="userChoice">
+                            <button className='btn' onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                            <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={dummyData[index].firstName} nextClick2={nextClick2}>
                             <img src={dummyData[index].image} className='popup-img' />
                             </MatchPopup>
@@ -403,8 +409,8 @@ function Homepage() {
 
                     {/*-----User Matched-----*/}
                     {userMatched &&
-                    <div class="homepage-content profileLayout userMatched">
-                        <div class="displayPhoto"><img src = "/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif" class="displayImg"/></div>
+                    <div className="homepage-content profileLayout userMatched">
+                        <div className="displayPhoto"><img src = "/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif" className="displayImg"/></div>
                         <p>Congrats! You found a new bestie!</p>
 
                         <div>
@@ -417,21 +423,21 @@ function Homepage() {
 
                     {/*-----User Profile-----*/}
                     {userProfile &&
-                    <div class="homepage-content profileLayout showUserProfile">
-                        <div class="userInfo">
-                            <div class="displayPhoto"><img src = {dummyData[0].image} class="displayImg"/></div>
-                            <span class="userFirstName"> {firstname} {lastname}</span>
-                            <span class="username">{username}</span>
-                            <div class="userLocation"> {zipcode}</div>
+                    <div className="homepage-content profileLayout showUserProfile">
+                        <div className="userInfo">
+                            <div className="displayPhoto"><img src = {dummyData[0].image} className="displayImg"/></div>
+                            <span className="userFirstName"> {firstname} {lastname}</span>
+                            <span className="username">{username}</span>
+                            <div className="userLocation"> {zipcode}</div>
                         </div>
 
-                        <div class="userPref">
-                            <div class="userBio">{dummyData[0].bio}</div>
-                            <div class="userTopSongs">
+                        <div className="userPref">
+                            <div className="userBio">{dummyData[0].bio}</div>
+                            <div className="userTopSongs">
                                 <p>Top Songs:</p>
-                                <div class="testSong"></div>
-                                <div class="testSong"></div>
-                                <div class="testSong"></div>
+                                <div className="testSong"></div>
+                                <div className="testSong"></div>
+                                <div className="testSong"></div>
                             </div>
                         </div>
                     </div>
@@ -439,7 +445,7 @@ function Homepage() {
                     
                     {/*-----User Settings-----*/}
                     {userSettings &&
-                    <div class="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
+                    <div className="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
                         <div ng-show="userSettings">
                             <p>Preferred Matching Distance (in miles): </p>
                             <input type="range" min="1" max="100" value="50" oninput="rangeValue.innerText = this.value" ng-show="userSettings"/>
