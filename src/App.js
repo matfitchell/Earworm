@@ -70,7 +70,7 @@ function App() {
   const handleSubmit = () => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((response) => {
-        console.log(response.user);
+        //console.log(response.user);
         setDoc(doc(database, 'userInfo', auth.currentUser.uid), data);
       })
       .catch((err) => {

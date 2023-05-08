@@ -4,8 +4,8 @@ import './Homepage.css'
 import { Navigate, useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import { app, database } from "./firebase";
-import {getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, CollectionReference, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import {getAuth, signOut } from "firebase/auth";
+import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import getTopSongs from './Components/topSongs';
 import axios from 'axios';
 
@@ -232,12 +232,13 @@ function Homepage() {
 
     
 
-    const addBio = (event) =>{
-        let newBio = {[event.target.name]: event.target.value};
-        if (user !== null) {
+    const addBio = () =>{
+        let newBio = { bio: document.getElementById('bio-input').value };
+        
+        if (user !== null && newBio != null) {
             updateDoc(doc(database, "userInfo", auth.currentUser.uid), newBio)
             .then(docRef => {
-                console.log("Bio has been updated");
+                setBio(newBio.bio);
             })
             .catch(error =>{
                 console.log(error);
@@ -451,9 +452,9 @@ function Homepage() {
                             <option value="b">B</option>
                             <option value="c">C</option>
                         </select>
-                        <div>
-                            <input className='bioInput' placeholder='Add Bio Here' type='text' name="bio" onClick={(event) => addBio(event)}/>
-                            <button>Update Bio</button>
+                        <div className="bioDiv">
+                            <textarea className='bioInput' id='bio-input'  placeholder={bio} type='text' name="bio" />
+                            <button className='bioButton' onClick={addBio}>Update Bio</button>
                         </div>
                         
                     </div>
