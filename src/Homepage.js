@@ -91,8 +91,8 @@ function Homepage() {
     }];
     
     //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
-    //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 
-    const [clientId, setClientId] = useState('22564e175af6486d82075db9d583c551');
+    //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 22564e175af6486d82075db9d583c551 
+    const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
     const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
     const [scopes, setScopes] = useState([
         "user-read-private",
@@ -114,6 +114,8 @@ function Homepage() {
     const [accessToken, setAccessToken] = useState('');
     const [spotifyUsername, setSpotifyUsername] = useState('');
     const [topSongs, setTopSongs] = useState([]);
+    const [songList, setSongList] = useState([]);
+    
 
 
     useEffect(() => {
@@ -151,6 +153,9 @@ function Homepage() {
       }
     };
   
+
+    //Check out the console when you pull top songs, pulls results, can't slice properly: 
+    // TypeError: _data2.name is undefined
     const getTopSongs = async () => {
       try {
         const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
@@ -160,12 +165,15 @@ function Homepage() {
         });
         const data = await response.json();
         console.log('Top songs:', data);
+        setTopSongs(data);
+        const firstThreeSongs = data.href.slice(0, 3);
+        setSongList(firstThreeSongs);
       } catch (error) {
         console.log(error);
       }
     };
-    
-   
+
+
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
 
@@ -395,14 +403,13 @@ function Homepage() {
 
                         <div className="userPref">
                             <div className="userBio">{dummyData[index].bio}</div>
-                            {/* <div className="userTopSongs">
+                            <div className="userTopSongs">
                             <p>Top Songs:</p>
-                            {topSongs.map((song) => (
-                            <div className="testSong" key={song.id}>
-                                {song.name}
-                            </div>
+                            {songList.map((href, index) => (
+                                <div key={index}>{href}</div>
                             ))}
-                            </div> */}
+                            </div>
+                            
                         </div>
                         
                         {/*----"swipe" buttons-----*/}
@@ -434,11 +441,11 @@ function Homepage() {
                             <div className="userTopSongs">
                            <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
                                     <ul>
-                                        {topSongs.map((song) => (
-                                        <li className="testSong" key={song.id}>
-                                            {song.name}
-                                        </li>
+                                    {songList.map((song, index) => (
+                                            <div key={index}>{song}</div>
                                         ))}
+
+                                        
                                     </ul>
    
                             </div>
