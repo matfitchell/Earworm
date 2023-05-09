@@ -335,7 +335,7 @@ function Homepage() {
         getCurrentUser();
     }, []);
     
-    console.log(auth.currentUser);
+    
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
