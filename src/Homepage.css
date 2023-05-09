@@ -10,6 +10,8 @@ Dark Sky Blue - 81C3D&
 /*Home Page*/
 .b-body{
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
+    min-width: 400px;
+    min-height: 500px;
 }
 
 .homepageContainer{
@@ -62,6 +64,8 @@ Dark Sky Blue - 81C3D&
     background-color: rgb(173, 173, 173);
     width: 200px;
     height: 200px;
+    resize: 'contain';
+    
 }
 
 .popup-img{
@@ -235,7 +239,9 @@ Dark Sky Blue - 81C3D&
     max-width: 100%;
 }
 
-
+.image-upload{
+    margin-top: 60px;
+}
 
 
 @media screen and (max-width: 900px){       /* landing page for small screens*/

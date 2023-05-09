@@ -3,11 +3,12 @@ import React, {useState, useRef, useEffect} from 'react';
 import './Homepage.css'
 import { Navigate, useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
-import { app, database } from "./firebase";
+import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import getTopSongs from './Components/topSongs';
 import axios from 'axios';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 
 function Homepage() {
@@ -179,7 +180,7 @@ function Homepage() {
     
     const [Array, setArray] = useState([]);
     const [index, setIndex] = useState(0);
-    
+    const [imageUpload, setImageUpload] = useState(null);
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
@@ -188,7 +189,7 @@ function Homepage() {
     const [bio, setBio] = useState("");
     const [data, setData] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
-    
+    const [profilePictureUrl, setProfilePictureUrl] = useState(null);
     
 
     const addBio = () =>{
@@ -293,7 +294,18 @@ function Homepage() {
       //setCurrentIndex((prevIndex) => prevIndex + 1);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
-   
+    
+    const uploadImage = () =>{
+        if(imageUpload == null) return;
+
+        const imageRef = ref(storage, `images/${auth.currentUser.uid}`);
+        uploadBytes(imageRef, imageUpload).then(() => {
+             getDownloadURL(imageRef).then((url) => {
+                setProfilePictureUrl(url);
+             })
+        })
+       
+    }
 
     useEffect(() =>{
         onAuthStateChanged(auth, (data) => {
@@ -305,7 +317,7 @@ function Homepage() {
            }
          });
 
-        const getCurrentUser = async () =>{
+        const getCurrentUserInfo = async () =>{
         //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
         // const docRef = doc(database, "userInfo", auth.currentUser.uid);
         if(user){
@@ -322,20 +334,22 @@ function Homepage() {
             }catch(error){
                 console.error();
             }
-            
+            getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+              setProfilePictureUrl(url);
+            });
         }  
         };
 
-        async function getUsersFrom(){
+        async function getUsersFromFirestore(){
             const data = await getDocs(collection(database, "userInfo"));
             const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
             setUsers(userssss);
         }
-        getUsersFrom();
-        getCurrentUser();
+        getUsersFromFirestore();
+        getCurrentUserInfo();
     }, []);
     
-    
+    // console.log(getDownloadURL())
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -351,7 +365,7 @@ function Homepage() {
 
                     {/*-----left side: user info-----*/}
                     <div className="userInfo">
-                        <div className="displayPhoto"><img src = {dummyData[0].image} className="displayImg"/></div>
+                        <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
                         <span className="userFirstName"> {firstname} </span>
                         <span className="username">{username}</span>
                     </div>
@@ -462,6 +476,10 @@ function Homepage() {
                         <div className="bioDiv">
                             <textarea className='bioInput' id='bio-input'  placeholder={bio} type='text' name="bio" />
                             <button className='bioButton' onClick={addBio}>Update Bio</button>
+                        </div>
+                        <div className='image-upload'>
+                            <input type='file' onChange={(event) => {setImageUpload(event.target.files[0])}}></input>
+                            <button onClick={uploadImage}>Upload Profile picture</button>
                         </div>
                         
                     </div>
