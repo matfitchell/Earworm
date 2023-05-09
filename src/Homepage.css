@@ -6,21 +6,18 @@ Indigo Dye - 16425B
 Dark Sky Blue - 81C3D&
 */
 
-
 /*Home Page*/
 .b-body{
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
     min-width: 400px;
     min-height: 500px;
 }
-
 .homepageContainer{
     max-width: 85%;
     margin: auto;
     display: flex;
     min-height: 100vh;
 }
-
 /*Left*/
 .sidePart{
     background-color: rgb(255, 255, 255);
@@ -120,6 +117,17 @@ Dark Sky Blue - 81C3D&
     cursor: pointer;
     border-radius: 20px;
 }
+
+.button-inbox{
+    border: 0px;
+       font-size: medium;
+       font-family: 'Acme', sans-serif;
+       background-color: white;
+       padding: 10px;
+       cursor: pointer;
+       border-radius: 20px;
+   }
+
 .button-home:hover, .button-home:focus, .button-home:active{
     background-color:  rgba(58, 124, 165, 0.27);
 
@@ -137,14 +145,35 @@ Dark Sky Blue - 81C3D&
 
 }
 
+.button-inbox:hover, .button-inbox:focus, .button-inbox:active{
+    background-color:  rgba(58, 124, 165, 0.27);
+
+}
+
 .btn{
     min-width: 70px;
 }
 
-.Spotify{
-    width: 70px;
-    height: 70px;
+.spotifyImg{
+    margin: 0;
+    border-radius: 50%;
+    width: 50x;
+    height: 50px;
+    cursor:pointer;
+    transition-duration: .3s;
 }
+
+.spotifyBtn{
+    background:none ;
+    border: none;
+}
+
+.spotifyBtn::after, .spotifyBtn:hover, .spotifyBtn:active{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+
 /*Right*/
 .main-content{
     display: flex;

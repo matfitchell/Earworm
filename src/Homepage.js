@@ -1,15 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
-
 import './Homepage.css'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
-import getTopSongs from './Components/topSongs';
-import axios from 'axios';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
-
 
 function Homepage() {
     let auth = getAuth();
@@ -94,9 +90,9 @@ function Homepage() {
         miles: '5' 
     }];
     
-
-    let usersArrayLength;
-    const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
+    //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
+    //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 
+    const [clientId, setClientId] = useState('22564e175af6486d82075db9d583c551');
     const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
     const [scopes, setScopes] = useState([
         "user-read-private",
@@ -112,72 +108,69 @@ function Homepage() {
         "playlist-modify-public",
         "user-read-playback-position",
         "user-top-read",
-        "user-read-recently-played",
-        ])
-
+        "user-read-recently-played"
+    ]);
+  
     const [accessToken, setAccessToken] = useState('');
+    const [spotifyUsername, setSpotifyUsername] = useState('');
+    const [topSongs, setTopSongs] = useState([]);
 
-        const handleLogin = async (event) => {
-            event.preventDefault();
-        
-            const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
-        
-            const newWindow = window.open(url, '_blank', 'width=600,height=800');
-        
-            const handleWindowClose = () => {
-              const token = newWindow.location.hash.substr(1).split('&')[0].split('=')[1];
-              setAccessToken(token);
-              newWindow.close();
-              window.removeEventListener('message', handleWindowClose);
-        
-            };
-            
-            window.addEventListener('message', handleWindowClose);
 
-            getTopSongs();
-            
-          };
-    
-       
-        
-
-      const getTopSongs = async() => {
-          const response = await axios.get(
-            'https://api.spotify.com/v1/me/top/tracks?limit=4',
-                    {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + accessToken,
-              },
-            }
-          );
-            console.log("Shit")
-            console.log(response)
-        
-          if (response.data !== "") {
-
-            const topSongs = {
-              id: response.data.item.id,
-              name: response.data.item.name,
-              artists: response.data.item.artists.map((artist) => artist.name),
-            };
-            
-          }
+    useEffect(() => {
+      const handleAuthorization = () => {
+        const params = new URLSearchParams(window.location.hash.substr(1));
+        const token = params.get('access_token');
+  
+        if (token) {
+          setAccessToken(token);
+          getSpotifyProfile(token);
         }
+      };
+      handleAuthorization();
+    }, []);
+  
+    const handleLogin = () => {
+      const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes.join(' '))}&response_type=token`;
+      window.location.href = url;
+    };
+  
+    const getSpotifyProfile = async (token) => {
+      try {
+        const response = await fetch('https://api.spotify.com/v1/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+  
+        const data = await response.json();
+        const { display_name } = data;
+        setSpotifyUsername(display_name);
+        console.log(`Spotify username: ${display_name}`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    const getTopSongs = async () => {
+      try {
+        const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        const data = await response.json();
+        console.log('Top songs:', data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     
    
-
-
-
-
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
 
     const collectionRef = collection(database, "userInfo"); 
     const [users, setUsers] = useState([]);
-   
-    
-    
     const [Array, setArray] = useState([]);
     const [index, setIndex] = useState(0);
     const [imageUpload, setImageUpload] = useState(null);
@@ -190,8 +183,6 @@ function Homepage() {
     const [data, setData] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
-    
-
     const addBio = () =>{
         let newBio = { bio: document.getElementById('bio-input').value };
         
@@ -220,39 +211,38 @@ function Homepage() {
     const [userDefault, setUserDefault] = useState (true);
     const [userProfile, setUserProfile] = useState (false);
     const [userSettings, setUserSettings] = useState (false);
-    const [userMatched, setUserMatched] = useState (false);
     const [buttonPopup, setButtonPopup] = useState(false);
+    const [userInbox, setUserInbox] = useState (false);
 
     const showProfile = () => {
         setUserDefault (false);
         setUserProfile (true);
         setUserSettings (false);
-        setUserMatched (false);
+        setUserInbox (false);
     }
 
     const showSettings = () => {
         setUserDefault (false);
         setUserProfile (false);
         setUserSettings (true);
-        setUserMatched (false);
-    }
-
-    const showUsersMatched = () => {
-        setUserDefault (false);
-        setUserProfile (false);
-        setUserSettings (false);
-        setUserMatched (true);
+        setUserInbox (false);
     }
 
     const showDefault = () => {
         setUserDefault (true);
         setUserProfile (false);
         setUserSettings (false);
-        setUserMatched (false);
+        setUserInbox (false);
     }
 
-    
-    
+    const showInbox = () => {
+        setUserDefault (false);
+        setUserProfile (false);
+        setUserSettings (false);
+        setUserInbox (true);
+    }
+
+
     
     const handleInput = (event) => {
         let newInput = {[event.target.name]: event.target.value};
@@ -370,10 +360,19 @@ function Homepage() {
                         <span className="username">{username}</span>
                     </div>
 
+                    <button onClick={handleLogin}>Link Spotify Account</button>
+      {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
+      <button onClick={getTopSongs}>Get Top Songs</button>
+
+                    <div className="SpotifyLogin">
+                            <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                        </div>
+
                     {/*-----buttons/navigation-----*/}
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
                         <button className = "button-profile" id='profile' onClick={showProfile}>Profile</button>
+                        <button className = "button-inbox" id='inbox' onClick={showInbox}>Inbox</button>
                         <button className = "button-settings" id='settings' onClick={showSettings}>Settings</button>
                         <button className = "button-logout" id='logout' onClick={handlelogout}>Log Out</button>
                         {/* <button className = "button settings" onClick={getData}>Get Data</button> */}
@@ -405,9 +404,7 @@ function Homepage() {
                             ))}
                             </div> */}
                         </div>
-                        <div className="SpotifyLogin">
-                            <button className='btn' onClick={handleLogin}><img className='displayImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
-                        </div>
+                        
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
                             <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
@@ -422,20 +419,6 @@ function Homepage() {
                     )}
                     {/*-----end of Match List/Default-----*/}
 
-                    {/*-----User Matched-----*/}
-                    {userMatched &&
-                    <div className="homepage-content profileLayout userMatched">
-                        <div className="displayPhoto"><img src = "/images/Congratulations Congrats GIF - Congratulations Congrats Celebrate - Discover & Share GIFs.gif" className="displayImg"/></div>
-                        <p>Congrats! You found a new bestie!</p>
-
-                        <div>
-                        <button onClick={nextClick2}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>
-                        <button onClick={nextClick2}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button>                    
-                        </div>
-
-                    </div>
-                    }{/*-----end of User Matched-----*/}
-
                     {/*-----User Profile-----*/}
                     {userProfile &&
                     <div className="homepage-content profileLayout showUserProfile">
@@ -449,10 +432,15 @@ function Homepage() {
                         <div className="userPref">
                             <div className="userBio">{dummyData[0].bio}</div>
                             <div className="userTopSongs">
-                                <p>Top Songs:</p>
-                                <div className="testSong"></div>
-                                <div className="testSong"></div>
-                                <div className="testSong"></div>
+                           <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
+                                    <ul>
+                                        {topSongs.map((song) => (
+                                        <li className="testSong" key={song.id}>
+                                            {song.name}
+                                        </li>
+                                        ))}
+                                    </ul>
+   
                             </div>
                         </div>
                     </div>
@@ -484,6 +472,13 @@ function Homepage() {
                         
                     </div>
                     } {/*-----End of User Settings-----*/}
+
+                {userInbox &&
+                    <div className="homepage-content profileLayout userSettings">
+                    <h3>messages</h3>
+                        
+                    </div>
+                    }   
 
                 </main>
             </div>
