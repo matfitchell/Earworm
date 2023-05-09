@@ -187,7 +187,7 @@ function Homepage() {
     const [zipcode, setZipcode] = useState("");
     const [bio, setBio] = useState("");
     const [data, setData] = useState({});
-    
+    const [currentIndex, setCurrentIndex] = useState(0);
     
     
 
@@ -207,12 +207,12 @@ function Homepage() {
         
     }
     const nextClick = () => {
-        setIndex((prevIndex) => (prevIndex + 1) % dummyData.length);
+        setIndex((prevIndex) => (prevIndex + 1) % users.length);
     };
 
     const nextClick2 = () => {
         showDefault();
-        setIndex((prevIndex) => (prevIndex + 1) % dummyData.length);
+        setIndex((prevIndex) => (prevIndex + 1) % users.length);
     };
 
     //buttons 
@@ -289,54 +289,53 @@ function Homepage() {
     //     })
     // }
     
+    function handleNextClick() {
+      //setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
+    }
+   
+
     useEffect(() =>{
-         onAuthStateChanged(auth, (data) => {
-           if (!data) {
-             //navigate("/Homepage");
+        onAuthStateChanged(auth, (data) => {
+           if (data) {
+             navigate("/Homepage");
              //alert("logged in");
-             navigate("/");
+           }else{
+            navigate("/")
            }
          });
 
-        
-
         const getCurrentUser = async () =>{
-            //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
-            // const docRef = doc(database, "userInfo", auth.currentUser.uid);
-            if(user !== null){
-                const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-                
-                setFirstname(docSnap.data().firstname);
-                setLastname(docSnap.data().lastname);
-                setEmail(docSnap.data().email);
-                setUsername(docSnap.data().username);
-                setZipcode(docSnap.data().zipcode);
-                
-                try{
-                    setBio(docSnap.data().bio);
-                }catch {
-                    console.log("no Bio");
-                }
-                
-            }
-           
-            const data = await getDocs(collectionRef);
-            setUsers(data.docs.map((doc) => ({ ...doc.data()})));
-           
-        };
-        
-        // const getUsers = async () => {
+        //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
+        // const docRef = doc(database, "userInfo", auth.currentUser.uid);
+        if(user){
+            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
             
-              
-        // }
+            setFirstname(docSnap.data().firstname);
+            setLastname(docSnap.data().lastname);
+            setEmail(docSnap.data().email);
+            setUsername(docSnap.data().username);
+            setZipcode(docSnap.data().zipcode);
+            
+            try{
+                setBio(docSnap.data().bio);
+            }catch(error){
+                console.error();
+            }
+            
+        }  
+        };
 
+        async function getUsersFrom(){
+            const data = await getDocs(collection(database, "userInfo"));
+            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
+            setUsers(userssss);
+        }
+        getUsersFrom();
         getCurrentUser();
-        //getUsers();
-        
-        
     }, []);
-
     
+    console.log(auth.currentUser);
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -371,16 +370,15 @@ function Homepage() {
                 <main className="flexHomepage main-content">{/*-----right side container-----*/}
 
                     {/*-----Match List/Default-----*/}
-                    {userDefault &&
+                    {users.length > 0 ? (userDefault &&
                     <div className="homepage-content profileLayout matchList">
                         <div className="userInfo">
                             <div className="displayPhoto">
                                 <img src = {dummyData[index].image} className="displayImg"/>
                             </div>
-                            <span className="userFirstName"/> {dummyData[index].firstName}
-                            <span className="username"/>  {dummyData[index].userName}
-                            <div className="userLocation"> {dummyData[index].location}</div>
-                        </div>
+                            <span className="userFirstName"/> {users[currentIndex].firstname}
+                            <span className="username"/>  {users[currentIndex].username}
+                    <div className="userLocation"> {users[currentIndex].zipcode}</div></div>
 
                         <div className="userPref">
                             <div className="userBio">{dummyData[index].bio}</div>
@@ -398,14 +396,17 @@ function Homepage() {
                         </div>
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
-                            <button className='btn' onClick={nextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                            <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
-                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={dummyData[index].firstName} nextClick2={nextClick2}>
+                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
                             <img src={dummyData[index].image} className='popup-img' />
                             </MatchPopup>
                         </div>
                     </div>
-                    }{/*-----end of Match List/Default-----*/}
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                    {/*-----end of Match List/Default-----*/}
 
                     {/*-----User Matched-----*/}
                     {userMatched &&
@@ -469,6 +470,6 @@ function Homepage() {
                 </main>
             </div>
         </div>
-    )
-}
+    );
+};
 export default Homepage;
