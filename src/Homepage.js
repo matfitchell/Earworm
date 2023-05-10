@@ -114,7 +114,8 @@ function Homepage() {
     const [accessToken, setAccessToken] = useState('');
     const [spotifyUsername, setSpotifyUsername] = useState('');
     const [topSongs, setTopSongs] = useState([]);
-    const [songList, setSongList] = useState([]);
+    const [topThreeTitles, setTopThreeTitles] = useState([]);
+    const [topThreeSongs, setTopThreeSongs] = useState([]);
     
 
 
@@ -166,13 +167,30 @@ function Homepage() {
         const data = await response.json();
         console.log('Top songs:', data);
         setTopSongs(data);
-        const firstThreeSongs = data.href.slice(0, 3);
-        setSongList(firstThreeSongs);
+       
       } catch (error) {
         console.log(error);
       }
     };
 
+
+    const getTopThree = async () => {
+        try {
+          const response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=3', {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          });
+          const data = await response.json();
+            const topThreeTitles = data.slice(0, 3).map((song) => song.name);
+            setTopThreeTitles(topThreeTitles);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
+    
 
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
@@ -346,7 +364,7 @@ function Homepage() {
         getUsersFromFirestore();
         getCurrentUserInfo();
     }, []);
-    
+
     // console.log(getDownloadURL())
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
@@ -371,6 +389,8 @@ function Homepage() {
                     <button onClick={handleLogin}>Link Spotify Account</button>
       {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
       <button onClick={getTopSongs}>Get Top Songs</button>
+
+      <button onClick={getTopThree}> Get Top Three Songs</button>
 
                     <div className="SpotifyLogin">
                             <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
@@ -405,9 +425,11 @@ function Homepage() {
                             <div className="userBio">{dummyData[index].bio}</div>
                             <div className="userTopSongs">
                             <p>Top Songs:</p>
-                            {songList.map((href, index) => (
-                                <div key={index}>{href}</div>
+                            <ul>
+                            {topThreeTitles.map((title) => (
+                                <li>{title}</li>
                             ))}
+                            </ul>
                             </div>
                             
                         </div>
@@ -441,9 +463,9 @@ function Homepage() {
                             <div className="userTopSongs">
                            <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
                                     <ul>
-                                    {songList.map((song, index) => (
+                                    {/* {songList.map((song, index) => (
                                             <div key={index}>{song}</div>
-                                        ))}
+                                        ))} */}
 
                                         
                                     </ul>
