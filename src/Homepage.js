@@ -181,9 +181,8 @@ function Homepage() {
               'Authorization': `Bearer ${accessToken}`
             }
           });
-          const data = await response.json();
-            const topThreeTitles = data.slice(0, 3).map((song) => song.name);
-            setTopThreeTitles(topThreeTitles);
+            const data = await response.json();
+            setTopThreeTitles(data);
         } catch (error) {
           console.log(error);
         }
@@ -425,11 +424,7 @@ function Homepage() {
                             <div className="userBio">{dummyData[index].bio}</div>
                             <div className="userTopSongs">
                             <p>Top Songs:</p>
-                            <ul>
-                            {topThreeTitles.map((title) => (
-                                <li>{title}</li>
-                            ))}
-                            </ul>
+                            
                             </div>
                             
                         </div>
