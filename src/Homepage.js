@@ -116,7 +116,7 @@ function Homepage() {
     const [spotifyUsername, setSpotifyUsername] = useState('');
     const [topSongs, setTopSongs] = useState([]);
     const [topThreeTitles, setTopThreeTitles] = useState([]);
-    const [topThreeSongs, setTopThreeSongs] = useState([]);
+    const [topThree, setTopThree] = useState([]);
     
 
 
@@ -183,14 +183,12 @@ function Homepage() {
             }
           });
             const data = await response.json();
-            setTopThreeTitles(data);
+            setTopThree(data.items);        
+            console.log(data)
         } catch (error) {
           console.log(error);
         }
       };
-
-
-    
 
     //Gets all users from firstore and stores them in users
     //Get current user's document to be able to extract their data
@@ -397,6 +395,15 @@ function Homepage() {
                             <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
                         </div>
 
+                        <div className="Top Songs">
+                            {topThree.map(track => (
+                                <div key={track.id}>
+                                <h3>{track.name}</h3>
+                                <audio src={track.preview_url} controls />
+                                </div>
+                                ))}
+                            </div>
+                            
                     {/*-----buttons/navigation-----*/}
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
@@ -426,8 +433,8 @@ function Homepage() {
 
                         <div className="userPref">
                             <div className="userBio">{dummyData[index].bio}</div>
-                            <div className="userTopSongs">
-                            <p>Top Songs:</p>
+                            <div className="TopSongsList">
+                                
                             
                             </div>
                             
@@ -470,14 +477,7 @@ function Homepage() {
                             <div className="userBio">{dummyData[0].bio}</div>
                             <div className="userTopSongs">
                            <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
-                                    <ul>
-                                    {/* {songList.map((song, index) => (
-                                            <div key={index}>{song}</div>
-                                        ))} */}
-
-                                        
-                                    </ul>
-   
+                                    
                             </div>
                         </div>
                     </div>
