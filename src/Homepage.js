@@ -182,7 +182,10 @@ function Homepage() {
             }
           });
             const data = await response.json();
-            setTopThreeTitles(data);
+            let topThree = data[0].item[0].name;
+            "userTopSongs".innerText = topThree;
+    
+            console.log(data)
         } catch (error) {
           console.log(error);
         }
@@ -423,7 +426,7 @@ function Homepage() {
                         <div className="userPref">
                             <div className="userBio">{dummyData[index].bio}</div>
                             <div className="userTopSongs">
-                            <p>Top Songs:</p>
+                
                             
                             </div>
                             
@@ -457,14 +460,7 @@ function Homepage() {
                             <div className="userBio">{dummyData[0].bio}</div>
                             <div className="userTopSongs">
                            <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
-                                    <ul>
-                                    {/* {songList.map((song, index) => (
-                                            <div key={index}>{song}</div>
-                                        ))} */}
-
-                                        
-                                    </ul>
-   
+                                    
                             </div>
                         </div>
                     </div>
