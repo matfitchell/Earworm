@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState, useRef, useEffect} from 'react';
 import {Navigate, useNavigate} from 'react-router-dom';
 import './Homepage';
@@ -6,6 +6,7 @@ import './App.css';
 import { app, database } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc, CollectionReference, setDoc, doc } from 'firebase/firestore';
+import { AuthContext } from './context/AuthContext';
 
 
 
@@ -84,6 +85,7 @@ function App() {
       })
   }
   
+  const {currentUser} = useContext(AuthContext);
 
   return ( 
     <div className='homeContainer'>   {/*-----Home Container-----*/}
