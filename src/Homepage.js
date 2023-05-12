@@ -7,10 +7,14 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
+
 function Homepage() {
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
+
+    const zipCodeData = require('zipcode-city-distance');
+
     //dummy data    
     const dummyData = [{
         userName: "mitchman",
@@ -191,6 +195,7 @@ function Homepage() {
     const [data, setData] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
+    const [preferredDist, setPreferredDist] = useState(0);
     const addBio = () =>{
         let newBio = { bio: document.getElementById('bio-input').value };
         
@@ -263,10 +268,10 @@ function Homepage() {
         signOut(auth);
     }
 
-    function calcDistance(lat1, lon1, lat2, lon2) {
-        let dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * 6371;
-        return dist;
-    }
+    //function calcDistance(lat1, lon1, lat2, lon2) {
+    //    let dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * 6371;
+    //    return dist;
+    //}
 
     // const getData = async () => {
     //   const data = await getDocs(collectionRef);
@@ -341,7 +346,23 @@ function Homepage() {
         async function getUsersFromFirestore(){
             const data = await getDocs(collection(database, "userInfo"));
             const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
-            setUsers(userssss);
+            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+
+            var tempArray = [];
+            //check distance before adding to users array
+            let x = 0;
+            let testVal = 100;
+            for (x = 0; x < userssss.length; x++) {
+                let myZip = docSnap.data().zipcode.toString();
+                let theirZip = userssss[x].zipcode.toString();
+                let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
+                //console.log(zipCodeDistance);
+                if (zipCodeDistance <= testVal) {
+                    tempArray.push(userssss[x]);
+                }
+            }
+
+            setUsers(tempArray);
         }
         getUsersFromFirestore();
         getCurrentUserInfo();

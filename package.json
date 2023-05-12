@@ -9,6 +9,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.1",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-cookie": "^4.1.1",
@@ -17,7 +18,8 @@
     "react-scripts": "^2.1.8",
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.9",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zipcode-city-distance": "^1.0.6"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
