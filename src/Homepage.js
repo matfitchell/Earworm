@@ -12,84 +12,6 @@ function Homepage() {
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
-    //dummy data    
-    const dummyData = [{
-        userName: "mitchman",
-        password: "pass1",
-        firstName:"Mitch",
-        lastName: "Mercer",
-        image: "/images/1.png",
-        miles: '4',
-        location: "CSUN",
-        bio: ""
-        },{
-        userName: "coolguy69",
-        password: "pass2",
-        firstName: "Cool",
-        lastName: "Guy",
-        image: "/images/3.jpg",
-        miles: 'too far',
-        bio: "let's be friends"
-        },{
-        userName: "charlesguy",
-        password: "pass3",
-        firstName: "Nick",
-        lastName: "Cannon",
-        image: "/images/1.png",
-        miles: '80',
-        bio: "I am cool"
-        },{
-        userName: "slushieguy",
-        password: "pass4",
-        firstName: "Sarah",
-        lastName: "Connor",
-        image: "/images/2.webp",
-        miles: '0.1',
-        bio: "Adventurer, foodie, and lover of all things creative. I'm always up for trying new things, whether it's exploring a hidden gem in the city or traveling to a far-off destination. When I'm not out and about, you can find me experimenting in the kitchen or working on my latest art project. Follow along for a glimpse into my life and a healthy dose of inspiration. Let's connect and share our passions!"
-        },{
-        userName: "lombocchew",
-        password: "pass5",
-        firstName: "Lewis",
-        lastName: "Carrol",
-        image: "/images/3.jpg",
-        miles: '7',
-        bio: "dude"
-        },{
-        userName: "slapyamammy",
-        password: "pass6",
-        firstName: "Chris",
-        lastName: "Brown",
-        image: "/images/1.png",
-        miles: '40'
-        },{
-        userName: "garusvyk",
-        password: "pass7",
-        firstName: "Leah",
-        lastName: "Remini",
-        image: "/images/2.webp",
-        miles: '15'
-        },{
-        userName: "loopertwo",
-        password: "pass8",
-        firstName: "Dawn",
-        lastName: "Joy",
-        image: "/images/3.jpg",
-        miles: '10' 
-        },{
-        userName: "partypooper2",
-        password: "pass9",
-        firstName: "Poopy",
-        lastName: "Party",
-        image: "/images/1.png",
-        miles: '45'
-        },{
-        userName: "railgunner",
-        password: "pass10",
-        firstName: "Mark",
-        lastName: "Twain",
-        image: "/images/1.png",
-        miles: '5' 
-    }];
     
     //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
     //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 22564e175af6486d82075db9d583c551 
@@ -222,6 +144,19 @@ function Homepage() {
         }
         
     }
+    const addImageUrl = (url) => {
+        let newImageUrl = { profilePicture: url};
+
+        if(user !== null && newImageUrl != null){
+            updateDoc(doc(database, "userInfo", auth.currentUser.uid), newImageUrl)
+            .then(docRef => {
+                
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+        }
+    }
     const nextClick = () => {
         setIndex((prevIndex) => (prevIndex + 1) % users.length);
     };
@@ -316,6 +251,7 @@ function Homepage() {
         const imageRef = ref(storage, `images/${auth.currentUser.uid}`);
         uploadBytes(imageRef, imageUpload).then(() => {
              getDownloadURL(imageRef).then((url) => {
+                addImageUrl(url);
                 setProfilePictureUrl(url);
              })
         })
@@ -324,11 +260,9 @@ function Homepage() {
 
     useEffect(() =>{
         onAuthStateChanged(auth, (data) => {
-           if (data) {
-             navigate("/Homepage");
+           if (!data) {
+             navigate("/");
              //alert("logged in");
-           }else{
-            navigate("/")
            }
          });
 
@@ -423,7 +357,7 @@ function Homepage() {
                     <div className="homepage-content profileLayout matchList">
                         <div className="userInfo">
                             <div className="displayPhoto">
-                                <img src = {dummyData[index].image} className="displayImg"/>
+                                <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className="displayImg"/>
                             </div>
                             <span className="userFirstName"/> {users[currentIndex].firstname}
                             <span className="username"/>  {users[currentIndex].username}
@@ -432,7 +366,7 @@ function Homepage() {
                         </div>
 
                         <div className="userPref">
-                            <div className="userBio">{dummyData[index].bio}</div>
+                            <div className="userBio">{users[currentIndex].bio}</div>
                             <div className="TopSongsList">
                                 
                             
@@ -445,7 +379,7 @@ function Homepage() {
                             <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
-                            <img src={dummyData[index].image} className='popup-img' />
+                            <img src={users[currentIndex].profilePicture} className='popup-img' />
                             </MatchPopup>
                         </div>
                         
@@ -453,8 +387,8 @@ function Homepage() {
                         <div className='userChatButton'>
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} user={user} nextClick2={handleNextClick}>
-                            <img src={profilePictureUrl} className='userImg' />
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={handleNextClick}>
+                            <img src={users[currentIndex].profilePicture}  className='userImg' />
                             </Chatwindow>
                         </div>
                         
@@ -468,14 +402,14 @@ function Homepage() {
                     {userProfile &&
                     <div className="homepage-content profileLayout showUserProfile">
                         <div className="userInfo">
-                            <div className="displayPhoto"><img src = {dummyData[0].image} className="displayImg"/></div>
+                            <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
                             <span className="userFirstName"> {firstname} {lastname}</span>
                             <span className="username">{username}</span>
                             <div className="userLocation"> {zipcode}</div>
                         </div>
 
                         <div className="userPref">
-                            <div className="userBio">{dummyData[0].bio}</div>
+                            <div className="userBio">{bio}</div>
                             <div className="userTopSongs">
                            <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
                                     
