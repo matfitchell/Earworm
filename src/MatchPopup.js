@@ -7,7 +7,7 @@ function MatchPopup(props) {
       <div className="popup-inner">
         <h2>You have matched with {props.firstName}!</h2>
         {props.children}
-
+          
         <button className="message-btn">Message</button>
         <button className="close-btn" onClick={() => {props.setTrigger(false); props.nextClick2()}}>Continue Matching</button>
       </div>
