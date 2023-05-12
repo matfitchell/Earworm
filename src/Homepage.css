@@ -235,7 +235,7 @@ Dark Sky Blue - 81C3D&
     justify-content: space-between;
 }
 
-.userChat{
+.userChatButton{
     padding: 15px;
     width: 60%;
     display: flex;

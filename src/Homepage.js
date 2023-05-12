@@ -333,26 +333,26 @@ function Homepage() {
          });
 
         const getCurrentUserInfo = async () =>{
-        //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
-        // const docRef = doc(database, "userInfo", auth.currentUser.uid);
-        if(user){
-            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-            
-            setFirstname(docSnap.data().firstname);
-            setLastname(docSnap.data().lastname);
-            setEmail(docSnap.data().email);
-            setUsername(docSnap.data().username);
-            setZipcode(docSnap.data().zipcode);
-            
-            try{
-                setBio(docSnap.data().bio);
-            }catch(error){
-                console.error();
-            }
-            getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
-              setProfilePictureUrl(url);
-            });
-        }  
+            //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
+            // const docRef = doc(database, "userInfo", auth.currentUser.uid);
+            if(user){
+                const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+                
+                setFirstname(docSnap.data().firstname);
+                setLastname(docSnap.data().lastname);
+                setEmail(docSnap.data().email);
+                setUsername(docSnap.data().username);
+                setZipcode(docSnap.data().zipcode);
+                
+                try{
+                    setBio(docSnap.data().bio);
+                }catch(error){
+                    console.error();
+                }
+                getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+                setProfilePictureUrl(url);
+                });
+            }  
         };
 
         async function getUsersFromFirestore(){
@@ -450,10 +450,11 @@ function Homepage() {
                         </div>
                         
                         {/*----"chat window" button-----*/}
-                        <div className='userChat'>
+                        <div className='userChatButton'>
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} user={user} nextClick2={handleNextClick}>
+                            <img src={profilePictureUrl} className='userImg' />
                             </Chatwindow>
                         </div>
                         

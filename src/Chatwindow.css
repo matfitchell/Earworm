@@ -1,33 +1,34 @@
 /* Chat window styling */
 .body{
     background-color: rbga(0,0,0,.8) ;
+    border: collapse;
 }
 
-.popup{
-    /* ".home" */
+/* chat window popup styles */
+.chat-home {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgb(0,0,0,0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     
-    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     z-index: 1000;
 }
 
-.popup-inner{
-    /* ".container" */
-    background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.7));
-    
+/* chat window container styles */
+.chat-container {
+    background: linear-gradient(to right, #3a7ca5, rgba(255, 255, 255, 0.7));
     border: 1px solid white;
     border-radius: 10px;
+    border: collapse;
     width: 100%;
-    max-width: 800px;
-    height: 60%;
+    max-width: 1000px;
+    height: 80%;
     display: flex;
     overflow: hidden;
     
@@ -36,6 +37,151 @@
         -khtml-user-select: none;
         -webkit-user-select: none;
         -o-user-select: none;
+}
+
+/* chat window sidebar styles */
+.sidebar {
+    flex: 1;
+    /*background-color: rgba(16, 46, 180, 0.26);*/
+    border: 1px solid white;
+    border: collapse;
+    position: relative;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    /* /*background-color: rgba(25, 8, 175, 0.26);*/
+    border: 1px solid white;
+    border: collapse;
+    height: 40px;
+    padding: 5px;
+    justify-content: space-between;
+    color: rgb(255, 255, 255);
+}
+
+.logo {
+    font-weight: bold;
+}
+
+.user {
+    display: flex;
+    gap: 10px;
+}
+
+.userImg {
+    background-color: white;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search {
+    border-bottom: 1px solid gray;
+    border: collapse;
+}
+
+.searchForm {
+    padding: 10px;
+}
+
+.searchInput {
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+
+    &::placeholder {
+        color: lightgrey;
+    }
+}
+
+.userChat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #1562d6;
+    }
+    
+}
+
+.otherUserImg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.userChatInfo span {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.userChatInfo p {
+    font-size: 14px;
+    color: white;
+}
+
+/* chat window chat messges styles */
+.chat {
+    flex: 2;
+}
+
+.chatInfo {
+    height: 40px;
+    /*background-color: rgba(25, 8, 175, 0.26);*/
+    border: 1px solid white;
+    border: collapse;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    color: lightgray;
+}
+
+.chatIcons {
+    display: flex;
+    gap: 10px;
+}
+
+.chatIconImg {
+    height: 24px;
+    cursor: pointer;
+}
+
+.messages {
+    /*background-color: rgb(112, 123, 175);*/
+    border: 1px solid white;
+    border: collapse;
+    padding: 10px;
+    height: calc(100% - 120px);
+    /*overflow: scroll;*/
+}
+
+.messageInput {
+    height: 40px;
+    background-color: white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.messageInput input[type=text] {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+
+    &::placeholder {
+        color: lightgrey;
+    }
 }
 
 /* close chat button styles */
@@ -47,6 +193,7 @@
     margin: 20px 10px;
     font-weight: bold;
     border: 2px solid rgb(10, 75, 146);
+    background-color: rgba(16, 46, 180, 0.26);
     cursor: pointer;
     background: transparent;
     color: white;
@@ -54,6 +201,26 @@
     transition-duration: 0.3s;
     -webkit-animation-duration: 0.3s;
     -webkit-transition-property: box-shadow, transform;
+    cursor: pointer;
+}
+
+.send {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.send img {
+    height: 24px;
+    cursor: pointer;
+}
+
+.send button {
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    background-color: blue;
+    cursor: pointer;
 }
 
 .close-btn:hover, .close-btn:focus, .close-btn:active{
