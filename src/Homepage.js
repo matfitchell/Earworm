@@ -260,16 +260,29 @@ function Homepage() {
 
     useEffect(() =>{
         onAuthStateChanged(auth, (data) => {
-           if (!data) {
-             navigate("/");
+           if (data) {
+             navigate('/Homepage');
              //alert("logged in");
+           }else{
+            navigate('/');
            }
          });
 
+        
+
+        async function getUsersFromFirestore(){
+            const data = await getDocs(collection(database, "userInfo"));
+            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
+            setUsers(userssss);
+        }
+        getUsersFromFirestore();
+        //getCurrentUserInfo();
+    }, []);
         const getCurrentUserInfo = async () =>{
             //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
             // const docRef = doc(database, "userInfo", auth.currentUser.uid);
-            if(user){
+            const currentUser = auth.currentUser;
+        if (currentUser && currentUser.uid) { // <-- Use a null check instead of optional chaining
                 const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
                 
                 setFirstname(docSnap.data().firstname);
@@ -289,15 +302,9 @@ function Homepage() {
             }  
         };
 
-        async function getUsersFromFirestore(){
-            const data = await getDocs(collection(database, "userInfo"));
-            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
-            setUsers(userssss);
-        }
-        getUsersFromFirestore();
-        getCurrentUserInfo();
-    }, []);
-
+        useEffect(() => {
+          getCurrentUserInfo();
+        }, [auth.currentUser]);
     // console.log(getDownloadURL())
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
@@ -379,7 +386,7 @@ function Homepage() {
                             <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
-                            <img src={users[currentIndex].profilePicture} className='popup-img' />
+                            <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
                         </div>
                         
@@ -388,7 +395,7 @@ function Homepage() {
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
                             <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={handleNextClick}>
-                            <img src={users[currentIndex].profilePicture}  className='userImg' />
+                            <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic'  className='userImg' />
                             </Chatwindow>
                         </div>
                         

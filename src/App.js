@@ -50,6 +50,8 @@ function App() {
       if(data){
         navigate('/Homepage');
         //alert("logged in");
+      }else{
+        navigate('/');
       }
     })
   }, [])
