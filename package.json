@@ -18,7 +18,8 @@
     "react-scripts": "^2.1.8",
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.9",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zipcode-city-distance": "^1.0.6"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
