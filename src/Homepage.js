@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import './Homepage.css'
 import { useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
+import Chatwindow from './Chatwindow';
 import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
@@ -237,6 +238,7 @@ function Homepage() {
     const [userProfile, setUserProfile] = useState (false);
     const [userSettings, setUserSettings] = useState (false);
     const [buttonPopup, setButtonPopup] = useState(false);
+    const [chatButtonPopup, setChatButtonPopup] = useState(false);
     const [userInbox, setUserInbox] = useState (false);
 
     const showProfile = () => {
@@ -418,7 +420,9 @@ function Homepage() {
                             </div>
                             <span className="userFirstName"/> {users[currentIndex].firstname}
                             <span className="username"/>  {users[currentIndex].username}
-                    <div className="userLocation"> {users[currentIndex].zipcode}</div></div>
+                        <div className="userLocation"> {users[currentIndex].zipcode}
+                        </div>
+                        </div>
 
                         <div className="userPref">
                             <div className="userBio">{dummyData[index].bio}</div>
@@ -437,6 +441,15 @@ function Homepage() {
                             <img src={dummyData[index].image} className='popup-img' />
                             </MatchPopup>
                         </div>
+                        
+                        {/*----"chat window" button-----*/}
+                        <div className='userChat'>
+                        {/* open chat button */}
+                            <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
+                            </Chatwindow>
+                        </div>
+                        
                     </div>
                     ) : (
                         <p>Loading...</p>
@@ -499,8 +512,7 @@ function Homepage() {
 
                 {userInbox &&
                     <div className="homepage-content profileLayout userSettings">
-                    <h3>messages</h3>
-                        
+                        <h3>Messages</h3>
                     </div>
                     }   
 

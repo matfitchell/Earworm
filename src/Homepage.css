@@ -210,9 +210,11 @@ Dark Sky Blue - 81C3D&
 .userBio:empty::before{
     content: "Add Bio";
 }
+
 .userBio{
     margin: 10px
 }
+
 .userTopSongs{
     display: flex;
     flex-flow: row nowrap;
@@ -231,6 +233,14 @@ Dark Sky Blue - 81C3D&
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.userChat{
+    padding: 15px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .swipe{
@@ -253,6 +263,7 @@ Dark Sky Blue - 81C3D&
     height: 80%;
     min-height: 20px;
 }
+
 .bioButton{
     width: 90px;
     margin: 20px;
