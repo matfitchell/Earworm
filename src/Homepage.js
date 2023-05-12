@@ -9,12 +9,12 @@ import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore"
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 
+
 function Homepage() {
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
-    //dummy data    
-    
+    const zipCodeData = require('zipcode-city-distance');
     //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
     //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 22564e175af6486d82075db9d583c551 
     const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
