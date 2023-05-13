@@ -7,6 +7,7 @@ import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
+import axios from 'axios';
 
 
 
@@ -39,9 +40,8 @@ function Homepage() {
     const [accessToken, setAccessToken] = useState('');
     const [spotifyUsername, setSpotifyUsername] = useState('');
     const [topSongs, setTopSongs] = useState([]);
-    const [topThreeTitles, setTopThreeTitles] = useState([]);
     const [topThree, setTopThree] = useState([]);
-    
+    const [genres, setGenres] = useState([]);
 
 
     useEffect(() => {
@@ -90,13 +90,67 @@ function Homepage() {
           }
         });
         const data = await response.json();
-        console.log('Top songs:', data);
-        setTopSongs(data);
-       
+        console.log('Top songs:', data.items);
+        setTopSongs(data.items);
+
+        
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
+       
+ 
     };
+
+
+    // get genres, been trying a lot of different methods: Shits Busted
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            console.log(response)
+            const trackIds = response.data.items.map(item => item.id);
+            const tracksResponse = await fetch(`https://api.spotify.com/v1/tracks/?ids=${trackIds.join(',')}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+    
+            const artistIds = tracksResponse.data.tracks.map(track => track.artists[0].id);
+            const artistsResponse = await fetch(`https://api.spotify.com/v1/artists/?ids=${artistIds.join(',')}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+    
+            const genreCounts = artistsResponse.data.artists.reduce((acc, curr) => {
+              curr.genres.forEach(genre => {
+                if (acc[genre]) {
+                  acc[genre]++;
+                } else {
+                  acc[genre] = 1;
+                }
+              });
+              return acc;
+            }, {});
+    
+            const genres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]).map(entry => ({
+              name: entry[0],
+              count: entry[1]
+            }));
+    
+            setGenres(genres);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        console.log("genres", genres);
+        fetchData();
+      }, [getSpotifyProfile]);
+    
 
 
     const getTopThree = async () => {
@@ -109,6 +163,7 @@ function Homepage() {
             const data = await response.json();
             setTopThree(data.items);        
             console.log(data)
+            
         } catch (error) {
           console.log(error);
         }
@@ -344,6 +399,8 @@ function Homepage() {
 
       <button onClick={getTopThree}> Get Top Three Songs</button>
 
+     
+
                     <div className="SpotifyLogin">
                             <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
                         </div>
@@ -356,7 +413,17 @@ function Homepage() {
                                 </div>
                                 ))}
                             </div>
-                            
+                    
+                    <div className = "Genres">
+                    <h4>Genres of Top 20 User's Tracks</h4>
+                        <ul>
+                            {genres.map(genre => (
+                            <li key={genre.name}>
+                                {genre.name} ({genre.count})
+                            </li>
+                            ))}
+                        </ul>
+                    </div>
                     {/*-----buttons/navigation-----*/}
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
