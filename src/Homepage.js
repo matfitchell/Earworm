@@ -102,31 +102,41 @@ function Homepage() {
     };
 
 
-    // get genres, been trying a lot of different methods: Shits Busted
-    useEffect(() => {
-        const fetchData = async () => {
+    // get genres of top 20 songs
+    
+        const fetchGenres = async () => {
           try {
             const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
               headers: {
                 'Authorization': `Bearer ${accessToken}`
               }
             });
-            console.log(response)
-            const trackIds = response.data.items.map(item => item.id);
+
+            const data = await response.json();
+            console.log(data.items)
+            const trackIds = data.items.map(item => item.id);
             const tracksResponse = await fetch(`https://api.spotify.com/v1/tracks/?ids=${trackIds.join(',')}`, {
               headers: {
                 'Authorization': `Bearer ${accessToken}`
               }
             });
-    
-            const artistIds = tracksResponse.data.tracks.map(track => track.artists[0].id);
+
+            const tracksResponseData = await tracksResponse.json();
+
+            console.log("tracks :" , tracksResponseData.tracks);
+
+            const artistIds = tracksResponseData.tracks.map(track => track.artists[0].id);
             const artistsResponse = await fetch(`https://api.spotify.com/v1/artists/?ids=${artistIds.join(',')}`, {
               headers: {
                 'Authorization': `Bearer ${accessToken}`
               }
             });
-    
-            const genreCounts = artistsResponse.data.artists.reduce((acc, curr) => {
+
+            const artistsResponseData = await artistsResponse.json();
+
+            console.log("Artists", artistsResponseData.artists);
+
+            const genreCounts = artistsResponseData.artists.reduce((acc, curr) => {
               curr.genres.forEach(genre => {
                 if (acc[genre]) {
                   acc[genre]++;
@@ -147,9 +157,8 @@ function Homepage() {
             console.error(error);
           }
         };
-        console.log("genres", genres);
-        fetchData();
-      }, [getSpotifyProfile]);
+        
+      
     
 
 
@@ -394,7 +403,7 @@ function Homepage() {
                     </div>
 
                     <button onClick={handleLogin}>Link Spotify Account</button>
-      {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
+                    {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
       <button onClick={getTopSongs}>Get Top Songs</button>
 
       <button onClick={getTopThree}> Get Top Three Songs</button>
@@ -415,6 +424,7 @@ function Homepage() {
                             </div>
                     
                     <div className = "Genres">
+                        <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
                     <h4>Genres of Top 20 User's Tracks</h4>
                         <ul>
                             {genres.map(genre => (
