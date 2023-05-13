@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './Homepage.css'
 import { useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
@@ -8,10 +8,13 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
-
-
+import { AuthContext } from './context/AuthContext';
 
 function Homepage() {
+    {/* Added this here to get the currentUser from the AuthContext component */}
+    const {currentUser} = useContext(AuthContext);
+    const {currentUserDoc} = useContext(AuthContext);
+    
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
@@ -196,6 +199,7 @@ function Homepage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
     const [preferredDist, setPreferredDist] = useState(0);
+    
     const addBio = () =>{
         let newBio = { bio: document.getElementById('bio-input').value };
         
@@ -239,36 +243,25 @@ function Homepage() {
     const [userSettings, setUserSettings] = useState (false);
     const [buttonPopup, setButtonPopup] = useState(false);
     const [chatButtonPopup, setChatButtonPopup] = useState(false);
-    const [userInbox, setUserInbox] = useState (false);
+    
 
     const showProfile = () => {
         setUserDefault (false);
         setUserProfile (true);
         setUserSettings (false);
-        setUserInbox (false);
     }
 
     const showSettings = () => {
         setUserDefault (false);
         setUserProfile (false);
         setUserSettings (true);
-        setUserInbox (false);
     }
 
     const showDefault = () => {
         setUserDefault (true);
         setUserProfile (false);
         setUserSettings (false);
-        setUserInbox (false);
     }
-
-    const showInbox = () => {
-        setUserDefault (false);
-        setUserProfile (false);
-        setUserSettings (false);
-        setUserInbox (true);
-    }
-
 
     
     const handleInput = (event) => {
@@ -333,7 +326,7 @@ function Homepage() {
            }
          });
 
-        const getCurrentUserInfo = async () =>{
+        const getCurrentUserInfo = async () => {
             //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
             // const docRef = doc(database, "userInfo", auth.currentUser.uid);
             if(user){
@@ -355,7 +348,7 @@ function Homepage() {
                 });
             }  
         };
-
+        
         async function getUsersFromFirestore(){
             const data = await getDocs(collection(database, "userInfo"));
             const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
@@ -386,7 +379,7 @@ function Homepage() {
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
                 <section className="flexHomepage sidePart"> {/*-----left side-----*/}
-                
+
                     {/*-----header-----*/}
                     <div className="header-content">
                         <div className="homepage-logo">
@@ -397,9 +390,10 @@ function Homepage() {
 
                     {/*-----left side: user info-----*/}
                     <div className="userInfo">
-                        <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
-                        <span className="userFirstName"> {firstname} </span>
-                        <span className="username">{username}</span>
+                        <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                        <span className="userFirstName"> {currentUserDoc.firstname} </span>
+                        <span className="username">{currentUserDoc.username}</span>
+                        {/*<span className="currentUserUsername">{currentUserDoc.email}</span>*/}
                     </div>
 
                     <button onClick={handleLogin}>Link Spotify Account</button>
@@ -438,7 +432,6 @@ function Homepage() {
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
                         <button className = "button-profile" id='profile' onClick={showProfile}>Profile</button>
-                        <button className = "button-inbox" id='inbox' onClick={showInbox}>Inbox</button>
                         <button className = "button-settings" id='settings' onClick={showSettings}>Settings</button>
                         <button className = "button-logout" id='logout' onClick={handlelogout}>Log Out</button>
                         {/* <button className = "button settings" onClick={getData}>Get Data</button> */}
@@ -498,10 +491,10 @@ function Homepage() {
                     {userProfile &&
                     <div className="homepage-content profileLayout showUserProfile">
                         <div className="userInfo">
-                            <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
-                            <span className="userFirstName"> {firstname} {lastname}</span>
-                            <span className="username">{username}</span>
-                            <div className="userLocation"> {zipcode}</div>
+                            <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                            <span className="userFirstName"> {currentUserDoc.firstname} {currentUserDoc.lastname}</span>
+                            <span className="username">{currentUserDoc.username}</span>
+                            <div className="userLocation"> {currentUserDoc.zipcode}</div>
                         </div>
 
                         <div className="userPref">
@@ -539,13 +532,7 @@ function Homepage() {
                         </div>
                         
                     </div>
-                    } {/*-----End of User Settings-----*/}
-
-                {userInbox &&
-                    <div className="homepage-content profileLayout userSettings">
-                        <h3>Messages</h3>
-                    </div>
-                    }   
+                    } {/*-----End of User Settings-----*/} 
 
                 </main>
             </div>
