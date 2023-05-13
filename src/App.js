@@ -69,6 +69,8 @@ function App() {
       .then((response) => {
         //console.log(response.user);
         setDoc(doc(database, 'userInfo', auth.currentUser.uid), data);
+        // create the empty userChats collection 
+        setDoc(doc(database, 'userChats', auth.currentUser.uid), {});
       })
       .catch((err) => {
         alert(err.message);
