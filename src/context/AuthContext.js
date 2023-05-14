@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
         
         const getCurrentUserInfo = async () => {
           if(user) {
-            console.log("We have a user...");
+            console.log("We have a currently signed in user and userInfo doc...");
             const docSnap = await getDoc(doc(database, 'userInfo', user.uid));
             //console.log("docSnap: ", docSnap);
             //console.log("doscSnap.data(): ", docSnap.data());
@@ -30,8 +30,6 @@ export const AuthContextProvider = ({ children }) => {
 
         getCurrentUserInfo();
         
-        
-      
       });
       
       return () => {
@@ -39,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
       };
       
     }, []);
-  
+    
     return (
       <AuthContext.Provider value={{ currentUser, currentUserDoc }}>
         {children}
