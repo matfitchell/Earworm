@@ -427,9 +427,13 @@ function Homepage() {
                     
                     <div className = "Genres">
                         <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
-                    <h4>Genres of Top 20 User's Tracks</h4>
+                    <h4>Top Three Genres</h4>
                         <ul>
-                            {genres.map(genre => (
+                            {/* {genres.map(genre => (
+                            <li key={genre.name}>
+                                {genre.name} ({genre.count})
+                            </li> */}
+                            {genres.slice(0, 3).map(genre => (
                             <li key={genre.name}>
                                 {genre.name} ({genre.count})
                             </li>
