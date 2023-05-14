@@ -5,7 +5,7 @@ import MatchPopup from './MatchPopup';
 import Chatwindow from './Chatwindow';
 import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, setDoc, query, where } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
 import { AuthContext } from './context/AuthContext';
@@ -228,14 +228,7 @@ function Homepage() {
             })
         }
     }
-    const nextClick = () => {
-        setIndex((prevIndex) => (prevIndex + 1) % users.length);
-    };
-
-    const nextClick2 = () => {
-        showDefault();
-        setIndex((prevIndex) => (prevIndex + 1) % users.length);
-    };
+    
 
     //buttons 
     const [userDefault, setUserDefault] = useState (true);
@@ -300,8 +293,15 @@ function Homepage() {
     //     })
     // }
     
-    function handleNextClick() {
-      //setCurrentIndex((prevIndex) => prevIndex + 1);
+    function swipeLeft() {
+      if(!users[currentIndex]) return;
+      const userSwiped = users[currentIndex];
+      //console.log(userSwiped.id);
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'passes', userSwiped.id), userSwiped);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
+      
+    }
+    function swipeRight() {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
     
@@ -325,8 +325,39 @@ function Homepage() {
              //alert("logged in");
            }
          });
+         
+        async function getUsersFromFirestore(){
+           
+          
+            const data = await getDocs(collection(database, "userInfo"));
+            const passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
+              (snapshot) => snapshot.docs.map((doc) => doc.id)
+            );
+            console.log(passes);
+            const userssss = data.docs.filter((doc) => doc.id !== auth.currentUser.uid).map((doc) => ({ ...doc.data(), id: doc.id}));
+            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
 
-        const getCurrentUserInfo = async () => {
+            var tempArray = [];
+            //check distance before adding to users array
+            let x = 0;
+            let testVal = 100;
+            for (x = 0; x < userssss.length; x++) {
+                let myZip = docSnap.data().zipcode.toString();
+                let theirZip = userssss[x].zipcode.toString();
+                let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
+                //console.log(zipCodeDistance);
+                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id)) {
+                    tempArray.push(userssss[x]);
+                }
+            }
+
+            setUsers(tempArray);
+        }
+        getUsersFromFirestore();
+        
+    }, []);
+
+     const getCurrentUserInfo = async () => {
             //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
             // const docRef = doc(database, "userInfo", auth.currentUser.uid);
             if(user){
@@ -343,38 +374,15 @@ function Homepage() {
                 }catch(error){
                     console.error();
                 }
-                getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
-                setProfilePictureUrl(url);
+                  getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+                  setProfilePictureUrl(url);
                 });
             }  
         };
-        
-        async function getUsersFromFirestore(){
-            const data = await getDocs(collection(database, "userInfo"));
-            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
-            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
 
-            var tempArray = [];
-            //check distance before adding to users array
-            let x = 0;
-            let testVal = 100;
-            for (x = 0; x < userssss.length; x++) {
-                let myZip = docSnap.data().zipcode.toString();
-                let theirZip = userssss[x].zipcode.toString();
-                let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
-                //console.log(zipCodeDistance);
-                if (zipCodeDistance <= testVal) {
-                    tempArray.push(userssss[x]);
-                }
-            }
-
-            setUsers(tempArray);
-        }
-        getUsersFromFirestore();
-        getCurrentUserInfo();
-    }, []);
-
-    // console.log(getDownloadURL())
+        useEffect(() =>{
+          getCurrentUserInfo();
+        },[auth.currentUser])
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -465,10 +473,10 @@ function Homepage() {
                         
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
-                            <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                            <button className='btn' onClick={swipeLeft}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
-                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
-                            <img src={users[currentIndex].profilePicture} className='popup-img' />
+                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={swipeRight}>
+                            <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
                         </div>
                         
@@ -476,8 +484,8 @@ function Homepage() {
                         <div className='userChatButton'>
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={handleNextClick}>
-                            <img src={users[currentIndex].profilePicture}  className='userImg' />
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}>
+                            <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic'  className='userImg' />
                             </Chatwindow>
                         </div>
                         
