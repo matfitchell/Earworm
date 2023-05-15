@@ -1,22 +1,21 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 import { database } from "../firebase";
-
-
 
 const Chats = () => {
     const [chats , setChats] = useState([]); 
 
     const { currentUser } = useContext(AuthContext);
-    const { currentUserDoc} = useContext(AuthContext);
-
+    //const { currentUserDoc} = useContext(AuthContext);
+    const { dispatch } = useContext(ChatContext);
 
     useEffect(() => {
         const getChats = () => {
-            console.log("currentUser.uid: ", currentUser.uid);
+            //console.log("currentUser.uid: ", currentUser.uid);
             const unsub = onSnapshot(doc(database, "userChats", currentUser.uid), (doc) => {
-                console.log("userChat for this user: ", doc.data());
+                //console.log("userChat for this user: ", doc.data());
                 setChats(doc.data());
             });
 
@@ -28,26 +27,29 @@ const Chats = () => {
         currentUser.uid && getChats();
     }, [currentUser.uid]);
 
-    //if(chats){
-      //  console.log("chats/userChats: ", chats);
-        //console.log(Object.entries(chats));
-        //console.log(Object.entries(chats)?.map((chat) => chat[0]));
-        //console.log(Object.entries(chats)?.map((chat) => chat[1]));
-    //} else {
-      //  console.log("no chats/userChats");
-    //}
+    
+    //console.log("chats/userChats: ", chats);
+    //console.log(Object.entries(chats));
+    //console.log(Object.entries(chats)?.map((chat) => chat[0]));
+    //console.log(Object.entries(chats)?.map((chat) => chat[1]));
+
+    const handleSelect = (u) => {
+        dispatch({ type: "CHANGE_USER", payload: u });
+    };
     
     return (
-        <div className='chats'>
-        <div className="userChat">
-                <img className="otherUserImg" src="/images/1.png" alt="Chat User" />
-                <div className="userChatInfo">
-                    <span>This User</span>
-                    <p>Hello There!</p>
-                </div>
+        <div className="chats">
+          {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
+            <div className="userChat" key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)} >
+              <img className="otherUserImg" src={chat[1].userInfo.profilePicture} alt="No Photo" />
+              <div className="userChatInfo">
+                <span>{chat[1].userInfo.username}</span>
+                <p>{chat[1].lastMessage?.text}</p>
+              </div>
             </div>
-        </div>    
-    );
+          ))}
+        </div>
+      );
    
 };
 

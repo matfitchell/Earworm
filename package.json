@@ -15,7 +15,7 @@
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^6.11.0",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "5.0.1",
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.9",
     "web-vitals": "^2.1.4",
