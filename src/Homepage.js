@@ -1,16 +1,20 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './Homepage.css'
 import { useNavigate } from "react-router-dom";
 import MatchPopup from './MatchPopup';
 import Chatwindow from './Chatwindow';
 import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, setDoc, query, where } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
-
-
+import axios from 'axios';
+import { AuthContext } from './context/AuthContext';
 
 function Homepage() {
+    {/* Added this here to get the currentUser from the AuthContext component */}
+    const {currentUser} = useContext(AuthContext);
+    const {currentUserDoc} = useContext(AuthContext);
+    
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
@@ -39,9 +43,8 @@ function Homepage() {
     const [accessToken, setAccessToken] = useState('');
     const [spotifyUsername, setSpotifyUsername] = useState('');
     const [topSongs, setTopSongs] = useState([]);
-    const [topThreeTitles, setTopThreeTitles] = useState([]);
     const [topThree, setTopThree] = useState([]);
-    
+    const [genres, setGenres] = useState([]);
 
 
     useEffect(() => {
@@ -90,13 +93,76 @@ function Homepage() {
           }
         });
         const data = await response.json();
-        console.log('Top songs:', data);
-        setTopSongs(data);
-       
+        console.log('Top songs:', data.items);
+        setTopSongs(data.items);
+
+        
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
+       
+ 
     };
+
+
+    // get genres of top 20 songs
+    
+        const fetchGenres = async () => {
+          try {
+            const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+
+            const data = await response.json();
+            console.log(data.items)
+            const trackIds = data.items.map(item => item.id);
+            const tracksResponse = await fetch(`https://api.spotify.com/v1/tracks/?ids=${trackIds.join(',')}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+
+            const tracksResponseData = await tracksResponse.json();
+
+            console.log("tracks :" , tracksResponseData.tracks);
+
+            const artistIds = tracksResponseData.tracks.map(track => track.artists[0].id);
+            const artistsResponse = await fetch(`https://api.spotify.com/v1/artists/?ids=${artistIds.join(',')}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+
+            const artistsResponseData = await artistsResponse.json();
+
+            console.log("Artists", artistsResponseData.artists);
+
+            const genreCounts = artistsResponseData.artists.reduce((acc, curr) => {
+              curr.genres.forEach(genre => {
+                if (acc[genre]) {
+                  acc[genre]++;
+                } else {
+                  acc[genre] = 1;
+                }
+              });
+              return acc;
+            }, {});
+    
+            const genres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]).map(entry => ({
+              name: entry[0],
+              count: entry[1]
+            }));
+    
+            setGenres(genres);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        
+      
+    
 
 
     const getTopThree = async () => {
@@ -109,6 +175,7 @@ function Homepage() {
             const data = await response.json();
             setTopThree(data.items);        
             console.log(data)
+            
         } catch (error) {
           console.log(error);
         }
@@ -132,6 +199,7 @@ function Homepage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
     const [preferredDist, setPreferredDist] = useState(0);
+    
     const addBio = () =>{
         let newBio = { bio: document.getElementById('bio-input').value };
         
@@ -160,14 +228,7 @@ function Homepage() {
             })
         }
     }
-    const nextClick = () => {
-        setIndex((prevIndex) => (prevIndex + 1) % users.length);
-    };
-
-    const nextClick2 = () => {
-        showDefault();
-        setIndex((prevIndex) => (prevIndex + 1) % users.length);
-    };
+    
 
     //buttons 
     const [userDefault, setUserDefault] = useState (true);
@@ -175,36 +236,25 @@ function Homepage() {
     const [userSettings, setUserSettings] = useState (false);
     const [buttonPopup, setButtonPopup] = useState(false);
     const [chatButtonPopup, setChatButtonPopup] = useState(false);
-    const [userInbox, setUserInbox] = useState (false);
+    
 
     const showProfile = () => {
         setUserDefault (false);
         setUserProfile (true);
         setUserSettings (false);
-        setUserInbox (false);
     }
 
     const showSettings = () => {
         setUserDefault (false);
         setUserProfile (false);
         setUserSettings (true);
-        setUserInbox (false);
     }
 
     const showDefault = () => {
         setUserDefault (true);
         setUserProfile (false);
         setUserSettings (false);
-        setUserInbox (false);
     }
-
-    const showInbox = () => {
-        setUserDefault (false);
-        setUserProfile (false);
-        setUserSettings (false);
-        setUserInbox (true);
-    }
-
 
     
     const handleInput = (event) => {
@@ -243,8 +293,15 @@ function Homepage() {
     //     })
     // }
     
-    function handleNextClick() {
-      //setCurrentIndex((prevIndex) => prevIndex + 1);
+    function swipeLeft() {
+      if(!users[currentIndex]) return;
+      const userSwiped = users[currentIndex];
+      //console.log(userSwiped.id);
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'passes', userSwiped.id), userSwiped);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
+      
+    }
+    function swipeRight() {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
     
@@ -270,18 +327,39 @@ function Homepage() {
             navigate('/');
            }
          });
-
-        
-
+         
         async function getUsersFromFirestore(){
+           
+          
             const data = await getDocs(collection(database, "userInfo"));
-            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
-            setUsers(userssss);
+            const passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
+              (snapshot) => snapshot.docs.map((doc) => doc.id)
+            );
+            console.log(passes);
+            const userssss = data.docs.filter((doc) => doc.id !== auth.currentUser.uid).map((doc) => ({ ...doc.data(), id: doc.id}));
+            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+
+            var tempArray = [];
+            //check distance before adding to users array
+            let x = 0;
+            let testVal = 100;
+            for (x = 0; x < userssss.length; x++) {
+                let myZip = docSnap.data().zipcode.toString();
+                let theirZip = userssss[x].zipcode.toString();
+                let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
+                //console.log(zipCodeDistance);
+                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id)) {
+                    tempArray.push(userssss[x]);
+                }
+            }
+
+            setUsers(tempArray);
         }
         getUsersFromFirestore();
-        //getCurrentUserInfo();
+        
     }, []);
-        const getCurrentUserInfo = async () =>{
+
+     const getCurrentUserInfo = async () => {
             //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
             // const docRef = doc(database, "userInfo", auth.currentUser.uid);
             const currentUser = auth.currentUser;
@@ -299,43 +377,20 @@ function Homepage() {
                 }catch(error){
                     console.error();
                 }
-                getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
-                setProfilePictureUrl(url);
+                  getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+                  setProfilePictureUrl(url);
                 });
             }  
         };
 
-        async function getUsersFromFirestore(){
-            const data = await getDocs(collection(database, "userInfo"));
-            const userssss = data.docs.map((doc) => ({ ...doc.data(), id: doc.id}));
-            const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-
-            var tempArray = [];
-            //check distance before adding to users array
-            let x = 0;
-            let testVal = 100;
-            for (x = 0; x < userssss.length; x++) {
-                let myZip = docSnap.data().zipcode.toString();
-                let theirZip = userssss[x].zipcode.toString();
-                let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
-                //console.log(zipCodeDistance);
-                if (zipCodeDistance <= testVal) {
-                    tempArray.push(userssss[x]);
-                }
-            }
-
-            setUsers(tempArray);
-        }
-        getUsersFromFirestore();
-        getCurrentUserInfo();
-    }, []);
-
-    // console.log(getDownloadURL())
+        useEffect(() =>{
+          getCurrentUserInfo();
+        },[auth.currentUser])
     return (
         <div className='b-body'>    {/*-----delete??-----*/}
             <div className='homepageContainer'> {/*-----Home Container-----*/}
                 <section className="flexHomepage sidePart"> {/*-----left side-----*/}
-                
+
                     {/*-----header-----*/}
                     <div className="header-content">
                         <div className="homepage-logo">
@@ -346,16 +401,19 @@ function Homepage() {
 
                     {/*-----left side: user info-----*/}
                     <div className="userInfo">
-                        <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
-                        <span className="userFirstName"> {firstname} </span>
-                        <span className="username">{username}</span>
+                        <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                        <span className="userFirstName"> {currentUserDoc.firstname} </span>
+                        <span className="username">{currentUserDoc.username}</span>
+                        {/*<span className="currentUserUsername">{currentUserDoc.email}</span>*/}
                     </div>
 
                     <button onClick={handleLogin}>Link Spotify Account</button>
-      {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
+                    {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
       <button onClick={getTopSongs}>Get Top Songs</button>
 
       <button onClick={getTopThree}> Get Top Three Songs</button>
+
+     
 
                     <div className="SpotifyLogin">
                             <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
@@ -369,12 +427,26 @@ function Homepage() {
                                 </div>
                                 ))}
                             </div>
-                            
+                    
+                    <div className = "Genres">
+                        <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
+                    <h4>Top Three Genres</h4>
+                        <ul>
+                            {/* {genres.map(genre => (
+                            <li key={genre.name}>
+                                {genre.name} ({genre.count})
+                            </li> */}
+                            {genres.slice(0, 3).map(genre => (
+                            <li key={genre.name}>
+                                {genre.name} ({genre.count})
+                            </li>
+                            ))}
+                        </ul>
+                    </div>
                     {/*-----buttons/navigation-----*/}
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
                         <button className = "button-profile" id='profile' onClick={showProfile}>Profile</button>
-                        <button className = "button-inbox" id='inbox' onClick={showInbox}>Inbox</button>
                         <button className = "button-settings" id='settings' onClick={showSettings}>Settings</button>
                         <button className = "button-logout" id='logout' onClick={handlelogout}>Log Out</button>
                         {/* <button className = "button settings" onClick={getData}>Get Data</button> */}
@@ -408,9 +480,9 @@ function Homepage() {
                         
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
-                            <button className='btn' onClick={handleNextClick}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                            <button className='btn' onClick={swipeLeft}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
-                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={handleNextClick}>
+                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={swipeRight}>
                             <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
                         </div>
@@ -420,7 +492,7 @@ function Homepage() {
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
                             <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={handleNextClick}>
-                            <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic'  className='userImg' />
+                            <img src={users[currentIndex].profilePicture}  className='userImg' />
                             </Chatwindow>
                         </div>
                         
@@ -434,10 +506,10 @@ function Homepage() {
                     {userProfile &&
                     <div className="homepage-content profileLayout showUserProfile">
                         <div className="userInfo">
-                            <div className="displayPhoto"><img src = {profilePictureUrl} className="displayImg"/></div>
-                            <span className="userFirstName"> {firstname} {lastname}</span>
-                            <span className="username">{username}</span>
-                            <div className="userLocation"> {zipcode}</div>
+                            <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                            <span className="userFirstName"> {currentUserDoc.firstname} {currentUserDoc.lastname}</span>
+                            <span className="username">{currentUserDoc.username}</span>
+                            <div className="userLocation"> {currentUserDoc.zipcode}</div>
                         </div>
 
                         <div className="userPref">
@@ -475,13 +547,7 @@ function Homepage() {
                         </div>
                         
                     </div>
-                    } {/*-----End of User Settings-----*/}
-
-                {userInbox &&
-                    <div className="homepage-content profileLayout userSettings">
-                        <h3>Messages</h3>
-                    </div>
-                    }   
+                    } {/*-----End of User Settings-----*/} 
 
                 </main>
             </div>

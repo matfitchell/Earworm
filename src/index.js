@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import App from './App';
 import Homepage from './Homepage';
 import { AuthContextProvider } from './context/AuthContext';
+import { ChatContextProvider } from './context/ChatContext';
 
 
 
@@ -12,12 +13,14 @@ import { AuthContextProvider } from './context/AuthContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthContextProvider>
-      <BrowserRouter>
-        <Routes> 
-          <Route path='/' element={<App/>}/>
-          <Route path = "/Homepage" element={<Homepage />}/>
-        </Routes>
-      </BrowserRouter>
+      <ChatContextProvider>
+        <BrowserRouter>
+          <Routes> 
+            <Route path='/' element={<App/>}/>
+            <Route path = "/Homepage" element={<Homepage />}/>
+          </Routes>
+        </BrowserRouter>
+      </ChatContextProvider>
     </AuthContextProvider> 
 );
 
