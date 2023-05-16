@@ -384,7 +384,7 @@ function Homepage() {
         
     }, []);
 
-     const getCurrentUserInfo = async () => {
+    const getCurrentUserInfo = async () => {
             //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
             // const docRef = doc(database, "userInfo", auth.currentUser.uid);
             const currentUser = auth.currentUser;
@@ -402,9 +402,10 @@ function Homepage() {
                 }catch(error){
                     console.error();
                 }
-                  getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
-                  setProfilePictureUrl(url);
-                });
+
+                //getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+                //setProfilePictureUrl(url);
+                //});
             }  
         };
 
@@ -426,7 +427,7 @@ function Homepage() {
 
                     {/*-----left side: user info-----*/}
                     <div className="userInfo">
-                        <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                        <div className="displayPhoto"><img src = {currentUserDoc.profilePicture == null ? '/images/logo..jpg' : currentUserDoc.profilePicture} className="displayImg" alt="No Profile Photo"/></div>
                         <span className="userFirstName"> {currentUserDoc.firstname} </span>
                         <span className="username">{currentUserDoc.username}</span>
                         {/*<span className="currentUserUsername">{currentUserDoc.email}</span>*/}
@@ -550,7 +551,7 @@ function Homepage() {
                     {userProfile &&
                     <div className="homepage-content profileLayout showUserProfile">
                         <div className="userInfo">
-                            <div className="displayPhoto"><img src = {currentUserDoc.profilePicture} className="displayImg"/></div>
+                            <div className="displayPhoto"><img src = {currentUserDoc.profilePicture == null ? '/images/logo..jpg' : currentUserDoc.profilePicture}  className="displayImg" alt="Profile Photo" /></div>
                             <span className="userFirstName"> {currentUserDoc.firstname} {currentUserDoc.lastname}</span>
                             <span className="username">{currentUserDoc.username}</span>
                             <div className="userLocation"> {currentUserDoc.zipcode}</div>

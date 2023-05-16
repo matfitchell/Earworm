@@ -4,6 +4,7 @@ import { database } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 
 const Search = () => {
+  console.log("Inside Search component");
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
@@ -32,20 +33,20 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
+    //console.log("Inside handleSelect()");
+    //console.log("currentUser.uid: ", currentUser.uid);
+    //console.log("currentUserDoc: " , currentUserDoc);
+    //console.log("user: ", user);
+    //console.log("user.id: ", user.uid);
     
-    console.log("currentUser.uid: ", currentUser.uid);
-    console.log("currentUserDoc: " ,currentUserDoc);
-    console.log("user: ", user);
-    console.log("user.id: ", user.uid);
-
     //check whether the group(chats in firestore) exists, if not create
     const combinedId =
       currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+        ? currentUser.uid + " " + user.uid
+        : user.uid + " " + currentUser.uid;
     try {
       const res = await getDoc(doc(database, "chats", combinedId));
-
+      console.log("getChats(): ", res);
       if (!res.exists()) {
         //create a chat in chats collection
         await setDoc(doc(database, "chats", combinedId), { messages: [] });
@@ -59,6 +60,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+        console.log("Updated currentUser userChats doc...");
         //create user chats for user
         await updateDoc(doc(database, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
@@ -68,6 +70,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+        console.log("Updated user userChats doc...");
       }
     } catch (err) {}
 

@@ -11,9 +11,9 @@ const Message = ({message}) => {
   const { currentUserDoc } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  console.log("currentUser: ",currentUser);
-  console.log("currentUserDoc: ",currentUserDoc);
-  console.log("data: ",data);
+  //console.log("currentUser: ",currentUser);
+  //console.log("currentUserDoc: ",currentUserDoc);
+  //console.log("data: ",data);
 
   const ref = useRef();
   const messageDate = message.date.toDate().toLocaleString();
