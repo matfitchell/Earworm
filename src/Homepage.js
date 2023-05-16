@@ -14,7 +14,7 @@ function Homepage() {
     {/* Added this here to get the currentUser from the AuthContext component */}
     const {currentUser} = useContext(AuthContext);
     const {currentUserDoc} = useContext(AuthContext);
-    
+    let usersSwiped;
     let auth = getAuth();
     let user = auth.currentUser;
     const navigate = useNavigate();
@@ -303,7 +303,16 @@ function Homepage() {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
       
     }
-    function swipeRight() {
+    async function swipeRight() {
+      if(!users[currentIndex]) return;
+      const swipes = await getDocs(collection(database, 'userInfo', users[currentIndex].id, 'swipes')).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.id)
+      )
+      if(swipes.includes(auth.currentUser.uid)){
+        setButtonPopup(true);
+      }
+      const userSwiped = users[currentIndex];
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'swipes', userSwiped.id), userSwiped);
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
 
@@ -343,6 +352,10 @@ function Homepage() {
        
     }
 
+    
+      
+      
+
     useEffect(() =>{
         onAuthStateChanged(auth, (data) => {
            if (data) {
@@ -360,6 +373,11 @@ function Homepage() {
             const passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
               (snapshot) => snapshot.docs.map((doc) => doc.id)
             );
+
+            const swipes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'swipes')).then(
+              (snapshot) => snapshot.docs.map((doc) => doc.id)
+            )
+
             //console.log(passes);
             const userssss = data.docs.filter((doc) => doc.id !== auth.currentUser.uid).map((doc) => ({ ...doc.data(), id: doc.id}));
             const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
@@ -373,12 +391,13 @@ function Homepage() {
                 let theirZip = userssss[x].zipcode.toString();
                 let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
                 //console.log(zipCodeDistance);
-                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id)){
+                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id) && !swipes.includes(userssss[x].id)){
                     tempArray.push(userssss[x]);
                 }
             }
-
+            
             setUsers(tempArray);
+            
         }
         getUsersFromFirestore();
         
@@ -507,7 +526,7 @@ function Homepage() {
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
                             <button className='btn' onClick={() => { swipeLeft();}}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
-                            <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
+                            <button className='btn' onClick={swipeRight}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
                             <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={() => { swipeRight();}}>
                             <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
