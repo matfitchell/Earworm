@@ -19,6 +19,8 @@ function Homepage() {
     let user = auth.currentUser;
     const navigate = useNavigate();
     const zipCodeData = require('zipcode-city-distance');
+    //let userssss;
+    //let passes;
     //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
     //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 22564e175af6486d82075db9d583c551 
     const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
@@ -304,7 +306,30 @@ function Homepage() {
     function swipeRight() {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
+
     
+    //------------Try Snapshot in get users function------------------
+    // async function updateUsersList (){
+    //     // let tempArray = [];
+    //     // passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
+    //     //       (snapshot) => snapshot.docs.map((doc) => doc.id)
+    //     //     );
+    //     // console.log(passes);
+    //     // if(users != null){
+    //     //     for (let x = 0; x < users.length; x++){
+    //     //         console.log("Updated");
+    //     //         if (!passes.includes(users[x].id)){
+    //     //             tempArray.push(users[x]);
+    //     //         }
+    //     //     }
+
+    //     //     setUsers(tempArray);
+    //     // }
+    //     console.log(users);
+    //     delete users[0];
+    //     console.log(users);
+    // }
+
     const uploadImage = () =>{
         if(imageUpload == null) return;
 
@@ -335,20 +360,20 @@ function Homepage() {
             const passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
               (snapshot) => snapshot.docs.map((doc) => doc.id)
             );
-            console.log(passes);
+            //console.log(passes);
             const userssss = data.docs.filter((doc) => doc.id !== auth.currentUser.uid).map((doc) => ({ ...doc.data(), id: doc.id}));
             const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-
+            //console.log(userssss)
             var tempArray = [];
             //check distance before adding to users array
             let x = 0;
             let testVal = 100;
-            for (x = 0; x < userssss.length; x++) {
+            for (x = 0; x < userssss.length; x++){
                 let myZip = docSnap.data().zipcode.toString();
                 let theirZip = userssss[x].zipcode.toString();
                 let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
                 //console.log(zipCodeDistance);
-                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id)) {
+                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id)){
                     tempArray.push(userssss[x]);
                 }
             }
@@ -480,9 +505,9 @@ function Homepage() {
                         
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
-                            <button className='btn' onClick={swipeLeft}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
+                            <button className='btn' onClick={() => { swipeLeft();}}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
                             <button className='btn' onClick={() => setButtonPopup(true)}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
-                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={swipeRight}>
+                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={() => { swipeRight();}}>
                             <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
                         </div>
@@ -491,14 +516,33 @@ function Homepage() {
                         <div className='userChatButton'>
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={handleNextClick}>
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={() => { swipeRight();}}>
                             <img src={users[currentIndex].profilePicture}  className='userImg' />
                             </Chatwindow>
                         </div>
                         
                     </div>
                     ) : (
-                        <p>Loading...</p>
+                        <div className="homepage-content profileLayout matchList">
+                        <div className="userInfo">
+                            <div className="displayPhoto">
+                                <img src = {'/images/logo..jpg'} alt='No Profile Pic' style={{width: 200, height: 200, alignSelf: 'center', borderRadius: 30}}/>
+                            </div>
+                            <span style={{fontSize: 15}} > No more users in your area <span style={{fontSize: 25}}>&#128546; </span></span>
+                            <span className="username" />
+                        <div className="userLocation"> 
+                        </div>
+                        </div>
+
+                        <div className="userPref">
+                            <div className="userBio">Try setting a bigger distance</div>
+                            <div className="TopSongsList">
+                                
+                            
+                            </div>
+                            
+                        </div>
+                        </div>
                     )}
                     {/*-----end of Match List/Default-----*/}
 
