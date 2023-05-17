@@ -305,49 +305,29 @@ function Homepage() {
     function swipeLeft() {
       if(!users[currentIndex]) return;
       const userSwiped = users[currentIndex];
-      //console.log(userSwiped.id);
       setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'passes', userSwiped.id), userSwiped);
-      //getCurrentUserInfo();
-      //console.log("getCurrentUSerInfo passed")
-      //setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
-      //setCurrentIndex()
       updateArrayIndex();
     }
-    async function swipeRight() {
+    function swipeRight() {
+      if(!users[currentIndex]) return;
+      const userSwiped = users[currentIndex];
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'swipes', userSwiped.id), userSwiped);
+      updateArrayIndex();
+    }
+
+    async function checkIfMatched(){
       if(!users[currentIndex]) return;
       const swipes = await getDocs(collection(database, 'userInfo', users[currentIndex].id, 'swipes')).then(
         (snapshot) => snapshot.docs.map((doc) => doc.id)
       )
       if(swipes.includes(auth.currentUser.uid)){
         setButtonPopup(true);
+      }else{
+        swipeRight();
       }
-      const userSwiped = users[currentIndex];
-      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'swipes', userSwiped.id), userSwiped);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
     }
-
     
-    //------------Try Snapshot in get users function------------------
-    // async function updateUsersList (){
-    //     // let tempArray = [];
-    //     // passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
-    //     //       (snapshot) => snapshot.docs.map((doc) => doc.id)
-    //     //     );
-    //     // console.log(passes);
-    //     // if(users != null){
-    //     //     for (let x = 0; x < users.length; x++){
-    //     //         console.log("Updated");
-    //     //         if (!passes.includes(users[x].id)){
-    //     //             tempArray.push(users[x]);
-    //     //         }
-    //     //     }
-
-    //     //     setUsers(tempArray);
-    //     // }
-    //     console.log(users);
-    //     delete users[0];
-    //     console.log(users);
-    // }
+    
 
     const uploadImage = () =>{
         if(imageUpload == null) return;
@@ -407,7 +387,6 @@ function Homepage() {
             }
             
             setUsers(tempArray);
-            console.log("set users called");
         }
         getUsersFromFirestore();
         
@@ -536,8 +515,8 @@ function Homepage() {
                         {/*----"swipe" buttons-----*/}
                         <div className="userChoice">
                             <button className='btn' onClick={() => { swipeLeft();}}><img src='/images/close_FILL0_wght400_GRAD0_opsz48.png'/></button>  {/*----className="swipe iconLeft-----*/}
-                            <button className='btn' onClick={swipeRight}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
-                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={() => { swipeRight();}}>
+                            <button className='btn' onClick={checkIfMatched}><img src='/images/favorite_FILL0_wght400_GRAD0_opsz48.png'/></button> {/*----className="swipe iconRight"-----*/}
+                            <MatchPopup trigger={buttonPopup} setTrigger={setButtonPopup} firstName={users[currentIndex].firstname} nextClick2={swipeRight}>
                             <img src = {users[currentIndex].profilePicture == null ? '/images/logo..jpg' : users[currentIndex].profilePicture} alt='No Profile Pic' className='popup-img' />
                             </MatchPopup>
                         </div>
@@ -546,11 +525,11 @@ function Homepage() {
                         <div className='userChatButton'>
                         {/* open chat button */}
                             <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={() => { swipeRight();}}>
+                            <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}>
                             <img src={users[currentIndex].profilePicture}  className='userImg' />
                             </Chatwindow>
                         </div>
-                        
+                         
                     </div>
                     ) : (
                         <div className="homepage-content profileLayout matchList">
