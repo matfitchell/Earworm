@@ -294,14 +294,24 @@ function Homepage() {
     //         alert(err.message);
     //     })
     // }
-    
+    function updateArrayIndex(){
+      if(users.length == 0) return;
+      if(currentIndex>=users.length-1){
+        setUsers([]);
+      }else{
+        setCurrentIndex((prevIndex) => (prevIndex + 1));
+      }
+    }
     function swipeLeft() {
       if(!users[currentIndex]) return;
       const userSwiped = users[currentIndex];
       //console.log(userSwiped.id);
       setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'passes', userSwiped.id), userSwiped);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
-      
+      //getCurrentUserInfo();
+      //console.log("getCurrentUSerInfo passed")
+      //setCurrentIndex((prevIndex) => (prevIndex + 1) % users.length);
+      //setCurrentIndex()
+      updateArrayIndex();
     }
     async function swipeRight() {
       if(!users[currentIndex]) return;
@@ -397,7 +407,7 @@ function Homepage() {
             }
             
             setUsers(tempArray);
-            
+            console.log("set users called");
         }
         getUsersFromFirestore();
         

@@ -15,11 +15,11 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
       const unsub = onAuthStateChanged(auth, (user) => {
         setCurrentUser(user);
-        console.log(user);
+        //console.log(user);
         
         const getCurrentUserInfo = async () => {
           if(user) {
-            console.log("We have a currently signed in user and userInfo doc...");
+            //console.log("We have a currently signed in user and userInfo doc...");
             const docSnap = await getDoc(doc(database, 'userInfo', user.uid));
             //console.log("docSnap: ", docSnap);
             //console.log("doscSnap.data(): ", docSnap.data());
