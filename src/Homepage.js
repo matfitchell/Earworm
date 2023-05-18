@@ -219,6 +219,7 @@ function Homepage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const [preferredDist, setPreferredDist] = useState(0);
+  const [matchChatList, setMatchChatList] = useState([]);
   
   const addBio = () =>{
       let newBio = { bio: document.getElementById('bio-input').value };
@@ -358,6 +359,7 @@ function Homepage() {
       (snapshot) => snapshot.docs.map((doc) => doc.id)
     )
     if(swipes.includes(auth.currentUser.uid)){
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'matchedChatList', users[currentIndex].id), users[currentIndex]);
       setButtonPopup(true);
     }else{
       swipeRight();
@@ -394,8 +396,11 @@ function Homepage() {
 
           const swipes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'swipes')).then(
             (snapshot) => snapshot.docs.map((doc) => doc.id)
-          )
+          );
 
+          const matchChatLists = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'matchedChatList')).then(
+            (snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id}))
+          );
           //console.log(passes);
           const userssss = data.docs.filter((doc) => doc.id !== auth.currentUser.uid).map((doc) => ({ ...doc.data(), id: doc.id}));
           const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
@@ -421,8 +426,9 @@ function Homepage() {
                 }
               }
           }
-          
+          setMatchChatList(matchChatLists);
           setUsers(tempArray);
+          
       }
       getUsersFromFirestore();
       
