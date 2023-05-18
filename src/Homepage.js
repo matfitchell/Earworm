@@ -522,6 +522,7 @@ function Homepage() {
         {/*-----buttons/navigation-----*/}
         <div className="nav">
             <button className = "button-home" id='home' onClick={showDefault}>Home</button>
+            <button  className = "button-profile" onClick={() =>{navigate("/chats")}}>Chats</button>
             <button className = "button-profile" id='profile' onClick={showProfile}>Profile</button>
             <button className = "button-settings" id='settings' onClick={showSettings}>Settings</button>
             <button className = "button-logout" id='logout' onClick={handlelogout}>Log Out</button>
@@ -560,13 +561,13 @@ function Homepage() {
                   </div>
 
                   {/*----"chat window" button-----*/}
-                  <div className='userChatButton'>
+                  {/* <div className='userChatButton'> */}
                     {/* open chat button */}
-                    <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> {/*----className="swipe iconRight"-----*/}
-                    <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}>
-                      <img src={users[currentIndex].profilePicture} className='userImg' />
-                    </Chatwindow>
-                  </div>
+                    {/* <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button> ----className="swipe iconRight"----- */}
+                    {/* <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}> */}
+                      {/* <img src={users[currentIndex].profilePicture} className='userImg' /> */}
+                    {/* </Chatwindow> */}
+                  {/* </div> */}
                 </>
               ) : (
                   <div>
@@ -575,8 +576,8 @@ function Homepage() {
                     </div>
                     <span style={{ fontSize: 15 }} > No more users in your area <span style={{ fontSize: 25 }}>&#128546; </span></span>
                     <div className="userBio">Try setting a bigger distance</div>
-                    <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button>
-                    <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}></Chatwindow>
+                    {/* <button className='btn' onClick={() => setChatButtonPopup(true)}>Chat</button>
+                    <Chatwindow trigger={chatButtonPopup} setTrigger={setChatButtonPopup} nextClick2={swipeRight}></Chatwindow> */}
                   </div>
                 )}
             </div>
