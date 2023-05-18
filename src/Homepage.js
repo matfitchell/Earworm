@@ -5,7 +5,7 @@ import MatchPopup from './MatchPopup';
 import Chatwindow from './Chatwindow';
 import { app, database, storage } from "./firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc, getDoc, setDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, setDoc, query, where, serverTimestamp } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { AuthContext } from './context/AuthContext';
 
@@ -363,6 +363,36 @@ function Homepage() {
     if(swipes.includes(auth.currentUser.uid)){
       setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'matchedChatList', users[currentIndex].id), users[currentIndex]); 
       setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'swipes', users[currentIndex].id), users[currentIndex]);
+      const user = users[currentIndex];
+      const combinedId =
+      currentUser.uid > user.uid
+        ? currentUser.uid + " " + user.uid
+        : user.uid + " " + currentUser.uid;
+      try{
+        const res = await getDoc(doc(database, "chats", combinedId));
+        if(!res.exists()){
+          await setDoc(doc(database, "chats", combinedId), { messages: [] });
+
+          await updateDoc(doc(database, "userChats", currentUser.uid), {
+        [combinedId + ".userInfo"]: {
+          uid: user.uid,
+          username: user.username,
+          profilePicture: user.profilePicture,
+        },
+        [combinedId + ".date"]: serverTimestamp(),
+      });
+      //console.log("Updated currentUser userChats doc...");
+      //create user chats for user
+      await updateDoc(doc(database, "userChats", user.uid), {
+        [combinedId + ".userInfo"]: {
+          uid: currentUser.uid,
+          username: currentUserDoc.username,
+          profilePicture: currentUserDoc.profilePicture,
+        },
+        [combinedId + ".date"]: serverTimestamp(),
+      });
+        }
+    } catch (err) {}
       setButtonPopup(true);
     }else{
       swipeRight();
