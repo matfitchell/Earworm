@@ -156,7 +156,8 @@ function Homepage() {
               name: entry[0],
               count: entry[1]
             }));
-    
+            let topGenre = genres[0]
+            setDoc(doc(database, 'musicTaste', auth.currentUser.uid), topGenre)
             setGenres(genres);
           } catch (error) {
             console.error(error);
@@ -441,42 +442,13 @@ function Homepage() {
                         {/*<span className="currentUserUsername">{currentUserDoc.email}</span>*/}
                     </div>
 
-                    <button onClick={handleLogin}>Link Spotify Account</button>
-                    {spotifyUsername && <p>Spotify username: {spotifyUsername}</p>}
-      <button onClick={getTopSongs}>Get Top Songs</button>
+                    
 
-      <button onClick={getTopThree}> Get Top Three Songs</button>
-
-     
-
-                    <div className="SpotifyLogin">
+                    
+                      <div className="SpotifyLogin">
                             <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
                         </div>
-
-                        <div className="Top Songs">
-                            {topThree.map(track => (
-                                <div key={track.id}>
-                                <h3>{track.name}</h3>
-                                <audio src={track.preview_url} controls />
-                                </div>
-                                ))}
-                            </div>
-                    
-                    <div className = "Genres">
-                        <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
-                    <h4>Top Three Genres</h4>
-                        <ul>
-                            {/* {genres.map(genre => (
-                            <li key={genre.name}>
-                                {genre.name} ({genre.count})
-                            </li> */}
-                            {genres.slice(0, 3).map(genre => (
-                            <li key={genre.name}>
-                                {genre.name} ({genre.count})
-                            </li>
-                            ))}
-                        </ul>
-                    </div>
+      
                     {/*-----buttons/navigation-----*/}
                     <div className="nav">
                         <button className = "button-home" id='home' onClick={showDefault}>Home</button>
@@ -500,6 +472,7 @@ function Homepage() {
                             <span className="userFirstName"/> {users[currentIndex].firstname}
                             <span className="username"/>  {users[currentIndex].username}
                         <div className="userLocation"> {users[currentIndex].zipcode}
+                        
                         </div>
                         </div>
 
@@ -567,11 +540,43 @@ function Homepage() {
 
                         <div className="userPref">
                             <div className="userBio">{bio}</div>
-                            <div className="userTopSongs">
-                           <button onClick={() => getTopSongs(accessToken)}>Get Top Songs</button>
-                                    
+                            <div className="userTopSongs">                                  
                             </div>
                         </div>
+                        <button onClick={getTopSongs}>Get Top Songs</button>
+
+                  <button onClick={getTopThree}> Get Top Three Songs</button>
+
+                    <div className = "Genres">
+                        <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
+                   </div>
+                    
+
+                    
+
+                        <div className="Top Songs">
+                            {topThree.map(track => (
+                                <div key={track.id}>
+                                <h3>{track.name}</h3>
+                                <audio src={track.preview_url} controls />
+                                </div>
+                                ))}
+                            </div>
+                            <div>
+                            <h4>Your Music Taste</h4>
+                        <ul>
+                            {/* {genres.map(genre => (
+                            <li key={genre.name}>
+                                {genre.name} ({genre.count})
+                            </li> */}
+                            {genres.slice(0,1).map(genre => (
+                            <li key={genre.name}>
+                                {genre.name}
+                            </li>
+                            ))}
+                        </ul>
+                    </div>
+                    
                     </div>
                     } {/*-----End of User Profile-----*/}
                     
