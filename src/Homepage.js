@@ -10,6 +10,7 @@ import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { AuthContext } from './context/AuthContext';
 
 function Homepage() {
+
   {/* Added this here to get the currentUser from the AuthContext component */}
   const {currentUser} = useContext(AuthContext);
   const {currentUserDoc} = useContext(AuthContext);
@@ -336,12 +337,14 @@ function Homepage() {
       setCurrentIndex((prevIndex) => (prevIndex + 1));
     }
   }
+
   function swipeLeft() {
     if(!users[currentIndex]) return;
     const userSwiped = users[currentIndex];
     setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'passes', userSwiped.id), userSwiped);
     updateArrayIndex();
   }
+
   function swipeRight() {
     if(!users[currentIndex]) return;
     const userSwiped = users[currentIndex];
@@ -360,37 +363,30 @@ function Homepage() {
       swipeRight();
     }
   }
-  
-  
 
   const uploadImage = () =>{
-      if(imageUpload == null) return;
+    if(imageUpload == null) return;
 
-      const imageRef = ref(storage, `images/${auth.currentUser.uid}`);
-      uploadBytes(imageRef, imageUpload).then(() => {
-            getDownloadURL(imageRef).then((url) => {
-              addImageUrl(url);
-              setProfilePictureUrl(url);
-            })
+    const imageRef = ref(storage, `images/${auth.currentUser.uid}`);
+    uploadBytes(imageRef, imageUpload).then(() => {
+      getDownloadURL(imageRef).then((url) => {
+        addImageUrl(url);
+        setProfilePictureUrl(url);
       })
-      
+    })   
   }
 
-  
-  
   useEffect(() =>{
-      onAuthStateChanged(auth, (data) => {
-          if (data) {
-            navigate('/Homepage');
-            //alert("logged in");
-          }else{
-          navigate('/');
-          }
-        });
-        
-      async function getUsersFromFirestore(){
-          
-        
+    onAuthStateChanged(auth, (data) => {
+      if (data) {
+        navigate('/Homepage');
+        //alert("logged in");
+      }else{
+      navigate('/');
+      }
+   });
+      
+    async function getUsersFromFirestore(){
           const data = await getDocs(collection(database, "userInfo"));
           const passes = await getDocs(collection(database, 'userInfo', auth.currentUser.uid, 'passes')).then(
             (snapshot) => snapshot.docs.map((doc) => doc.id)
@@ -433,56 +429,54 @@ function Homepage() {
   }, []);
 
   const getCurrentUserInfo = async () => {
-          //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
-          // const docRef = doc(database, "userInfo", auth.currentUser.uid);
-          const currentUser = auth.currentUser;
+    //const userData = database.collection("userInfo").doc(auth.currentUser.uid).get();
+    // const docRef = doc(database, "userInfo", auth.currentUser.uid);
+    const currentUser = auth.currentUser;
       if (currentUser && currentUser.uid) { // <-- Use a null check instead of optional chaining
-              const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
-              
-              setFirstname(docSnap.data().firstname);
-              setLastname(docSnap.data().lastname);
-              setEmail(docSnap.data().email);
-              setUsername(docSnap.data().username);
-              setZipcode(docSnap.data().zipcode);
-              
-              let pd = docSnap.data().dist;
-              if (pd == null) {
+        const docSnap = await getDoc(doc(database, 'userInfo', auth.currentUser.uid));
+        
+        setFirstname(docSnap.data().firstname);
+        setLastname(docSnap.data().lastname);
+        setEmail(docSnap.data().email);
+        setUsername(docSnap.data().username);
+        setZipcode(docSnap.data().zipcode);
+        
+        let pd = docSnap.data().dist;
+        if (pd == null) {
 
-                let newDist = { dist: 50};
+        let newDist = { dist: 50};
 
-                if (user !== null && newDist != null) {
-                  updateDoc(doc(database, "userInfo", auth.currentUser.uid), newDist)
-                  .then(docRef => {
-                      setPreferredDist(newDist.dist);
-                  })
-                  .catch(error =>{
-                      console.log(error);
-                  })
-              
-                }
-              }
-              else {
-                setPreferredDist(docSnap.data().dist);
-              }
-              
-              try{
-                  setBio(docSnap.data().bio);
-              }catch(error){
-                  console.error();
-              }
+        if (user !== null && newDist != null) {
+          updateDoc(doc(database, "userInfo", auth.currentUser.uid), newDist)
+          .then(docRef => {
+              setPreferredDist(newDist.dist);
+          })
+          .catch(error =>{
+              console.log(error);
+          })
+        }
+      } else {
+        setPreferredDist(docSnap.data().dist);
+      }
+          
+      try{
+          setBio(docSnap.data().bio);
+      }catch(error){
+          console.error();
+      }
 
-              //getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
-              //setProfilePictureUrl(url);
-              //});
-          }  
-      };
+      //getDownloadURL( ref(storage, `images/${auth.currentUser.uid}`)).then((url) => {
+      //setProfilePictureUrl(url);
+      //});
+    }  
+  };
 
-        useEffect(() =>{
-          getCurrentUserInfo();
-        },[auth.currentUser])
+  useEffect(() =>{
+    getCurrentUserInfo();
+  },[auth.currentUser])
 
 
-//-----------------------------------------------------------------------------------html
+  //-----------------------------------------------------------------------------------html
   return (
   <div className='b-body'>    {/*-----delete??-----*/}
     <div className='homepageContainer'> {/*-----Home Container-----*/}
@@ -521,7 +515,7 @@ function Homepage() {
       <main className="flexHomepage main-content">{/*-----right side container-----*/}
         {/*-----Match List/Default-----*/}
           {userDefault && (
-            <div className={users.length > 0 ? "" : "homepage-content profileLayout matchList"}>
+            <div className={users.length > 0 ? "homepage-content profileLayout matchList" : "homepage-content profileLayout matchList"}>
               {users.length > 0 ? (
                 <>
                   <div className="userInfo">
@@ -558,8 +552,8 @@ function Homepage() {
                 </>
               ) : (
                   <div>
-                    <div className="displayPhoto">
-                      <img src={'/images/logo..jpg'} alt='No Profile Pic' style={{ width: 200, height: 200, alignSelf: 'center', borderRadius: 30 }} />
+                    <div className=" ">
+                      <img src={'/images/logo.-removebg-preview.png'} alt='No Profile Pic' style={{ width: 200, height: 200, alignSelf: 'center', borderRadius: 30 }} />
                     </div>
                     <span style={{ fontSize: 15 }} > No more users in your area <span style={{ fontSize: 25 }}>&#128546; </span></span>
                     <div className="userBio">Try setting a bigger distance</div>
@@ -568,8 +562,7 @@ function Homepage() {
                   </div>
                 )}
             </div>
-          )}
-{/*-----end of Match List/Default-----*/}
+          )}{/*-----end of Match List/Default-----*/}
 
         {/*-----User Profile-----*/}
         {userProfile &&
@@ -592,13 +585,13 @@ function Homepage() {
             </div>
 
             <div className="Top Songs">
-              {topThree.map(track => (
-                <div key={track.id}>
-                  <h3>{track.name}</h3>
-                  <audio src={track.preview_url} controls />
-                </div>
-              ))}
-            </div>
+  {topThree && topThree.map(track => (
+    <div key={track.id}>
+      <h3>{track.name}</h3>
+      <audio src={track.preview_url} controls />
+    </div>
+  ))}
+</div>
           
             <div><h4>Your Music Taste</h4>
               <ul>
@@ -613,7 +606,7 @@ function Homepage() {
                   ))}
               </ul>
             </div> 
-           </div>
+          </div>
           } {/*-----End of User Profile-----*/}
                     
           {/*-----User Settings-----*/}
