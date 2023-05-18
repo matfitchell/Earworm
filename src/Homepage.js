@@ -22,8 +22,8 @@ function Homepage() {
   //let userssss;
   //let passes;
   //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
-  //ALSO, I used my client ID cause I was thinking what if I used a different client ID. will it magically work? 22564e175af6486d82075db9d583c551 
-  const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
+  //ALSO, I used my client ID cause I was thinking what if I used a different client ID. will it magically work?  2100da3530bc4465b471b768a7309a4a
+  const [clientId, setClientId] = useState('22564e175af6486d82075db9d583c551');
   const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
   const [scopes, setScopes] = useState([
       "user-read-private",
@@ -278,6 +278,7 @@ function Homepage() {
       setUserDefault (false);
       setUserProfile (true);
       setUserSettings (false);
+      getTopThree();
   }
 
   const showSettings = () => {
@@ -481,6 +482,17 @@ function Homepage() {
     getCurrentUserInfo();
   },[auth.currentUser])
 
+  const audioRef = useRef(null);
+  const playMusic = (previewUrl) => {
+    const audio = audioRef.current;
+    if (audio.paused || audio.src !== previewUrl) {
+      audio.src = previewUrl;
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
+  
 
   //-----------------------------------------------------------------------------------html
   return (
@@ -584,21 +596,22 @@ function Homepage() {
               <div className="userBio">{bio}</div>
               <div className="userTopSongs"/>                                  
             </div>
-            <button onClick={getTopSongs}>Get Top Songs</button>
-            <button onClick={getTopThree}> Get Top Three Songs</button>
+            {/* <button onClick={getTopSongs}>Get Top Songs</button>
+            <button onClick={getTopThree}> Get Top Three Songs</button> */}
             <div className = "Genres">
               <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
             </div>
 
             <div className="Top Songs">
-  {topThree && topThree.map(track => (
-    <div key={track.id}>
-      <h3>{track.name}</h3>
-      <audio src={track.preview_url} controls />
-    </div>
-  ))}
-</div>
-          
+              {topThree && topThree.map(track => (
+              <div key={track.id}>
+               <h3>{track.name}</h3>
+               <img src={track.album.images[0].url} alt="Album Art" style = {{width: '100px'}}onClick={() => playMusic(track.preview_url)} />
+              </div>
+               ))}
+               <audio ref={audioRef} />
+            </div>
+
             <div><h4>Your Music Taste</h4>
               <ul>
                 {/* {genres.map(genre => (
