@@ -23,7 +23,8 @@ function Homepage() {
   //let passes;
   //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
   //ALSO, I used my client ID cause I was thinking what if I used a different client ID. will it magically work?  2100da3530bc4465b471b768a7309a4a  
-  const [clientId, setClientId] = useState('22564e175af6486d82075db9d583c551');
+  //22564e175af6486d82075db9d583c551
+  const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
   const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
   const [scopes, setScopes] = useState([
       "user-read-private",
@@ -493,6 +494,10 @@ function Homepage() {
       audio.pause();
     }
   };
+
+  useEffect(()=>{
+    fetchGenres();
+  });
   
 
   //-----------------------------------------------------------------------------------html
@@ -605,7 +610,7 @@ function Homepage() {
 
             
             {/* <div className = "Genres">
-              <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
+              <button className='getGenres' onClick={fetchGenres}>Calculate Music Taste!</button>
             </div> */}
 
             <div className="topSongs">
