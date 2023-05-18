@@ -22,7 +22,7 @@ function Homepage() {
   //let userssss;
   //let passes;
   //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
-  //ALSO, I used my client ID cause I was thinking what if I used a different client ID. will it magically work?  2100da3530bc4465b471b768a7309a4a
+  //ALSO, I used my client ID cause I was thinking what if I used a different client ID. will it magically work?  2100da3530bc4465b471b768a7309a4a  
   const [clientId, setClientId] = useState('22564e175af6486d82075db9d583c551');
   const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
   const [scopes, setScopes] = useState([
@@ -516,7 +516,9 @@ function Homepage() {
         </div>
 
         <div className="SpotifyLogin">
-          <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/></button>  {/*----className="swipe iconLeft-----*/}
+          <button className='spotifyBtn' onClick={handleLogin}><img className='spotifyImg' src='images\Spotify_App_Logo.svg.png'/>
+          <span className="tooltip">Link to Spotify</span>
+          </button>
         </div> 
 
         {/*-----buttons/navigation-----*/}
@@ -603,11 +605,15 @@ function Homepage() {
               <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
             </div>
 
-            <div className="Top Songs">
+            <div className="topSongs">
               {topThree && topThree.map(track => (
               <div key={track.id}>
-               <h3>{track.name}</h3>
-               <img src={track.album.images[0].url} alt="Album Art" style = {{width: '100px'}}onClick={() => playMusic(track.preview_url)} />
+               <img src={track.album.images[0].url} alt="Album Art" 
+               style = {{width: '100px', 
+                        borderRadius: '50px',
+                        }}
+                        onClick={() => playMusic(track.preview_url)} />
+               <p>{track.name}</p>
               </div>
                ))}
                <audio ref={audioRef} />

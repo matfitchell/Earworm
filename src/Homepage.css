@@ -15,8 +15,8 @@ Dark Sky Blue - 81C3D&
 .homepageContainer{
     max-width: 85%;
     margin: auto;
-    display: flex;
     min-height: 100vh;
+    display: flex;
 }
 /*Left*/
 .sidePart{
@@ -181,6 +181,24 @@ Dark Sky Blue - 81C3D&
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.tooltip {
+    width: 100px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    padding: 5px 10px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+  
+  .spotifyBtn:hover .tooltip {
+    display: block;
+  }
 
 
 /*Right*/
