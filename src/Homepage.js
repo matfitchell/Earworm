@@ -499,7 +499,7 @@ function Homepage() {
   return (
   <div className='b-body'>    {/*-----delete??-----*/}
     <div className='homepageContainer'> {/*-----Home Container-----*/}
-      <section className="flexHomepage sidePart"> {/*-----left side-----*/}
+      <section className= "sideBar"> {/*-----left side-----*/}
        {/*-----header-----*/}
        <div className="header-content">
           <div className="homepage-logo">
@@ -534,7 +534,7 @@ function Homepage() {
       </section> {/*-----end of left side-----*/}
 
       {/*-------------------------------------------------------------------------------------right side-----*/}
-      <main className="flexHomepage main-content">{/*-----right side container-----*/}
+      <main className="main-content">{/*-----right side container-----*/}
         {/*-----Match List/Default-----*/}
           {userDefault && (
             <div className={users.length > 0 ? "homepage-content profileLayout matchList" : "homepage-content profileLayout matchList"}>
@@ -602,19 +602,22 @@ function Homepage() {
             </div>
             {/* <button onClick={getTopSongs}>Get Top Songs</button>
             <button onClick={getTopThree}> Get Top Three Songs</button> */}
-            <div className = "Genres">
+
+            
+            {/* <div className = "Genres">
               <button className='getGenres' onClick={fetchGenres}>Get Genres</button>
-            </div>
+            </div> */}
 
             <div className="topSongs">
               {topThree && topThree.map(track => (
               <div key={track.id}>
                <img src={track.album.images[0].url} alt="Album Art" 
-               style = {{width: '100px', 
+               style = {{width: '75px', 
                         borderRadius: '50px',
+                        cursor: 'pointer',
                         }}
                         onClick={() => playMusic(track.preview_url)} />
-               <p>{track.name}</p>
+               <p style = {{fontWeight: 'bold'}}>{track.name}</p>
               </div>
                ))}
                <audio ref={audioRef} />

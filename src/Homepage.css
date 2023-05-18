@@ -9,32 +9,30 @@ Dark Sky Blue - 81C3D&
 /*Home Page*/
 .b-body{
     background: linear-gradient(to left, #3a7ca5, rgba(255, 255, 255, 0.445)); 
-    min-width: 400px;
-    min-height: 500px;
+    
 }
+
 .homepageContainer{
-    max-width: 85%;
+    max-width: 100vw;
     margin: auto;
     min-height: 100vh;
     display: flex;
 }
-/*Left*/
-.sidePart{
-    background-color: rgb(255, 255, 255);
-    padding: 15px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+
+/* Left */
+.sideBar{
+    background-color: rgb(255, 255, 255); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-evenly; 
     border-right: 2px solid #16425b42;
-    min-width: 25%;
-    width: max-content;
     padding: 10px;
-}
+    min-width: 300px;
+} 
 
 #homepage-logo{
-    width: 75px;
+    width: 275px;
 }
 
 .userInfo{
@@ -58,6 +56,7 @@ Dark Sky Blue - 81C3D&
     width: 200px;
     background-image: url(/images/logo..jpg);
 } */
+
 .displayImg{
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
@@ -65,13 +64,13 @@ Dark Sky Blue - 81C3D&
     /* height: 200px; */
     resize: 'contain';
 }
+
 .displayPhoto{
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
     width: 200px;
     height: 200px;
     resize: 'contain';
-    
 }
 
 .popup-img{
@@ -214,8 +213,7 @@ Dark Sky Blue - 81C3D&
     padding: 15px;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.247); 
-    width: 40%;
-    max-width: 30%;
+    width: 500px;
     height: 80%; ;
     background-color: rgba(255, 255, 255, 0.5);
 }
@@ -242,9 +240,15 @@ Dark Sky Blue - 81C3D&
     margin: 10px
 }
 
-.userTopSongs{
+.topSongs{
+    /* background-color: aquamarine; */
+    padding: 20px;
+    width: 100%;
     display: flex;
-    flex-flow: row nowrap;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: space-evenly;
 }
 
 .testSong{
