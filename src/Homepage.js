@@ -24,7 +24,8 @@ function Homepage() {
     //FULL TRANSPARENCY, IDK HOW WHY. I JUST GOOGLED, STACK OVERFLOW'D AND CHATGPT'D PLEASE HAVE MERCY --NATH :D
     //ALSO, I used my client ID cause I was thinking what if I used a different client ID. 22564e175af6486d82075db9d583c551 
     const [clientId, setClientId] = useState('2100da3530bc4465b471b768a7309a4a');
-    const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
+    //const [redirectUri, setRedirectUri] = useState('http://localhost:3000/Homepage');
+    const [redirectUri, setRedirectUri] = useState('https://earworm-1200e.web.app/Homepage');
     const [scopes, setScopes] = useState([
         "user-read-private",
         "user-read-email",
@@ -156,7 +157,9 @@ function Homepage() {
               name: entry[0],
               count: entry[1]
             }));
-    
+
+            let topGenre = genres[0]
+            setDoc(doc(database, 'musicTaste', auth.currentUser.uid), topGenre)
             setGenres(genres);
           } catch (error) {
             console.error(error);
