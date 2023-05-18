@@ -218,6 +218,21 @@ function Homepage() {
         }
         
     }
+    const updatePreferredDistance = () =>{
+      let newDist = { dist: document.getElementById('dist-input').value};
+      
+      if (user !== null && newDist != null) {
+          updateDoc(doc(database, "userInfo", auth.currentUser.uid), newDist)
+          .then(docRef => {
+              setPreferredDist(newDist.dist);
+          })
+          .catch(error =>{
+              console.log(error);
+          })
+      
+      }
+      
+  }
     const addImageUrl = (url) => {
         let newImageUrl = { profilePicture: url};
 
@@ -376,14 +391,22 @@ function Homepage() {
             var tempArray = [];
             //check distance before adding to users array
             let x = 0;
-            let testVal = 100;
             for (x = 0; x < userssss.length; x++){
                 let myZip = docSnap.data().zipcode.toString();
                 let theirZip = userssss[x].zipcode.toString();
                 let zipCodeDistance = zipCodeData.zipCodeDistance(myZip, theirZip,'M');
+                let pDist = docSnap.data().dist;
                 //console.log(zipCodeDistance);
-                if (zipCodeDistance <= testVal && !passes.includes(userssss[x].id) && !swipes.includes(userssss[x].id)){
+               
+                if (pDist == 100) {
+                  if (!passes.includes(userssss[x].id) && !swipes.includes(userssss[x].id)){
                     tempArray.push(userssss[x]);
+                  }
+                }
+                else {
+                  if (zipCodeDistance <= pDist && !passes.includes(userssss[x].id) && !swipes.includes(userssss[x].id)) {
+                    tempArray.push(userssss[x]);
+                  }
                 }
             }
             
@@ -405,6 +428,26 @@ function Homepage() {
                 setEmail(docSnap.data().email);
                 setUsername(docSnap.data().username);
                 setZipcode(docSnap.data().zipcode);
+                
+                let pd = docSnap.data().dist;
+                if (pd == null) {
+
+                  let newDist = { dist: 50};
+
+                  if (user !== null && newDist != null) {
+                    updateDoc(doc(database, "userInfo", auth.currentUser.uid), newDist)
+                    .then(docRef => {
+                        setPreferredDist(newDist.dist);
+                    })
+                    .catch(error =>{
+                        console.log(error);
+                    })
+                
+                  }
+                }
+                else {
+                  setPreferredDist(docSnap.data().dist);
+                }
                 
                 try{
                     setBio(docSnap.data().bio);
@@ -471,9 +514,7 @@ function Homepage() {
                             </div>
                             <span className="userFirstName"/> {users[currentIndex].firstname}
                             <span className="username"/>  {users[currentIndex].username}
-                        <div className="userLocation"> {users[currentIndex].zipcode}
-                        
-                        </div>
+                        <div className="userLocation"> { Math.round(zipCodeData.zipCodeDistance(currentUserDoc.zipcode, users[currentIndex].zipcode,'M'))} miles</div>
                         </div>
 
                         <div className="userPref">
@@ -585,8 +626,18 @@ function Homepage() {
                     <div className="homepage-content profileLayout userSettings" ng-show="userSettings">User Settings
                         <div ng-show="userSettings">
                             <p>Preferred Matching Distance (in miles): </p>
-                            <input type="range" min="1" max="100" value="50" oninput="rangeValue.innerText = this.value" ng-show="userSettings"/>
-                            <p id="rangeValue" ng-show="userSettings">50</p>
+                            <input id='dist-input' type="range" min="0" max="100" value={preferredDist} step="10"
+                              onChange={updatePreferredDistance} ng-show="userSettings"/>
+                            {preferredDist == 100 &&
+                              <p>
+                                100+ miles
+                              </p>
+                            }
+                            {preferredDist < 100 &&
+                              <p>
+                                {preferredDist} miles
+                              </p>
+                            }
                         </div>
 
                         <label for="music-tastes">Choose a Music Preference:</label>
