@@ -360,7 +360,8 @@ function Homepage() {
       (snapshot) => snapshot.docs.map((doc) => doc.id)
     )
     if(swipes.includes(auth.currentUser.uid)){
-      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'matchedChatList', users[currentIndex].id), users[currentIndex]);
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'matchedChatList', users[currentIndex].id), users[currentIndex]); 
+      setDoc(doc(database, 'userInfo', auth.currentUser.uid, 'swipes', users[currentIndex].id), users[currentIndex]);
       setButtonPopup(true);
     }else{
       swipeRight();

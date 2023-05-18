@@ -32,7 +32,7 @@ const Chatwindow = (props) => {
 
         {/*-----buttons/navigation-----*/}
         <div className="nav">
-            <button className = "button-home" id='home' onClick={()=>{navigate("/Homepage")}}>Home</button>
+            <button className = "button-home" id='home' onClick={()=>{navigate("/Homepage")}}>Continue Matching</button>
             
             {/* <button className = "button settings" onClick={getData}>Get Data</button> */}
         </div>

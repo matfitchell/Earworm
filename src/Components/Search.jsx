@@ -46,7 +46,7 @@ const Search = () => {
         : user.uid + " " + currentUser.uid;
     try {
       const res = await getDoc(doc(database, "chats", combinedId));
-      console.log("getChats(): ", res);
+      //console.log("getChats(): ", res);
       if (!res.exists()) {
         //create a chat in chats collection
         await setDoc(doc(database, "chats", combinedId), { messages: [] });
@@ -60,7 +60,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        console.log("Updated currentUser userChats doc...");
+        //console.log("Updated currentUser userChats doc...");
         //create user chats for user
         await updateDoc(doc(database, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
@@ -70,7 +70,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        console.log("Updated user userChats doc...");
+        //console.log("Updated user userChats doc...");
       }
     } catch (err) {}
 
