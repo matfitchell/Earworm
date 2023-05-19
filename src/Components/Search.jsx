@@ -4,7 +4,7 @@ import { database } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 
 const Search = () => {
-  console.log("Inside Search component");
+  //console.log("Inside Search component");
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);

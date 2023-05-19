@@ -61,7 +61,7 @@ Dark Sky Blue - 81C3D&
     border-radius: 50%;
     background-color: rgb(173, 173, 173);
     width: 200px;
-    /* height: 200px; */
+    height: 200px;
     resize: 'contain';
 }
 
