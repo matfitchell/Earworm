@@ -80,7 +80,7 @@ function Homepage() {
       const data = await response.json();
       const { display_name } = data;
       setSpotifyUsername(display_name);
-      console.log(`Spotify username: ${display_name}`);
+      //console.log(`Spotify username: ${display_name}`);
     } catch (error) {
       console.log(error);
     }
@@ -120,7 +120,7 @@ function Homepage() {
       });
   
       const data = await response.json();
-      console.log('Top songs:', data.items);
+      //console.log('Top songs:', data.items);
       setTopSongs(data.items);
     } catch (error) {
       console.error(error);
@@ -140,7 +140,7 @@ function Homepage() {
           });
 
           const data = await response.json();
-          console.log(data.items)
+          //console.log(data.items)
           const trackIds = data.items.map(item => item.id);
           const tracksResponse = await fetch(`https://api.spotify.com/v1/tracks/?ids=${trackIds.join(',')}`, {
             headers: {
@@ -150,7 +150,7 @@ function Homepage() {
 
           const tracksResponseData = await tracksResponse.json();
 
-          console.log("tracks :" , tracksResponseData.tracks);
+          //console.log("tracks :" , tracksResponseData.tracks);
 
           const artistIds = tracksResponseData.tracks.map(track => track.artists[0].id);
           const artistsResponse = await fetch(`https://api.spotify.com/v1/artists/?ids=${artistIds.join(',')}`, {
@@ -161,7 +161,7 @@ function Homepage() {
 
           const artistsResponseData = await artistsResponse.json();
 
-          console.log("Artists", artistsResponseData.artists);
+          //console.log("Artists", artistsResponseData.artists);
 
           const genreCounts = artistsResponseData.artists.reduce((acc, curr) => {
             curr.genres.forEach(genre => {
@@ -196,7 +196,7 @@ function Homepage() {
         });
           const data = await response.json();
           setTopThree(data.items);        
-          console.log(data)
+          //console.log(data)
           
       } catch (error) {
         console.log(error);
